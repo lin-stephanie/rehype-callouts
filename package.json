@@ -1,0 +1,68 @@
+{
+  "name": "rehype-callouts",
+  "version": "0.0.0",
+  "description": "Rehype plugin for processing and rendering blockquote-based callouts (admonitions/alerts).",
+  "author": "Stephanie Lin <norwaywoods047@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "unified",
+    "rehype",
+    "rehype-plugin",
+    "html",
+    "hast",
+    "callout",
+    "admonitions",
+    "alerts"
+  ],
+  "repository": "github:lin-stephanie/rehype-callouts",
+  "homepage": "https://github.com/lin-stephanie/rehype-callouts#readme",
+  "bugs": "https://github.com/lin-stephanie/rehype-callouts/issues",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --clean && tsc",
+    "test": "vitest && vitest run --coverage",
+    "typecheck": "tsc --noEmit && type-coverage --strict --detail --min=100",
+    "lint": "xo --prettier",
+    "lint:fix": "xo --fix",
+    "prepare": "simple-git-hooks",
+    "release": "npx bumpp && pnpm publish"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^2.0.2",
+    "lint-staged": "^15.2.7",
+    "prettier": "^3.3.2",
+    "simple-git-hooks": "^2.11.1",
+    "type-coverage": "^2.29.1",
+    "typescript": "^5.5.3",
+    "vitest": "^2.0.2",
+    "xo": "^0.58.0"
+  },
+  "xo": {
+    "space": true,
+    "semicolon": false,
+    "rules": {
+      "@typescript-eslint/object-curly-spacing": "off"
+    }
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*": "xo --prettier"
+  },
+  "engines": {
+    "node": "^18.0.0 || >=20.0.0"
+  }
+}

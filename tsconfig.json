@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "es2022",
+    "lib": ["es2022"],
+
+    /* Modules */
+    "module": "nodenext",
+    // "moduleResolution": "nodenext",            // matches if module is node16 or nodenext
+    // "types": ["node"],
+
+    /* Emit */
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "dist",
+    "emitDeclarationOnly": false,
+
+    /* Interop Constraints */
+    "forceConsistentCasingInFileNames": true,
+    // "esModuleInterop": true,                   // true if module is node16 or nodenext
+    // "allowSyntheticDefaultImports": true,      // true if esModuleInterop is enabled
+
+    /* Type Checking */
+    "strict": true,
+
+    /* Completeness */
+    "skipDefaultLibCheck": false
+  },
+  "include": ["src"]
+}
