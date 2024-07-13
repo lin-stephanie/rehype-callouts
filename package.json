@@ -53,7 +53,12 @@
     "space": true,
     "semicolon": false,
     "rules": {
-      "@typescript-eslint/object-curly-spacing": "off"
+      "@typescript-eslint/object-curly-spacing": "off",
+      "@typescript-eslint/member-delimiter-style": "off",
+      "@typescript-eslint/consistent-type-definitions": [
+        "error",
+        "interface"
+      ]
     }
   },
   "simple-git-hooks": {
