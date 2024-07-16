@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    // https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig
+    "EditorConfig.EditorConfig",
+
+    // https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
+    "esbenp.prettier-vscode"
+  ]
+  /* "unwantedRecommendations": [
+  ] */
+}
