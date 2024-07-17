@@ -62,13 +62,16 @@ interface RehypeCalloutsOptions<T> {
    *
    * @description
    * This object maps callout types to their properties.
-   * Each key represents a callout type, which can be either predefined or newly defined,
+   * Each key represents a callout type, which can be either the default or newly defined,
    * and the value is an object that specifies its properties.
+   *
+   * @remarks
+   * Key are case-insensitive, i.e., 'Note', 'NOTE' are equivalent to 'note'.
    *
    * @example
    * {
-   *   "customCalloutType": {
-   *     title: 'customCalloutTitle',
+   *   "type": {
+   *     title: 'Type',
    *     indicator: '<svg ...>...</svg>',
    *     color: ['#0969da', '#2f81f7']
    *   },
@@ -83,6 +86,9 @@ interface RehypeCalloutsOptions<T> {
    * @description
    * It is an object containing the callout definitions,
    * the key designates an existing or new callout type, and the value configures its properties.
+   *
+   * @remarks
+   * Key are case-insensitive, i.e., 'Note', 'NOTE' are equivalent to 'note'.
    *
    * @example
    * {

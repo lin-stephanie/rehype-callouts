@@ -1,17 +1,15 @@
-> [!note]
+> [!note]-
 > This is the content!
 
-> [!TIP]  
+> [!TIP]-  
 > This is the content!
 
-> [!Important] Double space after title  
+> [!Important]- Double space after title  
 > This is the content!
 
-> [!Warning]
+> [!Warning]-
 >
 > This is the content!
 
-> [!cantio]
+> [!cantio]-
 > This is a non-existent callout type!
-
->

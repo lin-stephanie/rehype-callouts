@@ -17,8 +17,8 @@ function run(name: string, options?: UserOptions, fromHtml = false) {
   if (fromHtml) {
     const fromHtmlProcessor = unified()
       .use(rehypeParse, { fragment: true })
-      .use(rehypeCalloouts, options)
       .use(rehypeMinifyWhitespace)
+      .use(rehypeCalloouts, options)
       .use(rehypeStringify)
 
     input = String(
@@ -51,12 +51,61 @@ function run(name: string, options?: UserOptions, fromHtml = false) {
   )
 
   // test
-  console.log('input', input)
-  console.log('output', output)
+  // console.log('input', input)
+  // console.log('output', output)
 
   test(name, () => {
     expect(input).toBe(output)
   })
 }
 
-run('basic')
+run('basic', { showIndicator: false })
+run('fromHtml', { showIndicator: false }, true)
+run('collapsibleCallouts', { showIndicator: false })
+run('markdownInTitle', { showIndicator: false })
+run('nestedCallouts', { showIndicator: false })
+run('showIndicator')
+run('customTheme', {
+  theme: 'vitepress',
+  callouts: {
+    customtype: {},
+  },
+})
+run('customAliases', {
+  aliases: { note: ['no', 'n'], tip: ['t'] },
+  showIndicator: false,
+})
+run('customCallouts', {
+  callouts: {
+    customtype: {
+      title: 'Customtype',
+      indicator:
+        '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 11l19-9l-9 19l-2-8z"/></svg>',
+    },
+    noindicator: {
+      title: 'Noindicator',
+    },
+    notitle: {
+      indicator:
+        '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 11l19-9l-9 19l-2-8z"/></svg>',
+    },
+    nothing: {},
+  },
+})
+run('modifyCallouts', {
+  callouts: {
+    note: {
+      title: 'Modified title',
+    },
+    tip: {
+      indicator:
+        '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 11l19-9l-9 19l-2-8z"/></svg>',
+    },
+    important: {
+      title: 'ModifiedTitle',
+      indicator:
+        '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 11l19-9l-9 19l-2-8z"/></svg>',
+    },
+    nothing: {},
+  },
+})

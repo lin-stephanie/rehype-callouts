@@ -13,5 +13,3 @@
 
 > [!cantio]
 > This is a non-existent callout type!
-
->

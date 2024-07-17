@@ -7,6 +7,7 @@ import {
   splitByNewlineRegex,
   getConfig,
   expandCallouts,
+  handleBrAfterTitle,
   findFirstNewline,
   getIndicator,
 } from './utils.js'
@@ -34,7 +35,6 @@ const rehypeCalloouts: Plugin<[UserOptions?], Root> = (options) => {
       if (!isElement(node, 'blockquote')) {
         return
       }
-
       // console.log('node', node)
 
       // strip useless nodes, leftovers from markdown
@@ -51,8 +51,7 @@ const rehypeCalloouts: Plugin<[UserOptions?], Root> = (options) => {
       // empty paragraphs
       const firstParagraph = node.children[0]
       if (firstParagraph.children.length === 0) return
-
-      // console.log('firstParagraph', firstParagraph)/
+      console.log('firstParagraph', firstParagraph)
 
       // ignore paragraphs that don't start with plaintext
       if (firstParagraph.children[0].type !== 'text') return
@@ -64,146 +63,144 @@ const rehypeCalloouts: Plugin<[UserOptions?], Root> = (options) => {
       // check for matches
       const match = calloutRegex.exec(firstParagraph.children[0].value)
       calloutRegex.lastIndex = 0
-      // console.log('match.groups', match?.groups)
+      // console.log('match', match)
       if (
         !match?.groups ||
-        !Object.keys(expandedCallouts).includes(match.groups.type)
+        !Object.keys(expandedCallouts).includes(match.groups.type.toLowerCase())
       )
         return
 
+      // console.log('node.children', node.children)
+      // console.log('p1', firstParagraph)
+
+      // remove double spaces ('br') after title
+      firstParagraph.children = handleBrAfterTitle(firstParagraph.children)
+      // console.log('p1', firstParagraph)
+
+      // handle no customized title
       // check the first paragraph which may include a newline character (\n)
       const borderingIndex = findFirstNewline(firstParagraph.children)
-      // console.log('borderingIndex', borderingIndex)
+      console.log('borderingIndex', borderingIndex)
 
       // split it to two new elemnts
       if (borderingIndex !== -1) {
         const borderingElement = firstParagraph.children[borderingIndex]
         // console.log('borderingElement', borderingElement)
+
         if (borderingElement.type !== 'text') return
 
         const splitMatch = splitByNewlineRegex.exec(borderingElement.value)
         splitByNewlineRegex.lastIndex = 0
-
-        /* if (splitMatch && splitMatch.groups) {
-          const { prefix, suffix } = splitMatch.groups
-          console.log('splitMatch', splitMatch.groups)
-
-          node.children = [
-            firstParagraph,
-            h('p', suffix, node.children[0].children.slice(borderingIndex + 1)),
-            ...node.children.slice(1),
-          ]
-
-          // if (isElement(!node.children[0]) || !('children' in node.children[0]))
-          //   throw new Error()
-
-          firstParagraph.children = firstParagraph.children
-            .slice(0, borderingIndex)
-            .concat([
-              {
-                type: 'text',
-                value: prefix,
-              },
-            ])
-        } */
+        // console.log('splitMatch', splitMatch)
 
         if (splitMatch?.groups) {
           const { prefix, suffix } = splitMatch.groups
 
-          firstParagraph.children = [
-            ...firstParagraph.children.slice(0, borderingIndex),
-            { type: 'text', value: prefix },
+          // handle prefix
+          const firstParagraphNewChildren = [
+            ...node.children[0].children.slice(0, borderingIndex),
+            ...(prefix ? [{ type: 'text' as const, value: prefix }] : []),
           ]
+          console.log('firstParagraphNewChildren', firstParagraphNewChildren)
 
-          const newParagraph = h(
-            'p',
-            suffix,
-            firstParagraph.children.slice(borderingIndex + 1)
-          )
+          // handle suffix & update node.children
+          if (suffix) {
+            const newParagraph = h(
+              'p',
+              suffix,
+              node.children[0].children.slice(borderingIndex + 1)
+            )
+            console.log('newParagraph', newParagraph)
 
-          node.children = [
-            firstParagraph,
-            newParagraph,
-            ...node.children.slice(1),
-          ]
+            node.children = [
+              { ...firstParagraph, children: firstParagraphNewChildren },
+              newParagraph,
+              ...node.children.slice(1),
+            ]
+          } else {
+            const newParagraph = h(
+              'p',
+              node.children[0].children.slice(borderingIndex + 1)
+            )
+            console.log('newParagraph', newParagraph)
+
+            node.children = [
+              { ...firstParagraph, children: firstParagraphNewChildren },
+              newParagraph,
+              ...node.children.slice(1),
+            ]
+          }
         }
 
         // console.log('node.children', node.children)
-        // // @ts-ignore
-        // console.log('node.children1', node.children[0].children)
-        // // @ts-ignore
-        // console.log('node.children2', node.children[1].children)
+        // console.log('p1', node.children[0])
+        // console.log('p2', node.children[1])
+        // console.log('p3', node.children[2])
       }
 
       // match callout format
-      const firstTextNode = firstParagraph.children[0]
-      // console.log('firstTextNode', firstTextNode)
+      const newFirstParagraph = node.children[0]
+      if (!isElement(newFirstParagraph)) return
+      const firstTextNode = newFirstParagraph.children[0]
+      console.log('firstTextNode', firstTextNode)
 
       if (firstTextNode.type !== 'text') return
       const calloutMatch = calloutRegex.exec(firstTextNode.value)
       calloutRegex.lastIndex = 0
-
       if (!calloutMatch?.groups) return
       const { title, type, collapsable } = calloutMatch.groups
-      // console.log('calloutMatch', calloutMatch.groups)
+      console.log('calloutMatch', calloutMatch)
+
+      // format type to lowercase & remove callout format
+      const revisedType = type.toLowerCase()
+      firstTextNode.value = firstTextNode.value
+        .slice(Math.max(0, 3 + type.length + collapsable.length))
+        .trim()
+      newFirstParagraph.properties.className = ['callout-title-inner']
 
       // modify the blockquote element
       node.properties.className = [
-        'callout-block',
-        `callout-type-${type.toLowerCase()}`,
+        'callout',
         collapsable && 'callout-collapsible',
       ]
       // @ts-expect-error (Type '"div" | "details"' is not assignable to type '"blockquote"')
       node.tagName = collapsable ? 'details' : 'div'
 
-      // thrown away the now-empty paragraph
-      /* firstTextNode.value = firstTextNode.value
-        .substring(3 + kind.length + collapsable.length)
-        .trim()
-      if (
-        firstTextNode.value.length == 0 &&
-        firstParagraph.children.length == 1
-      ) {
-        node.children.shift()
-      } */
-
-      /* if (title !== '') {
-        if (!node.children[0].properties) {
-          node.children[0].properties = {}
-        }
-        node.children[0].properties.className = ['callout-title']
-      } */
+      console.log('node.children', node.children)
+      console.log('p1', node.children[0])
+      console.log('p2', node.children[1])
 
       // update hast
       node.children = [
         h(
           collapsable ? 'summary' : 'div',
           {
-            className: ['callout-title-section'],
+            className: ['callout-title'],
           },
-          title === ''
+          title
             ? [
-                showIndicator ? getIndicator(config, type) : null,
-                h(
-                  'p',
-                  { className: ['callout-title'] },
-                  callouts[type].title ??
-                    (theme === 'github' || theme === 'obsidian'
-                      ? type.charAt(0).toUpperCase() + type.slice(1)
-                      : type.toUpperCase())
-                ),
+                showIndicator ? getIndicator(config, revisedType) : null,
+                node.children[0],
               ]
             : [
-                showIndicator ? getIndicator(config, type) : null,
-                h('p', { className: ['callout-title'] }, title),
+                showIndicator ? getIndicator(config, revisedType) : null,
+                h(
+                  'p',
+                  { className: ['callout-title-inner'] },
+                  callouts[revisedType].title ??
+                    (theme === 'github' || theme === 'obsidian'
+                      ? revisedType.charAt(0).toUpperCase() +
+                        revisedType.slice(1)
+                      : revisedType.toUpperCase())
+                ),
               ]
         ),
         h(
           'div',
           {
-            className: ['callout-content-section'],
+            className: ['callout-content'],
           },
-          title === '' ? node.children : node.children.slice(1)
+          node.children.slice(1)
         ),
       ]
     })

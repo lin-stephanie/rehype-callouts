@@ -11,7 +11,8 @@
 >
 > This is the content!
 
-> [!cantio]
-> This is a non-existent callout type!
+> [!info]
+> This is a non-existent callout type in the current theme!
 
->
+> [!customtype]
+> This is the content!

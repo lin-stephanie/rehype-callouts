@@ -2,8 +2,10 @@ import { fromHtml } from 'hast-util-from-html'
 import { h } from 'hastscript'
 import merge from 'lodash.merge'
 
+import { docusaurusCallouts } from './themes/docusaurus/config.js'
 import { githubCallouts } from './themes/github/config.js'
 import { obsidianCallouts } from './themes/obsidian/config.js'
+import { vitepressCallouts } from './themes/vitepress/config.js'
 
 import type { ElementContent, Element } from 'hast'
 import type { UserOptions, ConfigOptions, Callouts } from './types.js'
@@ -16,8 +18,27 @@ export const splitByNewlineRegex = /(?<prefix>[^\n]*)\n(?<suffix>[\S\s]*)/g
 export const themes = {
   github: githubCallouts,
   obsidian: obsidianCallouts,
-  docusaurus: obsidianCallouts,
-  vitepress: obsidianCallouts,
+  vitepress: vitepressCallouts,
+  docusaurus: docusaurusCallouts,
+}
+
+/**
+ * Converts aproperty keys of the object to lowercase.
+ *
+ * @param {Record<string, any>} object
+ *   The object whose keys are to be converted to lowercase.
+ * @returns {Record<string, any>}
+ *   A new object with all keys converted to lowercase.
+ */
+function convertKeysToLowercase<T>(
+  object: Record<string, T>
+): Record<string, T> {
+  const newObject: Record<string, T> = {}
+  for (const key of Object.keys(object)) {
+    newObject[key.toLowerCase()] = object[key]
+  }
+
+  return newObject
 }
 
 /**
@@ -33,11 +54,15 @@ export function getConfig(userOptions: UserOptions | undefined): ConfigOptions {
     theme: 'obsidian',
     callouts: themes.obsidian,
     aliases: {},
-    showIndicator: false,
+    showIndicator: true,
   }
 
   if (userOptions) {
-    const { theme } = userOptions
+    const { theme, callouts, aliases } = userOptions
+    if (callouts) userOptions.callouts = convertKeysToLowercase(callouts)
+    if (aliases) userOptions.aliases = convertKeysToLowercase(aliases)
+    // console.log('userOptions.callouts', userOptions.callouts)
+    // console.log('userOptions.aliases', userOptions.aliases)
 
     const initOptions = {
       theme: theme ?? 'obsidian',
@@ -84,6 +109,27 @@ export function expandCallouts(
 }
 
 /**
+ * Cleanup due to double spaces after title in Markdown
+ * being converted to <br> tags.
+ *
+ * @param {ElementContent[]} children
+ *   The array of HTML element to process.
+ * @returns {*}
+ *   The new array with specified elements removed.
+ */
+export function handleBrAfterTitle(
+  children: ElementContent[]
+): ElementContent[] {
+  return children.filter((child) => {
+    if (child.type === 'element' && child.tagName === 'br') {
+      return false
+    }
+
+    return true
+  })
+}
+
+/**
  * Finds the index of the first text node containing a newline.
  *
  * @param {ElementContent[]} children
@@ -124,5 +170,5 @@ export function getIndicator(
     fragment: true,
   })
 
-  return h('div', { className: 'callout-icon-wrapper' }, indicatorElement)
+  return h('div', { className: 'callout-icon' }, indicatorElement)
 }
