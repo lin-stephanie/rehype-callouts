@@ -36,7 +36,7 @@ interface CalloutConfig {
    * For newly added callout types, if unset, the default color will be `#888`.
    *
    * @example
-   * '#0969da': Suitable for both light and dark themes.
+   * 'rgb(8, 109, 221)': Suitable for both light and dark themes.
    * ['#0969da', '#2f81f7']: First color for light theme, second for dark theme.
    */
   color?: string | [string, string]

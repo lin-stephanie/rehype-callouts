@@ -1,0 +1,76 @@
+.callout {
+  color: rgba(60, 60, 67);
+  background-color: rgb(from var(--callout-color-light) r g b / 0.14);
+}
+
+.dark .callout {
+  color: rgba(255, 255, 245, 0.86);
+  background-color: rgb(from var(--callout-color-dark) r g b / 0.16);
+}
+
+.callout {
+  width: 100%;
+  padding: 16px 16px 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  margin: 16px 0;
+
+  line-height: 24px;
+  font-size: 14px;
+}
+
+.callout-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+
+  font-size: inherit;
+}
+
+.callout-icon {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.callout-title .callout-title-inner {
+  /* remove user-agent style from the p element  */
+  margin-top: 0;
+  margin-bottom: 0;
+
+  font-weight: 600;
+}
+
+.callout-content p {
+  margin: 8px 0;
+}
+
+.callout-collapsible .callout-title {
+  cursor: pointer;
+  margin: 0 0 8px;
+}
+
+.callout-collapsible .callout-fold {
+  display: flex;
+  align-items: center;
+  padding-inline-end: 8px;
+}
+
+.callout-collapsible > .callout-title .callout-fold svg {
+  transform: rotate(-90deg);
+  transition: transform 100ms ease-in-out;
+}
+
+.callout-collapsible[open] > .callout-title .callout-fold svg {
+  transform: none;
+}
+
+.callout-icon::after,
+.callout-fold::after {
+  content: '\200B';
+}
+
+.callout-icon svg,
+.callout-fold svg {
+  stroke-width: 2.5;
+}

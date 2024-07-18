@@ -145,7 +145,28 @@ export function findFirstNewline(children: ElementContent[]): number {
   }
 
   return -1
-  // return children.findIndex(c => c.type === 'text' && c.value.includes('\n'));
+}
+
+/**
+ * Generate CSS style strings.
+ *
+ * @export
+ * @param {(undefined | string | [string, string])} color
+ * @returns {string}
+ *  CSS variable string used for callout.
+ */
+export function generateStyle(
+  color: undefined | string | [string, string]
+): string {
+  if (Array.isArray(color)) {
+    return `--callout-color-light: ${color[0]}; --callout-color-dark: ${color[1]};`
+  }
+
+  if (typeof color === 'string') {
+    return `--callout-color-light: ${color}; --callout-color-dark: ${color};`
+  }
+
+  return `--callout-color-light: #888; --callout-color-dark: #888;`
 }
 
 /**
@@ -156,7 +177,7 @@ export function findFirstNewline(children: ElementContent[]): number {
  * @param {string} type
  *   Callout type to fetch the indicator for.
  * @returns {(Element | undefined)}
- *   Indicator element or undefined if not found.
+ *   SVG element or undefined if not found.
  */
 export function getIndicator(
   config: ConfigOptions,
@@ -171,4 +192,22 @@ export function getIndicator(
   })
 
   return h('div', { className: 'callout-icon' }, indicatorElement)
+}
+
+/**
+ * Get fold icon when callout is collapsible.
+ *
+ * @returns {Element}
+ *   SVG element.
+ */
+export function getFoldIcon(): Element {
+  console.log(1)
+  const icon =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>'
+  const foldIconElement = fromHtml(icon, {
+    space: 'svg',
+    fragment: true,
+  })
+
+  return h('div', { className: 'callout-fold' }, foldIconElement)
 }

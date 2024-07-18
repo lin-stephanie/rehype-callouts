@@ -9,7 +9,9 @@ import {
   expandCallouts,
   handleBrAfterTitle,
   findFirstNewline,
+  generateStyle,
   getIndicator,
+  getFoldIcon,
 } from './utils.js'
 
 import type { Root } from 'hast'
@@ -159,13 +161,15 @@ const rehypeCalloouts: Plugin<[UserOptions?], Root> = (options) => {
       newFirstParagraph.properties.className = ['callout-title-inner']
 
       // modify the blockquote element
+      // @ts-expect-error (Type '"div" | "details"' is not assignable to type '"blockquote"')
+      node.tagName = collapsable ? 'details' : 'div'
       node.properties.className = [
         'callout',
         collapsable && 'callout-collapsible',
       ]
-      // @ts-expect-error (Type '"div" | "details"' is not assignable to type '"blockquote"')
-      node.tagName = collapsable ? 'details' : 'div'
+      node.properties.style = generateStyle(expandedCallouts[revisedType].color)
 
+      console.log('node', node)
       console.log('node.children', node.children)
       console.log('p1', node.children[0])
       console.log('p2', node.children[1])
@@ -181,18 +185,20 @@ const rehypeCalloouts: Plugin<[UserOptions?], Root> = (options) => {
             ? [
                 showIndicator ? getIndicator(config, revisedType) : null,
                 node.children[0],
+                collapsable ? getFoldIcon() : null,
               ]
             : [
                 showIndicator ? getIndicator(config, revisedType) : null,
                 h(
                   'p',
                   { className: ['callout-title-inner'] },
-                  callouts[revisedType].title ??
+                  expandedCallouts[revisedType].title ??
                     (theme === 'github' || theme === 'obsidian'
                       ? revisedType.charAt(0).toUpperCase() +
                         revisedType.slice(1)
                       : revisedType.toUpperCase())
                 ),
+                collapsable ? getFoldIcon() : null,
               ]
         ),
         h(

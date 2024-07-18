@@ -81,13 +81,16 @@ run('customCallouts', {
       title: 'Customtype',
       indicator:
         '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 11l19-9l-9 19l-2-8z"/></svg>',
+      color: 'rgb(227, 107, 167)',
     },
     noindicator: {
       title: 'Noindicator',
+      color: ['#e36ba7', '#f86bb7'],
     },
     notitle: {
       indicator:
         '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 11l19-9l-9 19l-2-8z"/></svg>',
+      color: 'rgb(227, 107, 167)',
     },
     nothing: {},
   },
@@ -98,14 +101,15 @@ run('modifyCallouts', {
       title: 'Modified title',
     },
     tip: {
+      title: 'Modified indicator',
       indicator:
         '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 11l19-9l-9 19l-2-8z"/></svg>',
     },
     important: {
-      title: 'ModifiedTitle',
+      title: 'Modified color',
       indicator:
         '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 11l19-9l-9 19l-2-8z"/></svg>',
+      color: ['#e36ba7', '#f86bb7'],
     },
-    nothing: {},
   },
 })

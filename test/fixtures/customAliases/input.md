@@ -7,5 +7,5 @@
 > [!t] This is a tip callout
 > This is the content!
 
-> [!n] This is a note callout again
-> This is the content!
+> [!n]
+> This is a note callout again!
