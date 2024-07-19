@@ -133,11 +133,9 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
 
       const { title, type, collapsable } = calloutMatch.groups
 
-      // format type to lowercase & remove callout format
+      // format callout title
       const revisedType = type.toLowerCase()
-      firstTextNode.value = firstTextNode.value
-        .slice(Math.max(0, 3 + type.length + collapsable.length))
-        .trim()
+      firstTextNode.value = title
       newFirstParagraph.properties.className = ['callout-title-inner']
 
       // modify the blockquote element

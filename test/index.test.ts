@@ -59,7 +59,7 @@ function run(name: string, options?: UserOptions, fromHtml = false) {
   })
 }
 
-run('readme')
+run('readmeExample')
 run('basic', { showIndicator: false })
 run('fromHtml', { showIndicator: false }, true)
 run('collapsibleCallouts', { showIndicator: false })

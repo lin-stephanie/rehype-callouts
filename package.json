@@ -36,7 +36,7 @@
   "scripts": {
     "test": "vitest && vitest run --coverage",
     "build": "rimraf dist && tsc",
-    "postbuild": "copyfiles -u 1 \"src/**/*.css\" dist",
+    "postbuild": "copyfiles -u 1 'src/**/*.css' dist",
     "typecheck": "tsc --noEmit",
     "typecheck:coverage": "type-coverage --strict --detail --min=100",
     "lint": "xo --prettier",
