@@ -34,8 +34,9 @@
   },
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "rimraf dist && tsc",
     "test": "vitest && vitest run --coverage",
+    "build": "rimraf dist && tsc",
+    "postbuild": "copyfiles -u 1 \"src/**/*.css\" dist",
     "typecheck": "tsc --noEmit",
     "typecheck:coverage": "type-coverage --strict --detail --min=100",
     "lint": "xo --prettier",
@@ -54,6 +55,7 @@
     "@types/hast": "^3.0.4",
     "@types/lodash.merge": "^4.6.9",
     "@vitest/coverage-v8": "^2.0.2",
+    "copyfiles": "^2.4.1",
     "lint-staged": "^15.2.7",
     "prettier": "^3.3.2",
     "rehype-minify-whitespace": "^6.0.0",
