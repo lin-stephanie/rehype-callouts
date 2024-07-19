@@ -26,10 +26,9 @@ import type { UserOptions } from './types.js'
  * @returns
  *   A unified transformer.
  */
-const rehypeCalloouts: Plugin<[UserOptions?], Root> = (options) => {
+const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
   const config = getConfig(options)
   const { theme, callouts, aliases, showIndicator } = config
-  // console.log('config', config)
 
   return (tree) => {
     visit(tree, 'element', (node) => {
@@ -37,7 +36,6 @@ const rehypeCalloouts: Plugin<[UserOptions?], Root> = (options) => {
       if (!isElement(node, 'blockquote')) {
         return
       }
-      // console.log('node', node)
 
       // strip useless nodes, leftovers from markdown
       node.children = node.children.filter(
@@ -53,47 +51,37 @@ const rehypeCalloouts: Plugin<[UserOptions?], Root> = (options) => {
       // empty paragraphs
       const firstParagraph = node.children[0]
       if (firstParagraph.children.length === 0) return
-      console.log('firstParagraph', firstParagraph)
 
       // ignore paragraphs that don't start with plaintext
       if (firstParagraph.children[0].type !== 'text') return
 
       // handle aliases
       const expandedCallouts = expandCallouts(callouts, aliases)
-      // console.log('expandedCallouts', expandedCallouts)
 
       // check for matches
       const match = calloutRegex.exec(firstParagraph.children[0].value)
       calloutRegex.lastIndex = 0
-      // console.log('match', match)
       if (
         !match?.groups ||
         !Object.keys(expandedCallouts).includes(match.groups.type.toLowerCase())
       )
         return
 
-      // console.log('node.children', node.children)
-      // console.log('p1', firstParagraph)
-
       // remove double spaces ('br') after title
       firstParagraph.children = handleBrAfterTitle(firstParagraph.children)
-      // console.log('p1', firstParagraph)
 
       // handle no customized title
       // check the first paragraph which may include a newline character (\n)
       const borderingIndex = findFirstNewline(firstParagraph.children)
-      console.log('borderingIndex', borderingIndex)
 
       // split it to two new elemnts
       if (borderingIndex !== -1) {
         const borderingElement = firstParagraph.children[borderingIndex]
-        // console.log('borderingElement', borderingElement)
 
         if (borderingElement.type !== 'text') return
 
         const splitMatch = splitByNewlineRegex.exec(borderingElement.value)
         splitByNewlineRegex.lastIndex = 0
-        // console.log('splitMatch', splitMatch)
 
         if (splitMatch?.groups) {
           const { prefix, suffix } = splitMatch.groups
@@ -103,7 +91,6 @@ const rehypeCalloouts: Plugin<[UserOptions?], Root> = (options) => {
             ...node.children[0].children.slice(0, borderingIndex),
             ...(prefix ? [{ type: 'text' as const, value: prefix }] : []),
           ]
-          console.log('firstParagraphNewChildren', firstParagraphNewChildren)
 
           // handle suffix & update node.children
           if (suffix) {
@@ -112,7 +99,6 @@ const rehypeCalloouts: Plugin<[UserOptions?], Root> = (options) => {
               suffix,
               node.children[0].children.slice(borderingIndex + 1)
             )
-            console.log('newParagraph', newParagraph)
 
             node.children = [
               { ...firstParagraph, children: firstParagraphNewChildren },
@@ -124,7 +110,6 @@ const rehypeCalloouts: Plugin<[UserOptions?], Root> = (options) => {
               'p',
               node.children[0].children.slice(borderingIndex + 1)
             )
-            console.log('newParagraph', newParagraph)
 
             node.children = [
               { ...firstParagraph, children: firstParagraphNewChildren },
@@ -133,25 +118,20 @@ const rehypeCalloouts: Plugin<[UserOptions?], Root> = (options) => {
             ]
           }
         }
-
-        // console.log('node.children', node.children)
-        // console.log('p1', node.children[0])
-        // console.log('p2', node.children[1])
-        // console.log('p3', node.children[2])
       }
 
       // match callout format
       const newFirstParagraph = node.children[0]
       if (!isElement(newFirstParagraph)) return
-      const firstTextNode = newFirstParagraph.children[0]
-      console.log('firstTextNode', firstTextNode)
 
+      const firstTextNode = newFirstParagraph.children[0]
       if (firstTextNode.type !== 'text') return
+
       const calloutMatch = calloutRegex.exec(firstTextNode.value)
       calloutRegex.lastIndex = 0
       if (!calloutMatch?.groups) return
+
       const { title, type, collapsable } = calloutMatch.groups
-      console.log('calloutMatch', calloutMatch)
 
       // format type to lowercase & remove callout format
       const revisedType = type.toLowerCase()
@@ -168,11 +148,6 @@ const rehypeCalloouts: Plugin<[UserOptions?], Root> = (options) => {
         collapsable && 'callout-collapsible',
       ]
       node.properties.style = generateStyle(expandedCallouts[revisedType].color)
-
-      console.log('node', node)
-      console.log('node.children', node.children)
-      console.log('p1', node.children[0])
-      console.log('p2', node.children[1])
 
       // update hast
       node.children = [
@@ -213,4 +188,4 @@ const rehypeCalloouts: Plugin<[UserOptions?], Root> = (options) => {
   }
 }
 
-export default rehypeCalloouts
+export default rehypeCallouts

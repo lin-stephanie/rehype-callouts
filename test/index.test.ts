@@ -59,6 +59,7 @@ function run(name: string, options?: UserOptions, fromHtml = false) {
   })
 }
 
+run('readme')
 run('basic', { showIndicator: false })
 run('fromHtml', { showIndicator: false }, true)
 run('collapsibleCallouts', { showIndicator: false })
@@ -84,7 +85,7 @@ run('customCallouts', {
       color: 'rgb(227, 107, 167)',
     },
     noindicator: {
-      title: 'Noindicator',
+      title: 'NO INDICATOR',
       color: ['#e36ba7', '#f86bb7'],
     },
     notitle: {

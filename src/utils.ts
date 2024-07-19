@@ -2,7 +2,6 @@ import { fromHtml } from 'hast-util-from-html'
 import { h } from 'hastscript'
 import merge from 'lodash.merge'
 
-import { docusaurusCallouts } from './themes/docusaurus/config.js'
 import { githubCallouts } from './themes/github/config.js'
 import { obsidianCallouts } from './themes/obsidian/config.js'
 import { vitepressCallouts } from './themes/vitepress/config.js'
@@ -19,7 +18,6 @@ export const themes = {
   github: githubCallouts,
   obsidian: obsidianCallouts,
   vitepress: vitepressCallouts,
-  docusaurus: docusaurusCallouts,
 }
 
 /**
@@ -61,8 +59,6 @@ export function getConfig(userOptions: UserOptions | undefined): ConfigOptions {
     const { theme, callouts, aliases } = userOptions
     if (callouts) userOptions.callouts = convertKeysToLowercase(callouts)
     if (aliases) userOptions.aliases = convertKeysToLowercase(aliases)
-    // console.log('userOptions.callouts', userOptions.callouts)
-    // console.log('userOptions.aliases', userOptions.aliases)
 
     const initOptions = {
       theme: theme ?? 'obsidian',
@@ -201,7 +197,6 @@ export function getIndicator(
  *   SVG element.
  */
 export function getFoldIcon(): Element {
-  console.log(1)
   const icon =
     '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>'
   const foldIconElement = fromHtml(icon, {

@@ -6,7 +6,7 @@ interface CalloutConfig {
    * The default title for this callout type.
    *
    * @description
-   * For newly added callout types, if unset or set to an empty string,
+   * For new callout types, if unset or set to an empty string,
    * defaults to the callout type name.
    */
   title?: string
@@ -19,7 +19,7 @@ interface CalloutConfig {
    * - {@link https://icon-sets.iconify.design/octicon/?keyword=octicon Octicons} icon set for GitHub
    * - {@link https://icon-sets.iconify.design/lucide/?keyword=luci Lucide} icon set for Obsidian
    *
-   * For newly added callout types, if unset, this callout type will not display an indicator,
+   * For new callout types, if unset, this callout type will not display an indicator,
    * even if {@link RehypeCalloutsOptions.showIndicator} is true.
    *
    * @example
@@ -33,7 +33,7 @@ interface CalloutConfig {
    * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#syntax `<color>`} type string.
    *
    * @description
-   * For newly added callout types, if unset, the default color will be `#888`.
+   * For new callout types, if unset, the default color will be `#888`.
    *
    * @example
    * 'rgb(8, 109, 221)': Suitable for both light and dark themes.
@@ -47,18 +47,21 @@ interface CalloutConfig {
  */
 interface RehypeCalloutsOptions<T> {
   /**
-   * Specifies the style for callouts. Available themes:
+   * Specify your desired callout theme to automatically apply its default types.
+   *
+   * @description
+   * Refer to the {@link https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes theme's source code} f
+   * or more details. Available themes:
    * {@link https://github.com/orgs/community/discussions/16925 Github},
    * {@link https://help.obsidian.md/Editing+and+formatting/Callouts Obsidian},
-   * {@link https://docusaurus.io/docs/markdown-features/admonitions Docusaurus},
    * {@link https://vitepress.dev/guide/markdown#github-flavored-alerts Vitepress}.
    *
-   * @default 'github'
+   * @default 'obsidian'
    */
-  theme?: 'github' | 'obsidian' | 'vitepress' | 'docusaurus'
+  theme?: 'github' | 'obsidian' | 'vitepress'
 
   /**
-   * Configures or defines callout types.
+   * Define or modify callout type configurations.
    *
    * @description
    * This object maps callout types to their properties.
@@ -81,7 +84,7 @@ interface RehypeCalloutsOptions<T> {
   callouts?: Record<string, T>
 
   /**
-   * Configures aliases for callouts.
+   * Configure aliases for callout types.
    *
    * @description
    * It is an object containing the callout definitions,
@@ -99,7 +102,7 @@ interface RehypeCalloutsOptions<T> {
   aliases?: Record<string, string[]>
 
   /**
-   * Whether to display an type-specific indicator icons before callout titles.
+   * Whether to display an type-specific icons before callout title.
    *
    * @remarks
    * Since the {@link https://vitepress.dev/guide/markdown#github-flavored-alerts Vitepress} theme

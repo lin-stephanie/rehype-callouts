@@ -27,7 +27,10 @@
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
-    }
+    },
+    "./theme/github": "./dist/themes/github/index.css",
+    "./theme/obsidian": "./dist/themes/obsidian/index.css",
+    "./theme/vitepress": "./dist/themes/vitepress/index.css"
   },
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -118,6 +121,6 @@
     "*": "xo --prettier"
   },
   "engines": {
-    "node": "^18.0.0 || >=20.0.0"
+    "node": "^16.0.0 || ^18.0.0 || >=20.0.0"
   }
 }
