@@ -37,14 +37,11 @@
 
 .callout-icon {
   display: flex;
-  align-items: center;
   flex: 0 0 auto;
+  align-items: center;
 }
 
 .callout-title-inner {
-  margin-top: 0;
-  margin-bottom: 0;
-
   color: inherit;
   font-weight: 600;
 }
@@ -77,4 +74,10 @@
 .callout-icon::after,
 .callout-fold::after {
   content: '\200B';
+}
+
+.callout-icon svg,
+.callout-fold svg {
+  width: 18px;
+  height: 18px;
 }

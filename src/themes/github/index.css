@@ -1,11 +1,4 @@
 .callout {
-  width: 100%;
-  padding: 0.5rem 1rem;
-  border-left: 0.25em solid;
-  margin-bottom: 16px;
-}
-
-.callout {
   border-left-color: var(--callout-color-light);
 }
 
@@ -21,9 +14,18 @@
   color: var(--callout-color-dark);
 }
 
+.callout {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-left-width: 0.25em;
+  border-left-style: solid;
+  margin-bottom: 1rem;
+}
+
 .callout-title {
   display: flex;
   align-items: flex-start;
+  gap: 8px;
 
   line-height: 1;
   font-weight: 500;
@@ -33,16 +35,13 @@
   overflow: visible !important;
   display: inline-block;
 
-  margin-right: 0.5rem;
-
   vertical-align: text-bottom;
 
   fill: currentColor;
 }
 
-.callout-title-inner {
-  margin-top: 0;
-  margin-bottom: 0;
+.callout-content > :first-child {
+  margin-top: 1rem;
 }
 
 .callout-content > :last-child {
@@ -69,5 +68,5 @@
 }
 
 .callout-fold {
-  margin-left: 4px;
+  margin-left: -2px;
 }

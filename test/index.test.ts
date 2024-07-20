@@ -51,9 +51,6 @@ function run(name: string, options?: UserOptions, fromHtml = false) {
   )
 
   // test
-  // console.log('input', input)
-  // console.log('output', output)
-
   test(name, () => {
     expect(input).toBe(output)
   })

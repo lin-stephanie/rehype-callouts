@@ -111,7 +111,9 @@ Then running `node example.js` or `pnpm astro dev` yields:
     <div class="callout-icon">
       <!-- svg icon-->
     </div>
-    <p class="callout-title-inner">This is a<em>non-collapsible</em> callout</p>
+    <div class="callout-title-inner">
+      This is a<em>non-collapsible</em> callout
+    </div>
   </div>
   <div class="callout-content">
     <p>Some content is displayed directly!</p>
@@ -126,9 +128,9 @@ Then running `node example.js` or `pnpm astro dev` yields:
     <div class="callout-icon">
       <!-- svg icon-->
     </div>
-    <p class="callout-title-inner">
+    <div class="callout-title-inner">
       This is a<strong>collapsible</strong> callout
-    </p>
+    </div>
     <div class="callout-fold">
       <!-- svg icon-->
     </div>

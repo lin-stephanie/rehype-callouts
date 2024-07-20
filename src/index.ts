@@ -134,8 +134,8 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
       const { title, type, collapsable } = calloutMatch.groups
 
       // format callout title
-      const revisedType = type.toLowerCase()
       firstTextNode.value = title
+      newFirstParagraph.tagName = 'div'
       newFirstParagraph.properties.className = ['callout-title-inner']
 
       // modify the blockquote element
@@ -145,6 +145,7 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
         'callout',
         collapsable && 'callout-collapsible',
       ]
+      const revisedType = type.toLowerCase()
       node.properties.style = generateStyle(expandedCallouts[revisedType].color)
 
       // update hast
@@ -163,7 +164,7 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
             : [
                 showIndicator ? getIndicator(config, revisedType) : null,
                 h(
-                  'p',
+                  'div',
                   { className: ['callout-title-inner'] },
                   expandedCallouts[revisedType].title ??
                     (theme === 'github' || theme === 'obsidian'

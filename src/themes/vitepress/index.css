@@ -33,11 +33,7 @@
   flex: 0 0 auto;
 }
 
-.callout-title .callout-title-inner {
-  /* remove user-agent style from the p element  */
-  margin-top: 0;
-  margin-bottom: 0;
-
+.callout-title-inner {
   font-weight: 600;
 }
 
