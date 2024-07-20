@@ -1,4 +1,5 @@
 .callout {
+  mix-blend-mode: darken;
   background-color: rgb(from var(--callout-color-light) r g b / 0.1);
 }
 
@@ -7,6 +8,7 @@
 }
 
 .dark .callout {
+  mix-blend-mode: lighten;
   background-color: rgb(from var(--callout-color-dark) r g b / 0.1);
 }
 
@@ -23,8 +25,6 @@
   margin: 1em 0;
 
   line-height: 1.3;
-
-  mix-blend-mode: darken;
 }
 
 .callout-title {

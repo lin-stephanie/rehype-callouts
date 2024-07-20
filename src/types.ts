@@ -17,7 +17,7 @@ interface CalloutConfig {
    * @description
    * You can view the icon sets used for specific themes on {@link https://icon-sets.iconify.design/ Iconify}:
    * - {@link https://icon-sets.iconify.design/octicon/?keyword=octicon Octicons} icon set for GitHub
-   * - {@link https://icon-sets.iconify.design/lucide/?keyword=luci Lucide} icon set for Obsidian
+   * - {@link https://icon-sets.iconify.design/lucide/?keyword=luci Lucide} icon set for Obsidian, VitePress
    *
    * For new callout types, if unset, this callout type will not display an indicator,
    * even if {@link RehypeCalloutsOptions.showIndicator} is true.
@@ -52,9 +52,9 @@ interface RehypeCalloutsOptions<T> {
    * @description
    * Refer to the {@link https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes theme's source code} f
    * or more details. Available themes:
-   * {@link https://github.com/orgs/community/discussions/16925 Github},
+   * {@link https://github.com/orgs/community/discussions/16925 GitHub},
    * {@link https://help.obsidian.md/Editing+and+formatting/Callouts Obsidian},
-   * {@link https://vitepress.dev/guide/markdown#github-flavored-alerts Vitepress}.
+   * {@link https://vitepress.dev/guide/markdown#github-flavored-alerts VitePress}.
    *
    * @default 'obsidian'
    */
@@ -105,9 +105,8 @@ interface RehypeCalloutsOptions<T> {
    * Whether to display an type-specific icons before callout title.
    *
    * @remarks
-   * Since the {@link https://vitepress.dev/guide/markdown#github-flavored-alerts Vitepress} theme
-   * lacks default indicator icons, setting this option to `true` will apply
-   * {@link https://help.obsidian.md/Editing+and+formatting/Callouts Obsidian} style icons.
+   * Since the {@link https://vitepress.dev/guide/markdown#github-flavored-alerts VitePress} theme
+   * lacks default indicator icons, setting this option to `true` will apply GitHub style icons.
    *
    * @default true
    */

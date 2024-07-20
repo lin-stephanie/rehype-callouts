@@ -11,7 +11,7 @@ This lets you to uniformly use [Obsidian's callout syntax](https://help.obsidian
 - Supports custom titles (using markdown syntax).
 - Supports collapsible and nestable callouts.
 - Supports modifying default callouts (title, icon, color).
-- Configurable themes for [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), and [Vitepress](https://vitepress.dev/guide/markdown#github-flavored-alerts) with styles.
+- Configurable themes for [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), and [VitePress](https://vitepress.dev/guide/markdown#github-flavored-alerts) with styles.
 - Configurable new types of callouts.
 - Configurable aliases for callout types.
 - Configurable icon display.
@@ -35,14 +35,14 @@ pnpm add rehype-callouts
 In Deno with [`esm.sh`](https://esm.sh/):
 
 ```js
-import rehypePicture from 'https://esm.sh/rehype-callouts'
+import rehypeCallouts from 'https://esm.sh/rehype-callouts'
 ```
 
 In browsers with [`esm.sh`](https://esm.sh/):
 
 ```html
 <script type="module">
-  import rehypePicture from 'https://esm.sh/rehype-callouts?bundle'
+  import rehypeCallouts from 'https://esm.sh/rehype-callouts?bundle'
 </script>
 ```
 
@@ -145,7 +145,7 @@ Then running `node example.js` or `pnpm astro dev` yields:
 
 You can customize the callout styles based on the class names (as shown above).
 
-This package also provides callout styles for [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), and [Vitepress](https://vitepress.dev/guide/markdown#github-flavored-alerts) themes. You can import the CSS into your project as follows:
+This package also provides callout styles for [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), and [VitePress](https://vitepress.dev/guide/markdown#github-flavored-alerts) themes. You can import the CSS into your project as follows:
 
 ```ts
 import 'rehype-callouts/theme/github'
@@ -213,10 +213,14 @@ Defines the properties for default and custom callouts. The type is `Record<stri
 
 ## Credits
 
-- [staticnoise/rehype-obsidian-callout](https://gitlab.com/staticnoise/rehype-obsidian-callout) - Basic functionality implementation.
-- [Octions](https://primer.style/foundations/icons/) - Github callout default icons.
-- [Lucide](https://lucide.dev/) - Obsidian, Vitepress callout default icons.
+- [staticnoise/rehype-obsidian-callout](https://gitlab.com/staticnoise/rehype-obsidian-callout) - basic functionality.
+- [Octions](https://primer.style/foundations/icons/) - default icons for GitHub callouts.
+- [Lucide](https://lucide.dev/) - default icons for Obsidian, VitePress callouts.
 
 ## Contribution
 
 If you see any errors or room for improvement on this plugin, feel free to open an [issues](https://github.com/lin-stephanie/rehype-callouts/issues) or [pull request](https://github.com/lin-stephanie/rehype-callouts/pulls) . Thank you in advance for contributing!
+
+## License
+
+[MIT](https://github.com/lin-stephanie/rehype-callouts/blob/main/LICENSE) License © 2024-PRESENT [Stephanie Lin](https://github.com/lin-stephanie)

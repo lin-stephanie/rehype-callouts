@@ -67,7 +67,22 @@ export function getConfig(userOptions: UserOptions | undefined): ConfigOptions {
       showIndicator: true,
     }
 
-    return merge(initOptions, userOptions)
+    const mergedCallouts = { ...initOptions.callouts }
+    if (userOptions.callouts) {
+      for (const key of Object.keys(userOptions.callouts)) {
+        mergedCallouts[key] = {
+          ...initOptions.callouts[key],
+          ...userOptions.callouts[key],
+        }
+      }
+    }
+
+    return {
+      theme: userOptions.theme ?? initOptions.theme,
+      callouts: mergedCallouts,
+      aliases: { ...initOptions.aliases, ...userOptions.aliases },
+      showIndicator: userOptions.showIndicator ?? initOptions.showIndicator,
+    }
   }
 
   return defaultOptions

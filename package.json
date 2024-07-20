@@ -5,14 +5,13 @@
   "author": "Stephanie Lin <norwaywoods047@gmail.com>",
   "license": "MIT",
   "keywords": [
+    "rehype-plugin",
+    "callouts",
+    "admonitions",
+    "alerts",
     "unified",
     "rehype",
-    "rehype-plugin",
-    "html",
-    "hast",
-    "callout",
-    "admonitions",
-    "alerts"
+    "hast"
   ],
   "repository": "github:lin-stephanie/rehype-callouts",
   "homepage": "https://github.com/lin-stephanie/rehype-callouts#readme",
@@ -42,13 +41,12 @@
     "lint": "xo --prettier",
     "lint:fix": "xo --prettier --fix",
     "prepare": "simple-git-hooks",
-    "release": "npx bumpp && pnpm publish"
+    "release": "npx bumpp --tag %s --commit 'chore: release %s'"
   },
   "dependencies": {
     "hast-util-from-html": "^2.0.1",
     "hast-util-is-element": "^3.0.0",
     "hastscript": "^9.0.0",
-    "lodash.merge": "^4.6.2",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {

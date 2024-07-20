@@ -1,10 +1,8 @@
 .callout {
-  color: rgba(60, 60, 67);
   background-color: rgb(from var(--callout-color-light) r g b / 0.14);
 }
 
 .dark .callout {
-  color: rgba(255, 255, 245, 0.86);
   background-color: rgb(from var(--callout-color-dark) r g b / 0.16);
 }
 
@@ -68,5 +66,7 @@
 
 .callout-icon svg,
 .callout-fold svg {
-  stroke-width: 2.5;
+  width: 16px;
+  height: 16px;
+  stroke-width: 3;
 }
