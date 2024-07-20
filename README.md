@@ -64,16 +64,14 @@ And module `example.js` contains:
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
-import rehypeCalloouts from 'rehype-callouts'
-import rehypeMinifyWhitespace from 'rehype-minify-whitespace'
+import rehypeCallouts from 'rehype-callouts'
 import rehypeStringify from 'rehype-stringify'
 import { readSync } from 'to-vfile'
 
 const file = unified()
   .use(remarkParse)
   .use(remarkRehype)
-  .use(rehypeCalloouts)
-  .use(rehypeMinifyWhitespace)
+  .use(rehypeCallouts)
   .use(rehypeStringify)
   .processSync(readSync('example.md'))
 
@@ -112,7 +110,7 @@ Then running `node example.js` or `pnpm astro dev` yields:
       <!-- svg icon-->
     </div>
     <div class="callout-title-inner">
-      This is a<em>non-collapsible</em> callout
+      This is a <em>non-collapsible</em> callout
     </div>
   </div>
   <div class="callout-content">
@@ -129,7 +127,7 @@ Then running `node example.js` or `pnpm astro dev` yields:
       <!-- svg icon-->
     </div>
     <div class="callout-title-inner">
-      This is a<strong>collapsible</strong> callout
+      This is a <strong>collapsible</strong> callout
     </div>
     <div class="callout-fold">
       <!-- svg icon-->
@@ -143,9 +141,7 @@ Then running `node example.js` or `pnpm astro dev` yields:
 
 ### Styling
 
-You can customize the callout styles based on the class names (as shown above).
-
-This package also provides callout styles for [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), and [VitePress](https://vitepress.dev/guide/markdown#github-flavored-alerts) themes. You can import the CSS into your project as follows:
+You can customize the callout styles based on the class names (as shown above) or import the stylesheets for different [themes](#themes) provided by the package:
 
 ```ts
 import 'rehype-callouts/theme/github'
@@ -172,15 +168,13 @@ Alternatively, import the CSS directly in browsers via [unpkg.com](https://unpkg
 ```html
 <link
   rel="stylesheet"
-  href="https://unpkg.com/rehype-callouts/themes/github/index.css"
+  href="https://unpkg.com/rehype-callouts/dist/themes/github/index.css"
 />
 <link
   rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/rehype-callouts/themes/github/index.css"
+  href="https://cdn.jsdelivr.net/npm/rehype-callouts/dist/themes/github/index.css"
 />
 ```
-
-Note that the stylesheet uses class-based (`.dark`) implementation for dark mode. Refer to the [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes) for more details.
 
 ## API
 
@@ -194,12 +188,12 @@ Used to process and render callouts, including an optional parameter [`options`]
 
 Configures the behavior of this plugin. The following options are available. All of them are optional.
 
-| Option        | Type                                                                                                                                 | Description                                                                  |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
-| theme         | `'github'\|'obsidian'\|'vitepress'`<br>(default: `obsidian`)                                                                         | Specify your desired callout theme to automatically apply its default types. |
-| callouts      | `Record<string, CalloutConfig>` (default: see [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes) ) | Define or modify callout type configurations.                                |
-| aliases       | `Record<string, string[]>` (default: `{}`)                                                                                           | Configure aliases for callout types.                                         |
-| showIndicator | `boolean`(default: `true`)                                                                                                           | Whether to display an type-specific icons before callout title.              |
+| Option        | Type                                                                                                                                 | Description                                                                          |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| theme         | `'github'\|'obsidian'\|'vitepress'`<br>(default: `obsidian`)                                                                         | Specify your desired callout theme to automatically apply its default callout types. |
+| callouts      | `Record<string, CalloutConfig>` (default: see [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes) ) | Define or modify callout type configurations.                                        |
+| aliases       | `Record<string, string[]>` (default: `{}`)                                                                                           | Configure aliases for callout types.                                                 |
+| showIndicator | `boolean`(default: `true`)                                                                                                           | Whether to display an type-specific icons before callout title.                      |
 
 ### `callouts`
 
@@ -209,7 +203,17 @@ Defines the properties for default and custom callouts. The type is `Record<stri
 | --------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | title     | `string`                     | Title for this callout type. For new callout types, defaults to the callout type name if unset.                                                                                                                                                                                                                    |
 | indicator | `string`                     | Icon in SVG format as a string. For new callout types, the icon will not display unless set, even if `showIndicator` is `true`. You can get icons from [Iconify](https://icon-sets.iconify.design/).                                                                                                               |
-| color     | `string \| [string, string]` | Color(s) as a [`<color>`](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#syntax) string. For new callout types, defaults to `#888` if unset. For example:<br>`'rgb(8, 109, 221)'`: Works for both light and dark themes.<br>`['#0969da', '#2f81f7']` : First for light theme, second for dark theme. |
+| color     | `string \| [string, string]` | Color(s) as a [`<color>`](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#syntax) string. For new callout types, defaults to `#888` if unset. For example:<br>`'rgb(8, 109, 221)'`: works for both light and dark themes.<br>`['#0969da', '#2f81f7']` : first for light theme, second for dark theme. |
+
+## Themes
+
+This package also provides callout styles for [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), and [VitePress](https://vitepress.dev/guide/markdown#github-flavored-alerts) themes. These stylesheets implement dark mode using the `.dark` class. Refer to the [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes) for more details.
+
+![github](https://github.com/lin-stephanie/rehype-callouts/blob/main/docs/github.png)
+
+![obsidian](https://github.com/lin-stephanie/rehype-callouts/blob/main/docs/obsidian.png)
+
+![vitepree](https://github.com/lin-stephanie/rehype-callouts/blob/main/docs/vitepress.png)
 
 ## Credits
 
@@ -223,4 +227,4 @@ If you see any errors or room for improvement on this plugin, feel free to open 
 
 ## License
 
-[MIT](https://github.com/lin-stephanie/rehype-callouts/blob/main/LICENSE) License © 2024-PRESENT [Stephanie Lin](https://github.com/lin-stephanie)
+[MIT](https://github.com/lin-stephanie/rehype-callouts/blob/main/LICENSE) © 2024-PRESENT [Stephanie Lin](https://github.com/lin-stephanie)
