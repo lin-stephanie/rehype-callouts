@@ -1,6 +1,6 @@
 {
   "name": "rehype-callouts",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Rehype plugin for processing and rendering blockquote-based callouts (admonitions/alerts).",
   "author": "Stephanie Lin <norwaywoods047@gmail.com>",
   "license": "MIT",
@@ -41,7 +41,7 @@
     "lint": "xo --prettier",
     "lint:fix": "xo --prettier --fix",
     "prepare": "simple-git-hooks",
-    "release": "npx bumpp --tag %s --commit 'chore: release %s' && build"
+    "release": "npx bumpp --tag %s --commit 'chore: release %s' && pnpm run build"
   },
   "dependencies": {
     "hast-util-from-html": "^2.0.1",
