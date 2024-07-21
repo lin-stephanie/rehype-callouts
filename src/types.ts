@@ -1,7 +1,4 @@
-/**
- * Defines configuration properties for each type of callout.
- */
-interface CalloutConfig {
+export interface CalloutConfig {
   /**
    * The default title for this callout type.
    *
@@ -42,10 +39,7 @@ interface CalloutConfig {
   color?: string | [string, string]
 }
 
-/**
- * Options for the `rehype-callouts` plugin.
- */
-interface RehypeCalloutsOptions<T> {
+export interface RehypeCalloutsOptions<T> {
   /**
    * Specify your desired callout theme to automatically apply its default types.
    *
@@ -61,7 +55,7 @@ interface RehypeCalloutsOptions<T> {
   theme?: 'github' | 'obsidian' | 'vitepress'
 
   /**
-   * Define or modify callout type configurations.
+   * Defines the properties for default and custom callouts.
    *
    * @description
    * This object maps callout types to their properties.

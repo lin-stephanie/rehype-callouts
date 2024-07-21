@@ -188,3 +188,8 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
 }
 
 export default rehypeCallouts
+export type {
+  UserOptions,
+  RehypeCalloutsOptions,
+  CalloutConfig,
+} from './types.js'

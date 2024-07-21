@@ -35,7 +35,7 @@ jobs:
         run: pnpm run typecheck
 
       - name: Typecheck coverage
-        run: pnpm run typecheck:coverage
+        run: pnpm type-coverage
 
   test:
     runs-on: ${{ matrix.os }}
@@ -65,15 +65,12 @@ jobs:
       - name: Test
         run: pnpm run test
 
-      - name: Build
-        run: pnpm run build
-
-      - name: Generate coverage file
-        run: pnpm run coverage
-
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
           files: ./coverage/coverage-final.json
+
+      - name: Build
+        run: pnpm run build

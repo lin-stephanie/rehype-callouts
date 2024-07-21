@@ -1,5 +1,9 @@
 # rehype-callouts
 
+[![Coverage][coverage-badge]][coverage]
+[![npm downloads][npm-downloads-src]][npm-downloads-href]
+[![JSDocs][jsdocs-src]][jsdocs-href]
+
 A [rehype](https://github.com/rehypejs/rehype) plugin for processing and rendering blockquote-based callouts.
 
 ## What is this?
@@ -11,7 +15,7 @@ This lets you to uniformly use [Obsidian's callout syntax](https://help.obsidian
 - Supports custom titles (using markdown syntax).
 - Supports collapsible and nestable callouts.
 - Supports modifying default callouts (title, icon, color).
-- Configurable themes for [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), and [VitePress](https://vitepress.dev/guide/markdown#github-flavored-alerts) with styles.
+- Configurable [themes](#themes) for applying default callout types and styles.
 - Configurable new types of callouts.
 - Configurable aliases for callout types.
 - Configurable icon display.
@@ -184,36 +188,46 @@ This package exports no identifiers. The default export is `rehypeCallouts`.
 
 Used to process and render callouts, including an optional parameter [`options`](#options).
 
-### `options`
+### `options: UserOptions`
 
-Configures the behavior of this plugin. The following options are available. All of them are optional.
+Configure the behavior of this plugin using the following options. All of these options are optional:
 
-| Option        | Type                                                                                                                                 | Description                                                                          |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| theme         | `'github'\|'obsidian'\|'vitepress'`<br>(default: `obsidian`)                                                                         | Specify your desired callout theme to automatically apply its default callout types. |
-| callouts      | `Record<string, CalloutConfig>` (default: see [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes) ) | Define or modify callout type configurations.                                        |
-| aliases       | `Record<string, string[]>` (default: `{}`)                                                                                           | Configure aliases for callout types.                                                 |
-| showIndicator | `boolean`(default: `true`)                                                                                                           | Whether to display an type-specific icons before callout title.                      |
+| Option                                           | Type                                                                                                                                 | Description                                                                                                                        |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| theme                                            | `'github'\|'obsidian'\|'vitepress'`<br>(default: `obsidian`)                                                                         | Specify your desired callout theme to automatically apply its default callout types.                                               |
+| [callouts](#callouts-recordstring-calloutconfig) | `Record<string, CalloutConfig>` (default: see [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes) ) | Defines the properties for default and custom callouts. For example: `{'note': {title: 'CustomTitle'}, 'custom': {color: 'pink'}}` |
+| aliases                                          | `Record<string, string[]>` (default: `{}`)                                                                                           | Configure aliases for callout types. For example: `{'note': ['n'], 'tip': ['t']}`                                                  |
+| showIndicator                                    | `boolean`(default: `true`)                                                                                                           | Whether to display an type-specific icons before callout title.                                                                    |
 
-### `callouts`
+### `callouts: Record<string, CalloutConfig>`
 
-Defines the properties for default and custom callouts. The type is `Record<string, CalloutConfig>`. Each key represents a callout type, and the value is an object with the following optional properties:
+Defines the properties for default and custom callouts. Each key represents a callout type, and the value is an object with the following optional properties:
 
 | Property  | Type                         | Description                                                                                                                                                                                                                                                                                                        |
 | --------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | title     | `string`                     | Title for this callout type. For new callout types, defaults to the callout type name if unset.                                                                                                                                                                                                                    |
-| indicator | `string`                     | Icon in SVG format as a string. For new callout types, the icon will not display unless set, even if `showIndicator` is `true`. You can get icons from [Iconify](https://icon-sets.iconify.design/).                                                                                                               |
+| indicator | `string`                     | Icon in SVG format as a string. For new callout types, the icon will not display unless set, even if `showIndicator` is `true`. You can get icons from [Iconify](https://icon-sets.iconify.design/). For example: `'<svg>...</svg>'`                                                                               |
 | color     | `string \| [string, string]` | Color(s) as a [`<color>`](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#syntax) string. For new callout types, defaults to `#888` if unset. For example:<br>`'rgb(8, 109, 221)'`: works for both light and dark themes.<br>`['#0969da', '#2f81f7']` : first for light theme, second for dark theme. |
 
 ## Themes
 
-This package also provides callout styles for [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), and [VitePress](https://vitepress.dev/guide/markdown#github-flavored-alerts) themes. These stylesheets implement dark mode using the `.dark` class. Refer to the [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes) for more details.
+This package also provides callout styles for [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), and [VitePress](https://vitepress.dev/guide/markdown#github-flavored-alerts) themes. These stylesheets implement dark mode using the `.dark` class. See the [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes) for more details.
+
+### GitHub
 
 ![github](https://github.com/lin-stephanie/rehype-callouts/blob/main/docs/github.png)
 
+### Obsidian
+
 ![obsidian](https://github.com/lin-stephanie/rehype-callouts/blob/main/docs/obsidian.png)
 
+### VitePress
+
 ![vitepree](https://github.com/lin-stephanie/rehype-callouts/blob/main/docs/vitepress.png)
+
+## Types
+
+This package is fully typed with [TypeScript](https://www.typescriptlang.org/). See [jsDocs.io](https://www.jsdocs.io/package/rehype-callouts) for type details.
 
 ## Credits
 
@@ -228,3 +242,12 @@ If you see any errors or room for improvement on this plugin, feel free to open 
 ## License
 
 [MIT](https://github.com/lin-stephanie/rehype-callouts/blob/main/LICENSE) © 2024-PRESENT [Stephanie Lin](https://github.com/lin-stephanie)
+
+<!-- Badges -->
+
+[coverage-badge]: https://img.shields.io/codecov/c/github/lin-stephanie/rehype-callouts?style=flat&colorA=080f12&colorB=ef7575
+[coverage]: https://codecov.io/github/lin-stephanie/rehype-callouts
+[npm-downloads-src]: https://img.shields.io/npm/dm/rehype-callouts?style=flat&colorA=080f12&colorB=ef7575
+[npm-downloads-href]: https://npmjs.com/package/rehype-callouts
+[jsdocs-src]: https://img.shields.io/badge/jsdocs-reference-080f12?style=flat&colorA=080f12&colorB=ef7575
+[jsdocs-href]: https://www.jsdocs.io/package/rehype-callouts

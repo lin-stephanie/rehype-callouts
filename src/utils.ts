@@ -1,6 +1,5 @@
 import { fromHtml } from 'hast-util-from-html'
 import { h } from 'hastscript'
-import merge from 'lodash.merge'
 
 import { githubCallouts } from './themes/github/config.js'
 import { obsidianCallouts } from './themes/obsidian/config.js'
