@@ -35,7 +35,7 @@ jobs:
         run: pnpm run typecheck
 
       - name: Typecheck coverage
-        run: pnpm type-coverage
+        run: pnpm typecheck:coverage
 
   test:
     runs-on: ${{ matrix.os }}

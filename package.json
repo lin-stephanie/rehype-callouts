@@ -41,7 +41,7 @@
     "lint": "xo --prettier",
     "lint:fix": "xo --prettier --fix",
     "prepare": "simple-git-hooks",
-    "release": "npx bumpp --tag %s --commit 'chore: release %s'"
+    "release": "npx bumpp --tag %s --commit 'chore: release %s' && build"
   },
   "dependencies": {
     "hast-util-from-html": "^2.0.1",
