@@ -190,10 +190,10 @@ export function generateStyle(
  *   SVG element or undefined if not found.
  */
 export function getIndicator(
-  config: ConfigOptions,
+  callouts: Callouts,
   type: string
 ): Element | undefined {
-  const indicator = config.callouts[type]?.indicator
+  const indicator = callouts[type]?.indicator
   if (!indicator) return
 
   const indicatorElement = fromHtml(indicator, {

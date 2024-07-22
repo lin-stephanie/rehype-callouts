@@ -62,7 +62,7 @@ run('fromHtml', { showIndicator: false }, true)
 run('collapsibleCallouts', { showIndicator: false })
 run('markdownInTitle', { showIndicator: false })
 run('nestedCallouts', { showIndicator: false })
-run('showIndicator')
+run('showIndicator', { aliases: { note: ['n'] } })
 run('customTheme', {
   theme: 'vitepress',
   callouts: {

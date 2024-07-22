@@ -157,12 +157,16 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
           },
           title
             ? [
-                showIndicator ? getIndicator(config, revisedType) : null,
+                showIndicator
+                  ? getIndicator(expandedCallouts, revisedType)
+                  : null,
                 node.children[0],
                 collapsable ? getFoldIcon() : null,
               ]
             : [
-                showIndicator ? getIndicator(config, revisedType) : null,
+                showIndicator
+                  ? getIndicator(expandedCallouts, revisedType)
+                  : null,
                 h(
                   'div',
                   { className: ['callout-title-inner'] },

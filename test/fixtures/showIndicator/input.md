@@ -1,4 +1,4 @@
-> [!note]
+> [!n]
 > This is the content!
 
 > [!TIP]  

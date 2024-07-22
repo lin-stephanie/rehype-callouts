@@ -1,8 +1,8 @@
 # rehype-callouts
 
-[![Coverage][coverage-badge]][coverage]
+[![codecov][coverage-badge]][coverage]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![JSDocs][jsdocs-src]][jsdocs-href]
+[![jsDocs.io][jsdocs-src]][jsdocs-href]
 
 A [rehype](https://github.com/rehypejs/rehype) plugin for processing and rendering blockquote-based callouts.
 
@@ -55,6 +55,8 @@ In browsers with [`esm.sh`](https://esm.sh/):
 Say `example.md` contains:
 
 ```md
+<!-- Callout type names are case-insensitive: 'Note', 'NOTE', and 'note' are equivalent. -->
+
 > [!note] This is a _non-collapsible_ callout
 > Some content is displayed directly!
 
