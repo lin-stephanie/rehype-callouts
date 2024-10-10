@@ -8,23 +8,22 @@ A [rehype](https://github.com/rehypejs/rehype) plugin for processing and renderi
 
 ## What is this?
 
-This package is a [unified](https://github.com/unifiedjs/unified) ([rehype](https://github.com/rehypejs/rehype)) plugin to add support for callouts (admonitions/alerts).
-This lets you to uniformly use [Obsidian's callout syntax](https://help.obsidian.md/Editing+and+formatting/Callouts) in markdown to achieve the following features:
+This plugin adds support for callouts (admonitions/alerts), allowing you to use [Obsidian's callout syntax](https://help.obsidian.md/Editing+and+formatting/Callouts) uniformly in markdown to achieve the following features:
 
-- Comes with default callouts types.
-- Supports custom titles (using markdown syntax).
-- Supports collapsible and nestable callouts.
-- Supports modifying default callouts (title, icon, color).
-- Configurable [themes](#themes) for applying default callout types and styles.
-- Configurable new types of callouts.
+- Includes default callout types for various themes.
+- Optionally import stylesheets for corresponding [themes](#themes).
+- Supports collapsible callouts with `-/+` and nestable callouts.
+- Allows custom titles with markdown syntax.
+- Customizable default callout types (title, icon, color).
+- Configurable new callout types.
 - Configurable aliases for callout types.
 - Configurable icon display.
 
 ## When should I use this?
 
-This plugin is useful when you need to write callouts in markdown and render them effectively, such as displaying callouts written in Obsidian on a blog website created with the Astro framework.
+This plugin helps render markdown callouts, making it ideal for displaying Obsidian callouts on an Astro-powered blog.
 
-Additionally, this plugin modifies HTML directly (no `allowDangerousHtml` needed in [remark-rehype](https://github.com/remarkjs/remark-rehype)), and manages collapsible callouts using the details tag without requiring JavaScript.
+It also modifies HTML directly (no `allowDangerousHtml` in [remark-rehype](https://github.com/remarkjs/remark-rehype)) and supports collapsible callouts using the `details` tag, all without JavaScript.
 
 ## Installation
 
@@ -147,14 +146,12 @@ Then running `node example.js` or `pnpm astro dev` yields:
 
 ### Styling
 
-You can customize the callout styles based on the class names (as shown above) or import the stylesheets for different [themes](#themes) provided by the package:
+You can customize callout styles using the class names mentioned above or import the provided [theme-specific](#themes) stylesheets:
 
 ```ts
 import 'rehype-callouts/theme/github'
 import 'rehype-callouts/theme/obsidian'
 import 'rehype-callouts/theme/vitepress'
-// or using URL import
-import 'https://unpkg.com/rehype-callouts/themes/github/index.css'
 ```
 
 If bundling CSS files, import the CSS in your main CSS file:
@@ -188,11 +185,11 @@ This package exports no identifiers. The default export is `rehypeCallouts`.
 
 ### `unified().use(rehypeCallouts, options?)`
 
-Used to process and render callouts, including an optional parameter [`options`](#options).
+Used to render callouts, including an optional parameter [`options`](#options).
 
 ### `options: UserOptions`
 
-Configure the behavior of this plugin using the following options. All of these options are optional:
+You can configure this plugin with the following optional settings:
 
 | Option                                           | Type                                                                                                                                 | Description                                                                                                                        |
 | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
@@ -203,7 +200,7 @@ Configure the behavior of this plugin using the following options. All of these 
 
 ### `callouts: Record<string, CalloutConfig>`
 
-Defines the properties for default and custom callouts. Each key represents a callout type, and the value is an object with the following optional properties:
+Defines properties for default and custom callouts. Each key represents a callout type, and the value is an object with the following optional properties:
 
 | Property  | Type                         | Description                                                                                                                                                                                                                                                                                                        |
 | --------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -213,19 +210,19 @@ Defines the properties for default and custom callouts. Each key represents a ca
 
 ## Themes
 
-This package also provides callout styles for [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), and [VitePress](https://vitepress.dev/guide/markdown#github-flavored-alerts) themes. These stylesheets implement dark mode using the `.dark` class. See the [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes) for more details.
+This package offers callout styles for [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), and [VitePress](https://vitepress.dev/guide/markdown#github-flavored-alerts), with dark mode support via the `.dark` class. For more, check the [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes).
 
 ### GitHub
 
-![github](https://github.com/lin-stephanie/rehype-callouts/blob/main/docs/github.png)
+![github](./docs/github.png)
 
 ### Obsidian
 
-![obsidian](https://github.com/lin-stephanie/rehype-callouts/blob/main/docs/obsidian.png)
+![obsidian](./docs/obsidian.png)
 
 ### VitePress
 
-![vitepree](https://github.com/lin-stephanie/rehype-callouts/blob/main/docs/vitepress.png)
+![vitepree](./docs/vitepress.png)
 
 ## Types
 
