@@ -9,7 +9,7 @@ import type { ElementContent, Element } from 'hast'
 import type { UserOptions, ConfigOptions, Callouts } from './types.js'
 
 export const calloutRegex =
-  /\[!(?<type>\w+)](?<collapsable>-{0,1})\s*(?<title>.*)/g
+  /\[!(?<type>\w+)](?<collapsable>[+-]?)\s*(?<title>.*)/g
 
 export const splitByNewlineRegex = /(?<prefix>[^\n]*)\n(?<suffix>[\S\s]*)/g
 

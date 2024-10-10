@@ -147,6 +147,7 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
       ]
       const revisedType = type.toLowerCase()
       node.properties.style = generateStyle(expandedCallouts[revisedType].color)
+      node.properties.open = collapsable === '+' ? 'open' : undefined
 
       // update hast
       node.children = [

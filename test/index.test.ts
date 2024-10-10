@@ -56,6 +56,7 @@ function run(name: string, options?: UserOptions, fromHtml = false) {
   })
 }
 
+run('openOrClose')
 run('readmeExample')
 run('basic', { showIndicator: false })
 run('fromHtml', { showIndicator: false }, true)
