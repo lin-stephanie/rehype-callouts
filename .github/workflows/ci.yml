@@ -13,26 +13,27 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
 
-      - name: Set node
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-
       - name: Install
         run: pnpm i
 
       - name: Lint
-        run: pnpm run lint
+        run: pnpm lint
 
       - name: Typecheck
-        run: pnpm run typecheck
+        run: pnpm typecheck
 
       - name: Typecheck coverage
         run: pnpm typecheck:coverage
@@ -47,23 +48,24 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
 
-      - name: Set node ${{ matrix.node }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-
       - name: Install
         run: pnpm i
 
       - name: Test
-        run: pnpm run test
+        run: pnpm test
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
@@ -73,4 +75,4 @@ jobs:
           files: ./coverage/coverage-final.json
 
       - name: Build
-        run: pnpm run build
+        run: pnpm build
