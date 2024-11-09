@@ -1,6 +1,6 @@
 {
   "name": "rehype-callouts",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Rehype plugin for processing and rendering blockquote-based callouts (admonitions/alerts).",
   "author": "Stephanie Lin <norwaywoods047@gmail.com>",
   "license": "MIT",
