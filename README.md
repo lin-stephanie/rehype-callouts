@@ -107,6 +107,7 @@ Then running `node example.js` or `pnpm astro dev` yields:
 
 ```html
 <div
+  dir="auto"
   class="callout"
   style="--callout-color-light: rgb(8, 109, 221); --callout-color-dark: rgb(2, 122, 255);"
 >
@@ -124,6 +125,7 @@ Then running `node example.js` or `pnpm astro dev` yields:
 </div>
 
 <details
+  dir="auto"
   class="callout callout-collapsible"
   style="--callout-color-light: rgb(236, 117, 0); --callout-color-dark: rgb(233, 151, 63);"
 >

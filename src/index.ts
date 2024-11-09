@@ -141,6 +141,7 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
       // modify the blockquote element
       // @ts-expect-error (Type '"div" | "details"' is not assignable to type '"blockquote"')
       node.tagName = collapsable ? 'details' : 'div'
+      node.properties.dir = 'auto'
       node.properties.className = [
         'callout',
         collapsable && 'callout-collapsible',
