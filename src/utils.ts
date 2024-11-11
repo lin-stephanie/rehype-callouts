@@ -52,6 +52,14 @@ export function getConfig(userOptions: UserOptions | undefined): ConfigOptions {
     callouts: themes.obsidian,
     aliases: {},
     showIndicator: true,
+    htmlTagNames: {
+      nonCollapsibleContainerTagName: 'div',
+      nonCollapsibleTitleTagName: 'div',
+      nonCollapsibleContentTagName: 'div',
+      collapsibleContentTagName: 'div',
+      iconTagName: 'div',
+      titleInnerTagName: 'div',
+    },
   }
 
   if (userOptions) {
@@ -59,28 +67,26 @@ export function getConfig(userOptions: UserOptions | undefined): ConfigOptions {
     if (callouts) userOptions.callouts = convertKeysToLowercase(callouts)
     if (aliases) userOptions.aliases = convertKeysToLowercase(aliases)
 
-    const initOptions = {
-      theme: theme ?? 'obsidian',
-      callouts: theme ? themes[theme] : themes.obsidian,
-      aliases: {},
-      showIndicator: true,
-    }
-
-    const mergedCallouts = { ...initOptions.callouts }
+    const initCallouts = theme ? themes[theme] : themes.obsidian
+    const mergedCallouts = { ...initCallouts }
     if (userOptions.callouts) {
       for (const key of Object.keys(userOptions.callouts)) {
         mergedCallouts[key] = {
-          ...initOptions.callouts[key],
+          ...initCallouts[key],
           ...userOptions.callouts[key],
         }
       }
     }
 
     return {
-      theme: userOptions.theme ?? initOptions.theme,
+      theme: userOptions.theme ?? defaultOptions.theme,
       callouts: mergedCallouts,
-      aliases: { ...initOptions.aliases, ...userOptions.aliases },
-      showIndicator: userOptions.showIndicator ?? initOptions.showIndicator,
+      aliases: { ...defaultOptions.aliases, ...userOptions.aliases },
+      showIndicator: userOptions.showIndicator ?? defaultOptions.showIndicator,
+      htmlTagNames: {
+        ...defaultOptions.htmlTagNames,
+        ...userOptions.htmlTagNames,
+      },
     }
   }
 
@@ -182,16 +188,19 @@ export function generateStyle(
 /**
  * Fetches a callout's visual indicator.
  *
- * @param {configOptions} config
+ * @param {configOptions} callouts
  *   Configuration containing type-indicator mappings.
  * @param {string} type
  *   Callout type to fetch the indicator for.
+ * @param {string} iconTagName
+ *   Tag name for the icon container.
  * @returns {(Element | undefined)}
  *   SVG element or undefined if not found.
  */
 export function getIndicator(
   callouts: Callouts,
-  type: string
+  type: string,
+  iconTagName: string
 ): Element | undefined {
   const indicator = callouts[type]?.indicator
   if (!indicator) return
@@ -201,16 +210,18 @@ export function getIndicator(
     fragment: true,
   })
 
-  return h('div', { className: 'callout-icon' }, indicatorElement)
+  return h(iconTagName, { className: 'callout-icon' }, indicatorElement)
 }
 
 /**
  * Get fold icon when callout is collapsible.
  *
+ * @param {string} iconTagName
+ *   Tag name for the icon container.
  * @returns {Element}
  *   SVG element.
  */
-export function getFoldIcon(): Element {
+export function getFoldIcon(iconTagName: string): Element {
   const icon =
     '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>'
   const foldIconElement = fromHtml(icon, {
@@ -218,5 +229,5 @@ export function getFoldIcon(): Element {
     fragment: true,
   })
 
-  return h('div', { className: 'callout-fold' }, foldIconElement)
+  return h(iconTagName, { className: 'callout-fold' }, foldIconElement)
 }

@@ -25,10 +25,20 @@ import type { UserOptions } from './types.js'
  *   Optional options to configure the output.
  * @returns
  *   A unified transformer.
+ *
+ * @see https://github.com/lin-stephanie/rehype-callouts
  */
 const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
   const config = getConfig(options)
-  const { theme, callouts, aliases, showIndicator } = config
+  const { theme, callouts, aliases, showIndicator, htmlTagNames } = config
+  const {
+    nonCollapsibleContainerTagName,
+    nonCollapsibleTitleTagName,
+    nonCollapsibleContentTagName,
+    collapsibleContentTagName,
+    iconTagName,
+    titleInnerTagName,
+  } = htmlTagNames
 
   return (tree) => {
     visit(tree, 'element', (node) => {
@@ -135,12 +145,12 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
 
       // format callout title
       firstTextNode.value = title
-      newFirstParagraph.tagName = 'div'
+      newFirstParagraph.tagName = titleInnerTagName
       newFirstParagraph.properties.className = ['callout-title-inner']
 
       // modify the blockquote element
       // @ts-expect-error (Type '"div" | "details"' is not assignable to type '"blockquote"')
-      node.tagName = collapsable ? 'details' : 'div'
+      node.tagName = collapsable ? 'details' : nonCollapsibleContainerTagName
       node.properties.dir = 'auto'
       node.properties.className = [
         'callout',
@@ -153,24 +163,24 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
       // update hast
       node.children = [
         h(
-          collapsable ? 'summary' : 'div',
+          collapsable ? 'summary' : nonCollapsibleTitleTagName,
           {
             className: ['callout-title'],
           },
           title
             ? [
                 showIndicator
-                  ? getIndicator(expandedCallouts, revisedType)
+                  ? getIndicator(expandedCallouts, revisedType, iconTagName)
                   : null,
                 node.children[0],
-                collapsable ? getFoldIcon() : null,
+                collapsable ? getFoldIcon(iconTagName) : null,
               ]
             : [
                 showIndicator
-                  ? getIndicator(expandedCallouts, revisedType)
+                  ? getIndicator(expandedCallouts, revisedType, iconTagName)
                   : null,
                 h(
-                  'div',
+                  titleInnerTagName,
                   { className: ['callout-title-inner'] },
                   expandedCallouts[revisedType].title ??
                     (theme === 'github' || theme === 'obsidian'
@@ -178,11 +188,13 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
                         revisedType.slice(1)
                       : revisedType.toUpperCase())
                 ),
-                collapsable ? getFoldIcon() : null,
+                collapsable ? getFoldIcon(iconTagName) : null,
               ]
         ),
         h(
-          'div',
+          collapsable
+            ? collapsibleContentTagName
+            : nonCollapsibleContentTagName,
           {
             className: ['callout-content'],
           },
@@ -198,4 +210,5 @@ export type {
   UserOptions,
   RehypeCalloutsOptions,
   CalloutConfig,
+  HtmlTagNamesConfig,
 } from './types.js'

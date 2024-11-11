@@ -112,3 +112,13 @@ run('modifyCallouts', {
     },
   },
 })
+run('htmlTagName', {
+  htmlTagNames: {
+    nonCollapsibleContainerTagName: 'blockquote',
+    nonCollapsibleTitleTagName: 'h6',
+    nonCollapsibleContentTagName: 'blockquote',
+    collapsibleContentTagName: 'blockquote',
+    iconTagName: 'span',
+    titleInnerTagName: 'span',
+  },
+})

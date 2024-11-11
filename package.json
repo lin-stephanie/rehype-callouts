@@ -83,6 +83,18 @@
         "error",
         "interface"
       ],
+      "@typescript-eslint/naming-convention": [
+        "error",
+        {
+          "selector": "typeParameter",
+          "format": [
+            "PascalCase"
+          ],
+          "prefix": [
+            "T"
+          ]
+        }
+      ],
       "import/order": [
         "warn",
         {

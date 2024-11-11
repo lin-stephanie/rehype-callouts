@@ -1,5 +1,6 @@
 # rehype-callouts
 
+[![version][version-badge]][version-link]
 [![codecov][coverage-badge]][coverage]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![jsDocs.io][jsdocs-src]][jsdocs-href]
@@ -195,10 +196,11 @@ You can configure this plugin with the following optional settings:
 
 | Option                                           | Type (default)                                                                                                                       | Description                                                                                                                        |
 | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| theme                                            | `'github'\|'obsidian'\|'vitepress'`<br>(default: `'obsidian'`)                                                                       | Specify your desired callout theme to automatically apply its default callout types.                                               |
+| theme                                            | `'github'\|'obsidian'\|'vitepress'`<br>(default: `'obsidian'`)                                                                       | Specifies your desired callout theme to automatically apply its default callout types.                                             |
 | [callouts](#callouts-recordstring-calloutconfig) | `Record<string, CalloutConfig>` (default: see [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes) ) | Defines the properties for default and custom callouts. For example: `{'note': {title: 'CustomTitle'}, 'custom': {color: 'pink'}}` |
-| aliases                                          | `Record<string, string[]>` (default: `{}`)                                                                                           | Configure aliases for callout types. For example: `{'note': ['n'], 'tip': ['t']}`                                                  |
+| aliases                                          | `Record<string, string[]>` (default: `{}`)                                                                                           | Configures aliases for callout types. For example: `{'note': ['n'], 'tip': ['t']}`                                                 |
 | showIndicator                                    | `boolean`(default: `true`)                                                                                                           | Whether to display an type-specific icons before callout title.                                                                    |
+| [htmlTagNames](#htmltagnames-htmltagnamesconfig) | `HtmlTagNamesConfig`(default: `'div'`)                                                                                               | Configures HTML tag names for elements within the callout structure for semantic flexibility.                                      |
 
 ### `callouts: Record<string, CalloutConfig>`
 
@@ -210,9 +212,22 @@ Defines properties for default and custom callouts. Each key represents a callou
 | indicator | `string`                     | Icon in SVG format as a string. For new callout types, the icon will not display unless set, even if `showIndicator` is `true`. You can get icons from [Iconify](https://icon-sets.iconify.design/). For example: `'<svg>...</svg>'`                                                                               |
 | color     | `string \| [string, string]` | Color(s) as a [`<color>`](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#syntax) string. For new callout types, defaults to `#888` if unset. For example:<br>`'rgb(8, 109, 221)'`: works for both light and dark themes.<br>`['#0969da', '#2f81f7']` : first for light theme, second for dark theme. |
 
+### `htmlTagNames: HtmlTagNamesConfig`
+
+Configures HTML tag names for elements within the callout structure for semantic flexibility. Note that custom HTML tag names may affect default package styling; check and adjust styles as needed.
+
+| Property                       | Type     | Description                                                                                                                                   |
+| ------------------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| nonCollapsibleContainerTagName | `string` | Tag name for the outer container of non-collapsible callouts. For collapsible callouts, the tag name is fixed to `details` for functionality. |
+| nonCollapsibleTitleTagName     | `string` | Tag name for the title container of non-collapsible callouts. For collapsible callouts, the tag name is fixed to `summary` for functionality. |
+| nonCollapsibleContentTagName   | `string` | Tag name for the content container of non-collapsible callouts.                                                                               |
+| collapsibleContentTagName      | `string` | Tag name for the content container of collapsible callouts.                                                                                   |
+| iconTagName                    | `string` | Tag name for the icon container in both collapsible and non-collapsible callouts, including the fold icon in collapsible ones.                |
+| titleInnerTagName              | `string` | Tag name for the inner container of the title text in both collapsible and non-collapsible callouts.                                          |
+
 ## Themes
 
-This package offers callout styles for [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), and [VitePress](https://vitepress.dev/guide/markdown#github-flavored-alerts), with dark mode support via the `.dark` class. For more, check the [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes).
+This package provides callout styles for [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), and [VitePress](https://vitepress.dev/guide/markdown#github-flavored-alerts), with dark mode support via the `.dark` class. For more, check the [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes).
 
 ### GitHub
 
@@ -246,6 +261,8 @@ If you see any errors or room for improvement on this plugin, feel free to open 
 
 <!-- Badges -->
 
+[version-badge]: https://img.shields.io/github/v/release/lin-stephanie/rehype-callouts?label=release&style=flat&colorA=080f12&colorB=ef7575
+[version-link]: https://github.com/lin-stephanie/rehype-callouts/releases
 [coverage-badge]: https://img.shields.io/codecov/c/github/lin-stephanie/rehype-callouts?style=flat&colorA=080f12&colorB=ef7575
 [coverage]: https://codecov.io/github/lin-stephanie/rehype-callouts
 [npm-downloads-src]: https://img.shields.io/npm/dm/rehype-callouts?style=flat&colorA=080f12&colorB=ef7575

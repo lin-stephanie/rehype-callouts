@@ -39,9 +39,71 @@ export interface CalloutConfig {
   color?: string | [string, string]
 }
 
-export interface RehypeCalloutsOptions<T> {
+export interface HtmlTagNamesConfig {
   /**
-   * Specify your desired callout theme to automatically apply its default types.
+   * Tag name for the outer container of **non-collapsible** callouts.
+   *
+   * @remarks
+   * For **collapsible** callouts, the tag name is fixed to 'details' for collapsibility and is not configurable.
+   * However, you can set {@link collapsibleContentTagName} to achieve the same semantic markup effect.
+   *
+   * @default
+   * 'div'
+   *
+   * @example
+   * 'blockquote' - For semantic HTML.
+   */
+  nonCollapsibleContainerTagName?: string
+
+  /**
+   * Tag name for the title container of **non-collapsible** callouts.
+   *
+   * @remarks
+   * For **collapsible** callouts, the tag name is fixed to 'summary' for collapsibility and is not configurable.
+   *
+   * @default
+   * 'div'
+   */
+  nonCollapsibleTitleTagName?: string
+
+  /**
+   * Tag name for the content container of **non-collapsible** callouts.
+   *
+   * @default
+   * 'div'
+   */
+  nonCollapsibleContentTagName?: string
+
+  /**
+   * Tag name for the content container of **collapsible** callouts.
+   *
+   * @default
+   * 'div'
+   */
+  collapsibleContentTagName?: string
+
+  /**
+   * Tag name for the icon container in both **collapsible and non-collapsible** callouts,
+   * including the fold icon in collapsible ones.
+   *
+   * @default
+   * 'div'
+   */
+  iconTagName?: string
+
+  /**
+   * Tag name for the inner container of the title text
+   * in both **collapsible and non-collapsible** callouts.
+   *
+   * @default
+   * 'div'
+   */
+  titleInnerTagName?: string
+}
+
+export interface RehypeCalloutsOptions<TCallouts, THtmlTagNames> {
+  /**
+   * Specifies your desired callout theme to automatically apply its default types.
    *
    * @description
    * Refer to the {@link https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes theme's source code} f
@@ -75,10 +137,10 @@ export interface RehypeCalloutsOptions<T> {
    *   ...
    * }
    */
-  callouts?: Record<string, T>
+  callouts?: Record<string, TCallouts>
 
   /**
-   * Configure aliases for callout types.
+   * Configures aliases for callout types.
    *
    * @description
    * It is an object containing the callout definitions,
@@ -105,9 +167,22 @@ export interface RehypeCalloutsOptions<T> {
    * @default true
    */
   showIndicator?: boolean
+
+  /**
+   * Configures HTML tag names for elements within the callout structure for semantic flexibility.
+   *
+   * @remark Customizing HTML tag names may impact the styling provided by the plugin.
+   * Check or adjust your styles accordingly.
+   */
+  htmlTagNames?: THtmlTagNames
 }
 
 export type Callouts = Record<string, CalloutConfig>
 export type DefaultCallouts = Record<string, Required<CalloutConfig>>
-export type UserOptions = RehypeCalloutsOptions<CalloutConfig>
-export type ConfigOptions = Required<RehypeCalloutsOptions<CalloutConfig>>
+export type UserOptions = RehypeCalloutsOptions<
+  CalloutConfig,
+  HtmlTagNamesConfig
+>
+export type ConfigOptions = Required<
+  RehypeCalloutsOptions<CalloutConfig, Required<HtmlTagNamesConfig>>
+>
