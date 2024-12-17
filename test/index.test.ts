@@ -119,6 +119,6 @@ run('htmlTagName', {
     nonCollapsibleContentTagName: 'blockquote',
     collapsibleContentTagName: 'blockquote',
     iconTagName: 'span',
-    titleInnerTagName: 'span',
+    titleInnerTagName: 'div',
   },
 })
