@@ -7,10 +7,11 @@
   "keywords": [
     "rehype-plugin",
     "obsidian",
+    "callout",
     "callouts",
-    "github",
     "alerts",
     "admonitions",
+    "github",
     "unified",
     "hast"
   ],
@@ -25,8 +26,8 @@
   "module": "dist/index.js",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     },
     "./theme/github": "./dist/themes/github/index.css",
     "./theme/obsidian": "./dist/themes/obsidian/index.css",
@@ -37,6 +38,7 @@
     "test": "vitest && vitest run --coverage",
     "build": "rimraf dist && tsc",
     "postbuild": "copyfiles -u 1 'src/**/*.css' dist",
+    "check": "publint",
     "typecheck": "tsc --noEmit",
     "typecheck:coverage": "type-coverage --strict --detail --min=100",
     "lint": "xo --prettier",
@@ -52,10 +54,11 @@
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "^2.1.2",
+    "@vitest/coverage-v8": "^2.1.8",
     "copyfiles": "^2.4.1",
-    "lint-staged": "^15.2.10",
-    "prettier": "^3.3.3",
+    "lint-staged": "^15.2.11",
+    "prettier": "^3.4.2",
+    "publint": "^0.2.12",
     "rehype-minify-whitespace": "^6.0.2",
     "rehype-parse": "^9.0.1",
     "rehype-stringify": "^10.0.1",
@@ -65,10 +68,10 @@
     "simple-git-hooks": "^2.11.1",
     "to-vfile": "^8.0.0",
     "type-coverage": "^2.29.1",
-    "typescript": "^5.6.3",
+    "typescript": "^5.7.2",
     "unified": "^11.0.5",
-    "vitest": "^2.1.2",
-    "xo": "^0.59.3"
+    "vitest": "^2.1.8",
+    "xo": "^0.60.0"
   },
   "xo": {
     "space": true,

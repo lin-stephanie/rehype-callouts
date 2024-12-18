@@ -64,9 +64,10 @@ Say `example.md` contains:
 > Some content shown after opening!
 ```
 
-And module `example.js` contains:
+For vanilla JS：
 
 ```js
+// example.js
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
@@ -84,27 +85,44 @@ const file = unified()
 console.log(String(file))
 ```
 
-Or for an Astro project, the `astro.config.ts` contains:
+For Astro projects:
 
 ```ts
+// astro.config.ts
 import { defineConfig } from 'astro/config'
 import rehypeCallouts from 'rehype-callouts'
 
 // https://docs.astro.build/en/reference/configuration-reference/
 export default defineConfig({
-  // ...
   markdown: {
-    // ...
-    rehypePlugins: [
-      // ...
-      rehypeCallouts,
-    ],
+    rehypePlugins: [rehypeCallouts],
   },
-  // ...
 })
 ```
 
-Then running `node example.js` or `pnpm astro dev` yields:
+For Next.js projects:
+
+```ts
+// next.config.ts
+import type { NextConfig } from 'next'
+import rehypeCallouts from 'rehype-callouts'
+
+// https://nextjs.org/docs/app/api-reference/config/next-config-js
+const nextConfig: NextConfig = {
+  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+}
+
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: [],
+    rehypePlugins: [rehypeCallouts],
+  },
+})
+
+export default nextConfig
+```
+
+Run `node example.js` (`pnpm dev`) to get:
 
 ```html
 <div
@@ -113,7 +131,7 @@ Then running `node example.js` or `pnpm astro dev` yields:
   style="--callout-color-light: rgb(8, 109, 221); --callout-color-dark: rgb(2, 122, 255);"
 >
   <div class="callout-title">
-    <div class="callout-icon">
+    <div class="callout-icon" aria-hidden="true">
       <!-- svg icon-->
     </div>
     <div class="callout-title-inner">
@@ -131,13 +149,13 @@ Then running `node example.js` or `pnpm astro dev` yields:
   style="--callout-color-light: rgb(236, 117, 0); --callout-color-dark: rgb(233, 151, 63);"
 >
   <summary class="callout-title">
-    <div class="callout-icon">
+    <div class="callout-icon" aria-hidden="true">
       <!-- svg icon-->
     </div>
     <div class="callout-title-inner">
       This is a <strong>collapsible</strong> callout
     </div>
-    <div class="callout-fold">
+    <div class="callout-fold" aria-hidden="true">
       <!-- svg icon-->
     </div>
   </summary>
@@ -188,7 +206,7 @@ This package exports no identifiers. The default export is `rehypeCallouts`.
 
 ### `unified().use(rehypeCallouts, options?)`
 
-Used to render callouts, including an optional parameter [`options`](#options).
+Used to render callouts, including an optional parameter [`options`](#options-useroptions).
 
 ### `options: UserOptions`
 
@@ -199,12 +217,12 @@ You can configure this plugin with the following optional settings:
 | theme                                            | `'github'\|'obsidian'\|'vitepress'`<br>(default: `'obsidian'`)                                                                       | Specifies your desired callout theme to automatically apply its default callout types.                                             |
 | [callouts](#callouts-recordstring-calloutconfig) | `Record<string, CalloutConfig>` (default: see [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes) ) | Defines the properties for default and custom callouts. For example: `{'note': {title: 'CustomTitle'}, 'custom': {color: 'pink'}}` |
 | aliases                                          | `Record<string, string[]>` (default: `{}`)                                                                                           | Configures aliases for callout types. For example: `{'note': ['n'], 'tip': ['t']}`                                                 |
-| showIndicator                                    | `boolean`(default: `true`)                                                                                                           | Whether to display an type-specific icons before callout title.                                                                    |
+| showIndicator                                    | `boolean` (default: `true`)                                                                                                          | Whether to display an type-specific icons before callout title.                                                                    |
 | [htmlTagNames](#htmltagnames-htmltagnamesconfig) | `HtmlTagNamesConfig`(default: `'div'`)                                                                                               | Configures HTML tag names for elements within the callout structure for semantic flexibility.                                      |
 
 ### `callouts: Record<string, CalloutConfig>`
 
-Defines properties for default and custom callouts. Each key represents a callout type, and the value is an object with the following optional properties:
+Each key represents a callout type, and the value is an object with the following optional properties:
 
 | Property  | Type                         | Description                                                                                                                                                                                                                                                                                                        |
 | --------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -214,7 +232,7 @@ Defines properties for default and custom callouts. Each key represents a callou
 
 ### `htmlTagNames: HtmlTagNamesConfig`
 
-Configures HTML tag names for elements within the callout structure for semantic flexibility. Note that custom HTML tag names may affect default package styling; check and adjust styles as needed.
+Configures callout HTML tag names for semantic flexibility. Custom tags may affect default package styling; adjust as necessary.
 
 | Property                       | Type     | Description                                                                                                                                   |
 | ------------------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -261,11 +279,11 @@ If you see any errors or room for improvement on this plugin, feel free to open 
 
 <!-- Badges -->
 
-[version-badge]: https://img.shields.io/github/v/release/lin-stephanie/rehype-callouts?label=release&style=flat&colorA=080f12&colorB=ef7575
+[version-badge]: https://img.shields.io/github/v/release/lin-stephanie/rehype-callouts?label=release&style=flat&colorA=080f12&colorB=f87171
 [version-link]: https://github.com/lin-stephanie/rehype-callouts/releases
-[coverage-badge]: https://img.shields.io/codecov/c/github/lin-stephanie/rehype-callouts?style=flat&colorA=080f12&colorB=ef7575
+[coverage-badge]: https://img.shields.io/codecov/c/github/lin-stephanie/rehype-callouts?style=flat&colorA=080f12&colorB=f87171
 [coverage]: https://codecov.io/github/lin-stephanie/rehype-callouts
-[npm-downloads-src]: https://img.shields.io/npm/dm/rehype-callouts?style=flat&colorA=080f12&colorB=ef7575
+[npm-downloads-src]: https://img.shields.io/npm/dm/rehype-callouts?style=flat&colorA=080f12&colorB=f87171
 [npm-downloads-href]: https://npmjs.com/package/rehype-callouts
-[jsdocs-src]: https://img.shields.io/badge/jsdocs-reference-080f12?style=flat&colorA=080f12&colorB=ef7575
+[jsdocs-src]: https://img.shields.io/badge/jsdocs-reference-080f12?style=flat&colorA=080f12&colorB=f87171
 [jsdocs-href]: https://www.jsdocs.io/package/rehype-callouts

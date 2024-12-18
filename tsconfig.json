@@ -12,7 +12,7 @@
     /* Emit */
     "outDir": "dist",
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "declarationDir": "dist",
     "emitDeclarationOnly": false,
 
