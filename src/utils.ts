@@ -210,7 +210,11 @@ export function getIndicator(
     fragment: true,
   })
 
-  return h(iconTagName, { className: 'callout-icon' }, indicatorElement)
+  return h(
+    iconTagName,
+    { className: 'callout-icon', ariaHidden: 'true' },
+    indicatorElement
+  )
 }
 
 /**
@@ -229,5 +233,9 @@ export function getFoldIcon(iconTagName: string): Element {
     fragment: true,
   })
 
-  return h(iconTagName, { className: 'callout-fold' }, foldIconElement)
+  return h(
+    iconTagName,
+    { className: 'callout-fold', ariaHidden: 'true' },
+    foldIconElement
+  )
 }
