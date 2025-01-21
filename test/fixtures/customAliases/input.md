@@ -1,11 +1,11 @@
-> [!note] This is a note callout
+> [!no] This is a note callout
 > This is the content!
 
-> [!no] This is a note callout again
+> [!n] This is a note callout again
 > This is the content!
 
 > [!t] This is a tip callout
 > This is the content!
 
-> [!n]
+> [!T]
 > This is a note callout again!

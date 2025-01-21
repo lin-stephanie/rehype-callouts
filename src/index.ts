@@ -43,9 +43,7 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
   return (tree) => {
     visit(tree, 'element', (node) => {
       // parse only blockquote
-      if (!isElement(node, 'blockquote')) {
-        return
-      }
+      if (!isElement(node, 'blockquote')) return
 
       // strip useless nodes, leftovers from markdown
       node.children = node.children.filter(
@@ -87,7 +85,6 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
       // split it to two new elemnts
       if (borderingIndex !== -1) {
         const borderingElement = firstParagraph.children[borderingIndex]
-
         if (borderingElement.type !== 'text') return
 
         const splitMatch = splitByNewlineRegex.exec(borderingElement.value)

@@ -71,7 +71,7 @@ run('customTheme', {
   },
 })
 run('customAliases', {
-  aliases: { note: ['no', 'n'], tip: ['t'] },
+  aliases: { note: ['no', 'n'], tip: ['t', 'T'] },
   showIndicator: false,
 })
 run('customCallouts', {

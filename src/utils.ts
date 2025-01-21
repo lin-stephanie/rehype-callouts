@@ -107,16 +107,24 @@ export function expandCallouts(
   callouts: Callouts,
   aliases: Record<string, string[]>
 ): Callouts {
+  if (Object.keys(aliases).length === 0) return callouts
+
   const expandedCallouts: Callouts = JSON.parse(
     JSON.stringify(callouts)
   ) as Callouts
 
-  for (const key in aliases) {
-    if (callouts[key]) {
-      const aliasList = aliases[key]
-      const originalCallout = callouts[key]
+  for (const [key, aliasList] of Object.entries(aliases)) {
+    const lowerKey = key.toLowerCase()
+    const originalCallout = expandedCallouts[lowerKey]
+
+    if (originalCallout) {
+      const processedAliases = new Set<string>()
       for (const alias of aliasList) {
-        expandedCallouts[alias] = originalCallout
+        const lowerAlias = alias.toLowerCase()
+        if (!processedAliases.has(lowerAlias)) {
+          expandedCallouts[lowerAlias] = originalCallout
+          processedAliases.add(lowerAlias)
+        }
       }
     }
   }
