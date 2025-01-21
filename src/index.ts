@@ -9,6 +9,7 @@ import {
   expandCallouts,
   handleBrAfterTitle,
   findFirstNewline,
+  mergeConsecutiveTextNodes,
   generateStyle,
   getIndicator,
   getFoldIcon,
@@ -134,19 +135,24 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
       const firstTextNode = newFirstParagraph.children[0]
       if (firstTextNode.type !== 'text') return
 
+      mergeConsecutiveTextNodes(newFirstParagraph.children)
       const calloutMatch = calloutRegex.exec(firstTextNode.value)
       calloutRegex.lastIndex = 0
       if (!calloutMatch?.groups) return
 
       const { title, type, collapsable } = calloutMatch.groups
 
-      // format callout title
-      firstTextNode.value = title
+      if (title) {
+        firstTextNode.value = title
+      } else {
+        newFirstParagraph.children.shift()
+      }
+
       newFirstParagraph.tagName = titleInnerTagName
       newFirstParagraph.properties.className = ['callout-title-inner']
 
       // modify the blockquote element
-      // @ts-expect-error (Type '"div" | "details"' is not assignable to type '"blockquote"')
+      // @ts-expect-error (Type 'string' is not assignable to type '"blockquote"'.ts(2322))
       node.tagName = collapsable ? 'details' : nonCollapsibleContainerTagName
       node.properties.dir = 'auto'
       node.properties.className = [
@@ -164,19 +170,13 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
           {
             className: ['callout-title'],
           },
-          title
-            ? [
-                showIndicator
-                  ? getIndicator(expandedCallouts, revisedType, iconTagName)
-                  : null,
-                node.children[0],
-                collapsable ? getFoldIcon(iconTagName) : null,
-              ]
-            : [
-                showIndicator
-                  ? getIndicator(expandedCallouts, revisedType, iconTagName)
-                  : null,
-                h(
+          [
+            showIndicator
+              ? getIndicator(expandedCallouts, revisedType, iconTagName)
+              : null,
+            newFirstParagraph.children.length > 0
+              ? node.children[0]
+              : h(
                   titleInnerTagName,
                   { className: ['callout-title-inner'] },
                   expandedCallouts[revisedType].title ??
@@ -185,8 +185,8 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
                         revisedType.slice(1)
                       : revisedType.toUpperCase())
                 ),
-                collapsable ? getFoldIcon(iconTagName) : null,
-              ]
+            collapsable ? getFoldIcon(iconTagName) : null,
+          ]
         ),
         h(
           collapsable

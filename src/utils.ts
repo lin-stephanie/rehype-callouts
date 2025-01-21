@@ -5,7 +5,7 @@ import { githubCallouts } from './themes/github/config.js'
 import { obsidianCallouts } from './themes/obsidian/config.js'
 import { vitepressCallouts } from './themes/vitepress/config.js'
 
-import type { ElementContent, Element } from 'hast'
+import type { ElementContent, Element, Text } from 'hast'
 import type { UserOptions, ConfigOptions, Callouts } from './types.js'
 
 export const calloutRegex =
@@ -172,12 +172,86 @@ export function findFirstNewline(children: ElementContent[]): number {
 }
 
 /**
+ * Checks if a node is a text node.
+ *
+ * @param {ElementContent} node
+ *   The node to check.
+ */
+function isText(node: ElementContent): node is Text {
+  return node.type === 'text'
+}
+
+/**
+ * Merges consecutive text nodes in a HAST children array
+ * until the first non-text node is encountered.
+ *
+ * In Svelte, the AST will be:
+ * ```
+ * children: [
+ *   { type: 'text', value: '[!note]', position: [Object] },
+ *   { type: 'text', value: '- xxx', position: [Object] },
+ * ]
+ * ```
+ * instead of:
+ * ```
+ * children: [
+ *   { type: 'text', value: '[!note]- xxx', position: [Object] }
+ * ]
+ * ```
+ * when markdown is: `![note]- xxx`
+ *
+ * @param {Array} children
+ *   The children nodes of a HAST structure.
+ */
+export function mergeConsecutiveTextNodes(children: ElementContent[]) {
+  const firstNonTextIndex = children.findIndex((node) => !isText(node))
+
+  // case 1: if all nodes are text
+  if (firstNonTextIndex === -1) {
+    if (children.length > 1) {
+      const mergedValue = (children as Text[])
+        .map((n) => n.value || '')
+        .join('')
+
+      const firstTextNode = children[0] as Text
+      firstTextNode.value = mergedValue
+      delete firstTextNode.position
+
+      children.splice(1)
+    }
+
+    return
+  }
+
+  // case 2: if there are non-text nodes,
+  // only consider the text nodes before the first non-text node
+  if (firstNonTextIndex > 1) {
+    let mergedValue = ''
+    for (let i = 0; i < firstNonTextIndex; i++) {
+      const node = children[i]
+      if (isText(node)) {
+        mergedValue += node.value
+      }
+    }
+
+    const firstTextNode = children[0] as Text
+    firstTextNode.value = mergedValue
+    delete firstTextNode.position
+
+    children.splice(1, firstNonTextIndex - 1)
+  }
+
+  // case 3: if the first non-text node is preceded
+  // by only one text node or no text node, no need to merge
+}
+
+/**
  * Generate CSS style strings.
  *
- * @export
  * @param {(undefined | string | [string, string])} color
+ *   Color to use for callout.
  * @returns {string}
- *  CSS variable string used for callout.
+ *   CSS variable string used for callout.
  */
 export function generateStyle(
   color: undefined | string | [string, string]
