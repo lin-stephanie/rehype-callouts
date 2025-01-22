@@ -5,12 +5,14 @@ import { visit } from 'unist-util-visit'
 import {
   calloutRegex,
   splitByNewlineRegex,
+  defaultClassNames,
+  createIfNeeded,
   getConfig,
   expandCallouts,
   handleBrAfterTitle,
   findFirstNewline,
   mergeConsecutiveTextNodes,
-  generateStyle,
+  getProperties,
   getIndicator,
   getFoldIcon,
 } from './utils.js'
@@ -31,15 +33,21 @@ import type { UserOptions } from './types.js'
  */
 const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
   const config = getConfig(options)
-  const { theme, callouts, aliases, showIndicator, htmlTagNames } = config
+  const { theme, callouts, aliases, showIndicator, tags, props } = config
   const {
     nonCollapsibleContainerTagName,
     nonCollapsibleTitleTagName,
-    nonCollapsibleContentTagName,
-    collapsibleContentTagName,
+    contentTagName,
     iconTagName,
-    titleInnerTagName,
-  } = htmlTagNames
+    titleTextTagName,
+  } = tags
+  const {
+    containerProps,
+    titleProps,
+    contentProps,
+    iconProps,
+    titleTextProps,
+  } = props
 
   return (tree) => {
     visit(tree, 'element', (node) => {
@@ -65,15 +73,13 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
       if (firstParagraph.children[0].type !== 'text') return
 
       // handle aliases
-      const expandedCallouts = expandCallouts(callouts, aliases)
+      const aliasMap = expandCallouts(callouts, aliases)
 
       // check for matches
       const match = calloutRegex.exec(firstParagraph.children[0].value)
       calloutRegex.lastIndex = 0
-      if (
-        !match?.groups ||
-        !Object.keys(expandedCallouts).includes(match.groups.type.toLowerCase())
-      )
+      const lowerType = match?.groups?.type.toLowerCase()
+      if (!lowerType || !(lowerType in callouts || lowerType in aliasMap))
         return
 
       // remove double spaces ('br') after title
@@ -128,7 +134,28 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
         }
       }
 
-      // match callout format
+      // get callout type
+      const revisedType =
+        lowerType in callouts && !(lowerType in aliasMap)
+          ? lowerType
+          : aliasMap[lowerType]
+
+      // get props
+      const containerProperties = createIfNeeded(
+        containerProps,
+        node,
+        revisedType
+      )
+      const titleProperties = createIfNeeded(titleProps, node, revisedType)
+      const contentProperties = createIfNeeded(contentProps, node, revisedType)
+      const iconProperties = createIfNeeded(iconProps, node, revisedType)
+      const titleTextProperties = createIfNeeded(
+        titleTextProps,
+        node,
+        revisedType
+      )
+
+      // get title and collapsable
       const newFirstParagraph = node.children[0]
       if (!isElement(newFirstParagraph)) return
 
@@ -136,65 +163,66 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
       if (firstTextNode.type !== 'text') return
 
       mergeConsecutiveTextNodes(newFirstParagraph.children)
+
       const calloutMatch = calloutRegex.exec(firstTextNode.value)
       calloutRegex.lastIndex = 0
       if (!calloutMatch?.groups) return
+      const { title, collapsable } = calloutMatch.groups
 
-      const { title, type, collapsable } = calloutMatch.groups
-
+      // handle title text
       if (title) {
         firstTextNode.value = title
       } else {
         newFirstParagraph.children.shift()
       }
 
-      newFirstParagraph.tagName = titleInnerTagName
-      newFirstParagraph.properties.className = ['callout-title-inner']
+      newFirstParagraph.tagName = titleTextTagName
+      newFirstParagraph.properties = getProperties(
+        titleTextProperties,
+        defaultClassNames.titleText
+      )
 
-      // modify the blockquote element
+      // handle container
       // @ts-expect-error (Type 'string' is not assignable to type '"blockquote"'.ts(2322))
       node.tagName = collapsable ? 'details' : nonCollapsibleContainerTagName
-      node.properties.dir = 'auto'
-      node.properties.className = [
-        'callout',
-        collapsable && 'callout-collapsible',
-      ]
-      const revisedType = type.toLowerCase()
-      node.properties.style = generateStyle(expandedCallouts[revisedType].color)
+      node.properties = getProperties(
+        containerProperties,
+        defaultClassNames.container
+      )
+
+      node.properties['data-callout'] = revisedType
+      node.properties['data-collapsible'] = collapsable ? 'true' : 'false'
       node.properties.open = collapsable === '+' ? 'open' : undefined
 
       // update hast
       node.children = [
         h(
           collapsable ? 'summary' : nonCollapsibleTitleTagName,
-          {
-            className: ['callout-title'],
-          },
+          getProperties(titleProperties, defaultClassNames.title),
           [
             showIndicator
-              ? getIndicator(expandedCallouts, revisedType, iconTagName)
+              ? getIndicator(callouts, revisedType, iconTagName, iconProperties)
               : null,
             newFirstParagraph.children.length > 0
-              ? node.children[0]
+              ? newFirstParagraph
               : h(
-                  titleInnerTagName,
-                  { className: ['callout-title-inner'] },
-                  expandedCallouts[revisedType].title ??
+                  titleTextTagName,
+                  getProperties(
+                    titleTextProperties,
+                    defaultClassNames.titleText
+                  ),
+                  callouts[revisedType].title ??
                     (theme === 'github' || theme === 'obsidian'
                       ? revisedType.charAt(0).toUpperCase() +
                         revisedType.slice(1)
                       : revisedType.toUpperCase())
                 ),
-            collapsable ? getFoldIcon(iconTagName) : null,
+            collapsable ? getFoldIcon(iconTagName, iconProperties) : null,
           ]
         ),
         h(
-          collapsable
-            ? collapsibleContentTagName
-            : nonCollapsibleContentTagName,
-          {
-            className: ['callout-content'],
-          },
+          contentTagName,
+          getProperties(contentProperties, defaultClassNames.content),
           node.children.slice(1)
         ),
       ]
@@ -204,8 +232,10 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
 
 export default rehypeCallouts
 export type {
-  UserOptions,
-  RehypeCalloutsOptions,
+  CreateProperties,
   CalloutConfig,
-  HtmlTagNamesConfig,
+  Tags,
+  Props,
+  RehypeCalloutsOptions,
+  UserOptions,
 } from './types.js'
