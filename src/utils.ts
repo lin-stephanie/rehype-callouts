@@ -72,15 +72,17 @@ export function getConfig(userOptions: UserOptions | undefined): ConfigOptions {
       nonCollapsibleContainerTagName: 'div',
       nonCollapsibleTitleTagName: 'div',
       contentTagName: 'div',
-      iconTagName: 'div',
+      titleIconTagName: 'div',
       titleTextTagName: 'div',
+      foldIconTagName: 'div',
     },
     props: {
       containerProps: null,
       titleProps: null,
       contentProps: null,
-      iconProps: null,
+      titleIconProps: null,
       titleTextProps: null,
+      foldIconProps: null,
     },
   }
 
@@ -257,7 +259,6 @@ export function getProperties(
 ): Properties {
   const newProps: Properties = props ? { ...props } : {}
   const classes = new Set<string>()
-  classes.add(defaultClassName)
 
   const addClasses = (value: unknown) => {
     if (typeof value === 'string') {
@@ -271,6 +272,10 @@ export function getProperties(
         }
       }
     }
+  }
+
+  if (!newProps.class && !newProps.className) {
+    classes.add(defaultClassName)
   }
 
   if (newProps.class !== undefined && newProps.class !== null) {

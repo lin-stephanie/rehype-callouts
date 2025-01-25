@@ -38,15 +38,17 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
     nonCollapsibleContainerTagName,
     nonCollapsibleTitleTagName,
     contentTagName,
-    iconTagName,
+    titleIconTagName,
     titleTextTagName,
+    foldIconTagName,
   } = tags
   const {
     containerProps,
     titleProps,
     contentProps,
-    iconProps,
+    titleIconProps,
     titleTextProps,
+    foldIconProps,
   } = props
 
   return (tree) => {
@@ -148,9 +150,18 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
       )
       const titleProperties = createIfNeeded(titleProps, node, revisedType)
       const contentProperties = createIfNeeded(contentProps, node, revisedType)
-      const iconProperties = createIfNeeded(iconProps, node, revisedType)
+      const titleIconProperties = createIfNeeded(
+        titleIconProps,
+        node,
+        revisedType
+      )
       const titleTextProperties = createIfNeeded(
         titleTextProps,
+        node,
+        revisedType
+      )
+      const foldIconProperties = createIfNeeded(
+        foldIconProps,
         node,
         revisedType
       )
@@ -192,6 +203,7 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
 
       node.properties['data-callout'] = revisedType
       node.properties['data-collapsible'] = collapsable ? 'true' : 'false'
+      // https://developer.mozilla.org/en-US/docs/Glossary/Boolean/HTML
       node.properties.open = collapsable === '+' ? 'open' : undefined
 
       // update hast
@@ -201,7 +213,12 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
           getProperties(titleProperties, defaultClassNames.title),
           [
             showIndicator
-              ? getIndicator(callouts, revisedType, iconTagName, iconProperties)
+              ? getIndicator(
+                  callouts,
+                  revisedType,
+                  titleIconTagName,
+                  titleIconProperties
+                )
               : null,
             newFirstParagraph.children.length > 0
               ? newFirstParagraph
@@ -217,7 +234,9 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
                         revisedType.slice(1)
                       : revisedType.toUpperCase())
                 ),
-            collapsable ? getFoldIcon(iconTagName, iconProperties) : null,
+            collapsable
+              ? getFoldIcon(foldIconTagName, foldIconProperties)
+              : null,
           ]
         ),
         h(

@@ -76,21 +76,28 @@ export interface Tags {
   contentTagName?: string
 
   /**
-   * Tag name for the icon container in both **collapsible and non-collapsible** callouts,
-   * including the fold icon in collapsible ones.
+   * Tag name for the title icon container in both **collapsible and non-collapsible** callouts.
    *
    * @default
    * 'div'
    */
-  iconTagName?: string
+  titleIconTagName?: string
 
   /**
-   * Tag name for the title text in both **collapsible and non-collapsible** callouts.
+   * Tag name for the title text container in both **collapsible and non-collapsible** callouts.
    *
    * @default
    * 'div'
    */
   titleTextTagName?: string
+
+  /**
+   * Tag name for the fold icon container in **collapsible** callouts.
+   *
+   * @default
+   * 'div'
+   */
+  foldIconTagName?: string
 }
 
 export interface Props {
@@ -114,15 +121,19 @@ export interface Props {
   contentProps?: CreateProperties | Properties | null
 
   /**
-   * Properties for the icon container element in both **collapsible and non-collapsible** callouts,
-   * including the fold icon in collapsible ones.
+   * Properties for the title icon container element in both **collapsible and non-collapsible** callouts.
    */
-  iconProps?: CreateProperties | Properties | null
+  titleIconProps?: CreateProperties | Properties | null
 
   /**
-   * Properties for the inner container of the title text in both **collapsible and non-collapsible** callouts.
+   * Properties for the title text container element in both **collapsible and non-collapsible** callouts.
    */
   titleTextProps?: CreateProperties | Properties | null
+
+  /**
+   * Properties for the fold icon container element in **collapsible** callouts.
+   */
+  foldIconProps?: CreateProperties | Properties | null
 }
 
 export interface RehypeCalloutsOptions<Callouts, Tags, Props> {
@@ -192,6 +203,8 @@ export interface RehypeCalloutsOptions<Callouts, Tags, Props> {
 
   /**
    * Configures properties for elements within the callout structure.
+   *
+   * Setting `class` or `className` overrides the default class names for generated elements.
    */
   props?: Props
 }
