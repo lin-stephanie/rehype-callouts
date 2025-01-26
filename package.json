@@ -27,7 +27,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./theme/github": "./dist/themes/github/index.css",
     "./theme/obsidian": "./dist/themes/obsidian/index.css",
@@ -54,11 +55,11 @@
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "^2.1.8",
+    "@vitest/coverage-v8": "^3.0.4",
     "copyfiles": "^2.4.1",
-    "lint-staged": "^15.3.0",
+    "lint-staged": "^15.4.3",
     "prettier": "^3.4.2",
-    "publint": "^0.2.12",
+    "publint": "^0.3.2",
     "rehype-minify-whitespace": "^6.0.2",
     "rehype-parse": "^9.0.1",
     "rehype-stringify": "^10.0.1",
@@ -68,9 +69,9 @@
     "simple-git-hooks": "^2.11.1",
     "to-vfile": "^8.0.0",
     "type-coverage": "^2.29.1",
-    "typescript": "^5.7.2",
+    "typescript": "^5.7.3",
     "unified": "^11.0.5",
-    "vitest": "^2.1.8",
+    "vitest": "^3.0.4",
     "xo": "^0.60.0"
   },
   "xo": {
@@ -79,23 +80,11 @@
     "rules": {
       "complexity": "off",
       "capitalized-comments": "off",
-      "@typescript-eslint/object-curly-spacing": "off",
-      "@typescript-eslint/member-delimiter-style": "off",
-      "@typescript-eslint/ban-types": "off",
-      "unicorn/prefer-structured-clone": "off",
       "unicorn/prevent-abbreviations": "off",
+      "@typescript-eslint/ban-types": "off",
       "@typescript-eslint/consistent-type-definitions": [
         "error",
         "interface"
-      ],
-      "@typescript-eslint/naming-convention": [
-        "error",
-        {
-          "selector": "typeParameter",
-          "format": [
-            "PascalCase"
-          ]
-        }
       ],
       "import/order": [
         "warn",

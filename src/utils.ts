@@ -260,7 +260,9 @@ export function getProperties(
   const newProps: Properties = props ? { ...props } : {}
   const classes = new Set<string>()
 
-  const addClasses = (value: unknown) => {
+  const addClasses = (
+    value: string | number | boolean | Array<string | number>
+  ) => {
     if (typeof value === 'string') {
       for (const c of value.split(/\s+/)) {
         if (c) classes.add(c)
