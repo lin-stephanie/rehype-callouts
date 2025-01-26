@@ -1,10 +1,10 @@
 <div
-  dir="auto"
   class="callout"
-  style="--callout-color-light: rgb(8, 109, 221); --callout-color-dark: rgb(2, 122, 255);"
+  data-callout="note"
+  data-collapsible="false"
 >
   <div class="callout-title">
-    <div class="callout-title-inner">Note</div>
+    <div class="callout-title-text">Note</div>
   </div>
   <div class="callout-content">
     <p>This is the content!</p>
@@ -12,12 +12,12 @@
 </div>
 
 <div
-  dir="auto"
   class="callout"
-  style="--callout-color-light: rgb(0, 191, 188); --callout-color-dark: rgb(83, 223, 221);"
+  data-callout="tip"
+  data-collapsible="false"
 >
   <div class="callout-title">
-    <div class="callout-title-inner">This is a tip callout</div>
+    <div class="callout-title-text">This is a tip callout</div>
   </div>
   <div class="callout-content">
     <p>This is the content!</p>
@@ -25,13 +25,13 @@
 </div>
 
 <details
-  dir="auto"
-  class="callout callout-collapsible"
-  style="--callout-color-light: rgb(236, 117, 0); --callout-color-dark: rgb(233, 151, 63);"
+  class="callout"
+  data-callout="warning"
+  data-collapsible="true"
 >
   <summary class="callout-title">
-    <div class="callout-title-inner">This is a collapsible warning callout</div>
-    <div class="callout-fold" aria-hidden="true">
+    <div class="callout-title-text">This is a collapsible warning callout</div>
+    <div class="callout-fold-icon" aria-hidden="true">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
