@@ -10,7 +10,7 @@ import type {
   BlockquoteElement,
   CreateProperties,
   UserOptions,
-  ConfigOptions,
+  RequiredOptions,
   Callouts,
 } from './types.js'
 
@@ -62,8 +62,10 @@ function convertKeysToLowercase<T>(
 /**
  * Constructs the configuration.
  */
-export function getConfig(userOptions: UserOptions | undefined): ConfigOptions {
-  const defaultOptions: ConfigOptions = {
+export function getConfig(
+  userOptions: UserOptions | undefined
+): RequiredOptions {
+  const defaultOptions: RequiredOptions = {
     theme: 'obsidian',
     callouts: themes.obsidian,
     aliases: {},

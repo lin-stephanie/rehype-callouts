@@ -251,10 +251,9 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
 
 export default rehypeCallouts
 export type {
-  CreateProperties,
-  CalloutConfig,
-  Tags,
-  Props,
-  RehypeCalloutsOptions,
   UserOptions,
+  CalloutConfig,
+  TagsConfig,
+  PropsConfig,
+  CreateProperties,
 } from './types.js'

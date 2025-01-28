@@ -39,7 +39,7 @@ export interface CalloutConfig {
   indicator?: string
 }
 
-export interface Tags {
+export interface TagsConfig {
   /**
    * Tag name for the outer container of **non-collapsible** callouts.
    *
@@ -100,7 +100,7 @@ export interface Tags {
   foldIconTagName?: string
 }
 
-export interface Props {
+export interface PropsConfig {
   /**
    * Properties for the outer container element in both **collapsible and non-collapsible** callouts.
    *
@@ -136,7 +136,7 @@ export interface Props {
   foldIconProps?: CreateProperties | Properties | null
 }
 
-export interface RehypeCalloutsOptions<Callouts, Tags, Props> {
+interface Options<CalloutConfig, TagsConfig, PropsConfig> {
   /**
    * Specifies your desired callout theme to automatically apply its default types.
    *
@@ -168,7 +168,7 @@ export interface RehypeCalloutsOptions<Callouts, Tags, Props> {
    *   ...
    * }
    */
-  callouts?: Record<string, Callouts>
+  callouts?: Record<string, CalloutConfig>
 
   /**
    * Configures aliases for callout types.
@@ -199,19 +199,19 @@ export interface RehypeCalloutsOptions<Callouts, Tags, Props> {
   /**
    * Configures HTML tag names for elements within the callout structure for semantic flexibility.
    */
-  tags?: Tags
+  tags?: TagsConfig
 
   /**
    * Configures properties for elements within the callout structure.
    *
    * Setting `class` or `className` overrides the default class names for generated elements.
    */
-  props?: Props
+  props?: PropsConfig
 }
 
 export type Callouts = Record<string, CalloutConfig>
 export type DefaultCallouts = Record<string, Required<CalloutConfig>>
-export type UserOptions = RehypeCalloutsOptions<CalloutConfig, Tags, Props>
-export type ConfigOptions = Required<
-  RehypeCalloutsOptions<CalloutConfig, Required<Tags>, Required<Props>>
+export type UserOptions = Options<CalloutConfig, TagsConfig, PropsConfig>
+export type RequiredOptions = Required<
+  Options<CalloutConfig, Required<TagsConfig>, Required<PropsConfig>>
 >
