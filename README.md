@@ -270,10 +270,10 @@ const file = unified()
   .use(remarkRehype)
 - .use(rehypeCallouts)
 + .use(rehypeCalloouts, {
-+	 props: {
-+	   contentProps: { class: 'custom-class1' },
-+	   titleTextProps: { className: ['custom-class2', 'custom-class3'] },
-+	 },
++  props: {
++   contentProps: { class: 'custom-class1' },
++   titleProps: { className: ['custom-class2', 'custom-class3'] },
++  },
 + })
   .use(rehypeStringify)
   .processSync(readSync('example.md'))
@@ -284,12 +284,8 @@ console.log(String(file))
 …that would output:
 
 ```diff
-// output.html
-<div
-  class="callout"
-  data-callout="note"
-  data-collapsible="false"
->
+<!-- output.html -->
+<div class="callout" data-callout="note" data-collapsible="false">
 - <div class="callout-title">
 + <div class="custom-class2 custom-class3">
     <div class="callout-title-icon" aria-hidden="true">
@@ -305,11 +301,7 @@ console.log(String(file))
   </div>
 </div>
 
-<details
-  class="callout"
-  data-callout="warning"
-  data-collapsible="true"
->
+<details class="callout" data-callout="warning" data-collapsible="true">
 - <summary class="callout-title">
 + <summary class="custom-class2 custom-class3">
     <div class="callout-title-icon" aria-hidden="true">
@@ -343,17 +335,17 @@ const file = unified()
   .use(remarkRehype)
 - .use(rehypeCallouts)
 + .use(rehypeCalloouts, {
-+	 props: {
-+	   containerProps(_, type) {
-+	     const newProps: Record<string, string> = {
-+        dir: 'auto',
-+      }
-+      if (type === 'note') {
-+        newProps.style = '--color-light: pink; --color-dark: #f87171;'
-+      }
-+      return newProps
-+	   },
-+	 },
++  props: {
++   containerProps(_, type) {
++    const newProps: Record<string, string> = {
++     dir: 'auto',
++    }
++    if (type === 'note') {
++     newProps.style = '--color-light: pink; --color-dark: #f87171;'
++    }
++     return newProps
++   },
++  },
 + })
   .use(rehypeStringify)
   .processSync(readSync('example.md'))
@@ -364,7 +356,7 @@ console.log(String(file))
 …that would output:
 
 ```diff
-// output.html
+<!-- output.html -->
 <div
 + dir="auto"
 + style="--color-light: pink; --color-dark: #f87171"
