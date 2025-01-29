@@ -80,16 +80,13 @@ run('customCallouts', {
       title: 'Customtype',
       indicator:
         '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 11l19-9l-9 19l-2-8z"/></svg>',
-      color: 'rgb(227, 107, 167)',
     },
     noindicator: {
       title: 'NO INDICATOR',
-      color: ['#e36ba7', '#f86bb7'],
     },
     notitle: {
       indicator:
         '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 11l19-9l-9 19l-2-8z"/></svg>',
-      color: 'rgb(227, 107, 167)',
     },
     nothing: {},
   },
@@ -104,21 +101,38 @@ run('modifyCallouts', {
       indicator:
         '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 11l19-9l-9 19l-2-8z"/></svg>',
     },
-    important: {
-      title: 'Modified color',
-      indicator:
-        '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 11l19-9l-9 19l-2-8z"/></svg>',
-      color: ['#e36ba7', '#f86bb7'],
-    },
   },
 })
-run('htmlTagName', {
-  htmlTagNames: {
+run('customTags', {
+  tags: {
     nonCollapsibleContainerTagName: 'blockquote',
     nonCollapsibleTitleTagName: 'h6',
-    nonCollapsibleContentTagName: 'blockquote',
-    collapsibleContentTagName: 'blockquote',
-    iconTagName: 'span',
-    titleInnerTagName: 'div',
+    contentTagName: 'blockquote',
+    titleIconTagName: 'span',
+    titleTextTagName: 'div',
+    foldIconTagName: 'span',
+  },
+})
+run('customProps', {
+  props: {
+    containerProps(_, type) {
+      const newProps: Record<string, string> = {
+        dir: 'auto',
+        className: 'custom-callout',
+      }
+
+      if (type === 'note')
+        newProps.style =
+          '--callout-color-light: rgb(8, 109, 221); --callout-color-dark: rgb(2, 122, 255);'
+
+      return newProps
+    },
+    titleProps: { className: ['custom-title-class1', 'custom-title-class2'] },
+    contentProps: { class: 'custom-content-class' },
+    titleIconProps: {
+      class: ['custom-icon-class1', 'custom-icon-class2'],
+    },
+    titleTextProps: {},
+    foldIconProps: {},
   },
 })

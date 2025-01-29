@@ -1,8 +1,22 @@
+import type { Element, Properties } from 'hast'
+
+export type BlockquoteElement = Element & {
+  tagName: 'blockquote'
+}
+
+/**
+ * Create properties for an element within a callout structure,
+ * using a `tagName: 'blockquote'` node and the callout type (default or custom).
+ */
+export type CreateProperties = (
+  node: BlockquoteElement,
+  type: string
+) => Properties | null
+
 export interface CalloutConfig {
   /**
    * The default title for this callout type.
    *
-   * @description
    * For new callout types, if unset or set to an empty string,
    * defaults to the callout type name.
    */
@@ -11,7 +25,6 @@ export interface CalloutConfig {
   /**
    * The indicator icon for this callout type, which must be a string in SVG element format.
    *
-   * @description
    * You can view the icon sets used for specific themes on {@link https://icon-sets.iconify.design/ Iconify}:
    * - {@link https://icon-sets.iconify.design/octicon/?keyword=octicon Octicons} icon set for GitHub
    * - {@link https://icon-sets.iconify.design/lucide/?keyword=luci Lucide} icon set for Obsidian, VitePress
@@ -24,28 +37,16 @@ export interface CalloutConfig {
    *
    */
   indicator?: string
-
-  /**
-   * The color(s) for this callout type, which must be a
-   * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#syntax `<color>`} type string.
-   *
-   * @description
-   * For new callout types, if unset, the default color will be `#888`.
-   *
-   * @example
-   * 'rgb(8, 109, 221)': Suitable for both light and dark themes.
-   * ['#0969da', '#2f81f7']: First color for light theme, second for dark theme.
-   */
-  color?: string | [string, string]
 }
 
-export interface HtmlTagNamesConfig {
+export interface TagsConfig {
   /**
    * Tag name for the outer container of **non-collapsible** callouts.
    *
-   * @remarks
-   * For **collapsible** callouts, the tag name is fixed to 'details' for collapsibility and is not configurable.
-   * However, you can set {@link collapsibleContentTagName} to achieve the same semantic markup effect.
+   * For **collapsible** callouts, the tag name is fixed to 'details'
+   * for collapsibility and is not configurable.
+   * However, you can consider setting {@link contentTagName}
+   * to achieve the same semantic markup effect.
    *
    * @default
    * 'div'
@@ -58,8 +59,8 @@ export interface HtmlTagNamesConfig {
   /**
    * Tag name for the title container of **non-collapsible** callouts.
    *
-   * @remarks
-   * For **collapsible** callouts, the tag name is fixed to 'summary' for collapsibility and is not configurable.
+   * For **collapsible** callouts, the tag name is fixed to 'summary'
+   * for collapsibility and is not configurable.
    *
    * @default
    * 'div'
@@ -67,45 +68,78 @@ export interface HtmlTagNamesConfig {
   nonCollapsibleTitleTagName?: string
 
   /**
-   * Tag name for the content container of **non-collapsible** callouts.
+   * Tag name for the content container in both **collapsible and non-collapsible** callouts.
    *
    * @default
    * 'div'
    */
-  nonCollapsibleContentTagName?: string
+  contentTagName?: string
 
   /**
-   * Tag name for the content container of **collapsible** callouts.
+   * Tag name for the title icon container in both **collapsible and non-collapsible** callouts.
    *
    * @default
    * 'div'
    */
-  collapsibleContentTagName?: string
+  titleIconTagName?: string
 
   /**
-   * Tag name for the icon container in both **collapsible and non-collapsible** callouts,
-   * including the fold icon in collapsible ones.
+   * Tag name for the title text container in both **collapsible and non-collapsible** callouts.
    *
    * @default
    * 'div'
    */
-  iconTagName?: string
+  titleTextTagName?: string
 
   /**
-   * Tag name for the inner container of the title text
-   * in both **collapsible and non-collapsible** callouts.
+   * Tag name for the fold icon container in **collapsible** callouts.
    *
    * @default
    * 'div'
    */
-  titleInnerTagName?: string
+  foldIconTagName?: string
 }
 
-export interface RehypeCalloutsOptions<TCallouts, THtmlTagNames> {
+export interface PropsConfig {
+  /**
+   * Properties for the outer container element in both **collapsible and non-collapsible** callouts.
+   *
+   * For collapsible callouts, the outer container element is always fixed as `<details>`.
+   */
+  containerProps?: CreateProperties | Properties | null
+
+  /**
+   * Properties for the title container element in both **collapsible and non-collapsible** callouts.
+   *
+   * For collapsible callouts, the outer container element is always fixed as `<summary>`.
+   */
+  titleProps?: CreateProperties | Properties | null
+
+  /**
+   * Properties for the content container element in both **collapsible and non-collapsible** callouts.
+   */
+  contentProps?: CreateProperties | Properties | null
+
+  /**
+   * Properties for the title icon container element in both **collapsible and non-collapsible** callouts.
+   */
+  titleIconProps?: CreateProperties | Properties | null
+
+  /**
+   * Properties for the title text container element in both **collapsible and non-collapsible** callouts.
+   */
+  titleTextProps?: CreateProperties | Properties | null
+
+  /**
+   * Properties for the fold icon container element in **collapsible** callouts.
+   */
+  foldIconProps?: CreateProperties | Properties | null
+}
+
+interface Options<CalloutConfig, TagsConfig, PropsConfig> {
   /**
    * Specifies your desired callout theme to automatically apply its default types.
    *
-   * @description
    * Refer to the {@link https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes theme's source code} f
    * or more details. Available themes:
    * {@link https://github.com/orgs/community/discussions/16925 GitHub},
@@ -119,12 +153,10 @@ export interface RehypeCalloutsOptions<TCallouts, THtmlTagNames> {
   /**
    * Defines the properties for default and custom callouts.
    *
-   * @description
    * This object maps callout types to their properties.
    * Each key represents a callout type, which can be either the default or newly defined,
    * and the value is an object that specifies its properties.
    *
-   * @remarks
    * Key are case-insensitive, i.e., 'Note', 'NOTE' are equivalent to 'note'.
    *
    * @example
@@ -132,21 +164,18 @@ export interface RehypeCalloutsOptions<TCallouts, THtmlTagNames> {
    *   "type": {
    *     title: 'Type',
    *     indicator: '<svg ...>...</svg>',
-   *     color: ['#0969da', '#2f81f7']
    *   },
    *   ...
    * }
    */
-  callouts?: Record<string, TCallouts>
+  callouts?: Record<string, CalloutConfig>
 
   /**
    * Configures aliases for callout types.
    *
-   * @description
    * It is an object containing the callout definitions,
    * the key designates an existing or new callout type, and the value configures its properties.
    *
-   * @remarks
    * Key are case-insensitive, i.e., 'Note', 'NOTE' are equivalent to 'note'.
    *
    * @example
@@ -160,7 +189,6 @@ export interface RehypeCalloutsOptions<TCallouts, THtmlTagNames> {
   /**
    * Whether to display an type-specific icons before callout title.
    *
-   * @remarks
    * Since the {@link https://vitepress.dev/guide/markdown#github-flavored-alerts VitePress} theme
    * lacks default indicator icons, setting this option to `true` will apply GitHub style icons.
    *
@@ -170,19 +198,20 @@ export interface RehypeCalloutsOptions<TCallouts, THtmlTagNames> {
 
   /**
    * Configures HTML tag names for elements within the callout structure for semantic flexibility.
-   *
-   * @remark Customizing HTML tag names may impact the styling provided by the plugin.
-   * Check or adjust your styles accordingly.
    */
-  htmlTagNames?: THtmlTagNames
+  tags?: TagsConfig
+
+  /**
+   * Configures properties for elements within the callout structure.
+   *
+   * Setting `class` or `className` overrides the default class names for generated elements.
+   */
+  props?: PropsConfig
 }
 
 export type Callouts = Record<string, CalloutConfig>
 export type DefaultCallouts = Record<string, Required<CalloutConfig>>
-export type UserOptions = RehypeCalloutsOptions<
-  CalloutConfig,
-  HtmlTagNamesConfig
->
-export type ConfigOptions = Required<
-  RehypeCalloutsOptions<CalloutConfig, Required<HtmlTagNamesConfig>>
+export type UserOptions = Options<CalloutConfig, TagsConfig, PropsConfig>
+export type RequiredOptions = Required<
+  Options<CalloutConfig, Required<TagsConfig>, Required<PropsConfig>>
 >

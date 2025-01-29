@@ -5,8 +5,14 @@ import { githubCallouts } from './themes/github/config.js'
 import { obsidianCallouts } from './themes/obsidian/config.js'
 import { vitepressCallouts } from './themes/vitepress/config.js'
 
-import type { ElementContent, Element, Text } from 'hast'
-import type { UserOptions, ConfigOptions, Callouts } from './types.js'
+import type { ElementContent, Element, Text, Properties } from 'hast'
+import type {
+  BlockquoteElement,
+  CreateProperties,
+  UserOptions,
+  RequiredOptions,
+  Callouts,
+} from './types.js'
 
 export const calloutRegex =
   /\[!(?<type>\w+)](?<collapsable>[+-]?)\s*(?<title>.*)/g
@@ -19,13 +25,28 @@ export const themes = {
   vitepress: vitepressCallouts,
 }
 
+export const defaultClassNames = {
+  container: 'callout',
+  title: 'callout-title',
+  content: 'callout-content',
+  titleIcon: 'callout-title-icon',
+  foldIcon: 'callout-fold-icon',
+  titleText: 'callout-title-text',
+}
+
+/**
+ * Call a function to get a return value or use the value.
+ */
+export function createIfNeeded(
+  value: CreateProperties | Properties | null,
+  node: BlockquoteElement,
+  type: string
+) {
+  return typeof value === 'function' ? value(node, type) : value
+}
+
 /**
  * Converts aproperty keys of the object to lowercase.
- *
- * @param {Record<string, any>} object
- *   The object whose keys are to be converted to lowercase.
- * @returns {Record<string, any>}
- *   A new object with all keys converted to lowercase.
  */
 function convertKeysToLowercase<T>(
   object: Record<string, T>
@@ -40,25 +61,30 @@ function convertKeysToLowercase<T>(
 
 /**
  * Constructs the configuration.
- *
- * @param {(userOptions | undefined)} userOptions
- *   Optional user-specific settings to override defaults.
- * @returns {configOptions}
- *   The complete configuration object.
  */
-export function getConfig(userOptions: UserOptions | undefined): ConfigOptions {
-  const defaultOptions: ConfigOptions = {
+export function getConfig(
+  userOptions: UserOptions | undefined
+): RequiredOptions {
+  const defaultOptions: RequiredOptions = {
     theme: 'obsidian',
     callouts: themes.obsidian,
     aliases: {},
     showIndicator: true,
-    htmlTagNames: {
+    tags: {
       nonCollapsibleContainerTagName: 'div',
       nonCollapsibleTitleTagName: 'div',
-      nonCollapsibleContentTagName: 'div',
-      collapsibleContentTagName: 'div',
-      iconTagName: 'div',
-      titleInnerTagName: 'div',
+      contentTagName: 'div',
+      titleIconTagName: 'div',
+      titleTextTagName: 'div',
+      foldIconTagName: 'div',
+    },
+    props: {
+      containerProps: null,
+      titleProps: null,
+      contentProps: null,
+      titleIconProps: null,
+      titleTextProps: null,
+      foldIconProps: null,
     },
   }
 
@@ -83,9 +109,13 @@ export function getConfig(userOptions: UserOptions | undefined): ConfigOptions {
       callouts: mergedCallouts,
       aliases: { ...defaultOptions.aliases, ...userOptions.aliases },
       showIndicator: userOptions.showIndicator ?? defaultOptions.showIndicator,
-      htmlTagNames: {
-        ...defaultOptions.htmlTagNames,
-        ...userOptions.htmlTagNames,
+      tags: {
+        ...defaultOptions.tags,
+        ...userOptions.tags,
+      },
+      props: {
+        ...defaultOptions.props,
+        ...userOptions.props,
       },
     }
   }
@@ -95,23 +125,15 @@ export function getConfig(userOptions: UserOptions | undefined): ConfigOptions {
 
 /**
  * Expands the original callouts object based on aliases.
- *
- * @param {Callouts} callouts
- *   The original callouts object.
- * @param {Record<string, string[]>} aliases
- *   An object mapping callout types to arrays of aliases.
- * @returns {Callouts}
- *   The expanded callouts object including both original and alias-mapped callouts.
  */
 export function expandCallouts(
   callouts: Callouts,
   aliases: Record<string, string[]>
-): Callouts {
-  if (Object.keys(aliases).length === 0) return callouts
+): Record<string, string> {
+  if (Object.keys(aliases).length === 0) return {}
 
-  const expandedCallouts: Callouts = JSON.parse(
-    JSON.stringify(callouts)
-  ) as Callouts
+  const expandedCallouts = structuredClone(callouts)
+  const aliasMap: Record<string, string> = {}
 
   for (const [key, aliasList] of Object.entries(aliases)) {
     const lowerKey = key.toLowerCase()
@@ -122,24 +144,19 @@ export function expandCallouts(
       for (const alias of aliasList) {
         const lowerAlias = alias.toLowerCase()
         if (!processedAliases.has(lowerAlias)) {
-          expandedCallouts[lowerAlias] = originalCallout
+          aliasMap[lowerAlias] = lowerKey
           processedAliases.add(lowerAlias)
         }
       }
     }
   }
 
-  return expandedCallouts
+  return aliasMap
 }
 
 /**
- * Cleanup due to double spaces after title in Markdown
- * being converted to <br> tags.
- *
- * @param {ElementContent[]} children
- *   The array of HTML element to process.
- * @returns {*}
- *   The new array with specified elements removed.
+ * Cleanup due to double spaces after title in Markdown being
+ * converted to <br> tags.
  */
 export function handleBrAfterTitle(
   children: ElementContent[]
@@ -155,11 +172,6 @@ export function handleBrAfterTitle(
 
 /**
  * Finds the index of the first text node containing a newline.
- *
- * @param {ElementContent[]} children
- *   Array of HAST child nodes.
- * @returns {number}
- *   Index of the first text node with a newline, or -1 if none found.
  */
 export function findFirstNewline(children: ElementContent[]): number {
   for (const [i, c] of children.entries()) {
@@ -173,9 +185,6 @@ export function findFirstNewline(children: ElementContent[]): number {
 
 /**
  * Checks if a node is a text node.
- *
- * @param {ElementContent} node
- *   The node to check.
  */
 function isText(node: ElementContent): node is Text {
   return node.type === 'text'
@@ -199,9 +208,6 @@ function isText(node: ElementContent): node is Text {
  * ]
  * ```
  * when markdown is: `![note]- xxx`
- *
- * @param {Array} children
- *   The children nodes of a HAST structure.
  */
 export function mergeConsecutiveTextNodes(children: ElementContent[]) {
   const firstNonTextIndex = children.findIndex((node) => !isText(node))
@@ -246,78 +252,88 @@ export function mergeConsecutiveTextNodes(children: ElementContent[]) {
 }
 
 /**
- * Generate CSS style strings.
- *
- * @param {(undefined | string | [string, string])} color
- *   Color to use for callout.
- * @returns {string}
- *   CSS variable string used for callout.
+ * Merges user-defined `class` or `className` fields
+ * with a default class name, returning a new properties object.
  */
-export function generateStyle(
-  color: undefined | string | [string, string]
-): string {
-  if (Array.isArray(color)) {
-    return `--callout-color-light: ${color[0]}; --callout-color-dark: ${color[1]};`
+export function getProperties(
+  props: Properties | null,
+  defaultClassName: string
+): Properties {
+  const newProps: Properties = props ? { ...props } : {}
+  const classes = new Set<string>()
+
+  const addClasses = (
+    value: string | number | boolean | Array<string | number>
+  ) => {
+    if (typeof value === 'string') {
+      for (const c of value.split(/\s+/)) {
+        if (c) classes.add(c)
+      }
+    } else if (Array.isArray(value)) {
+      for (const c of value) {
+        if (typeof c === 'string' && c) {
+          classes.add(c)
+        }
+      }
+    }
   }
 
-  if (typeof color === 'string') {
-    return `--callout-color-light: ${color}; --callout-color-dark: ${color};`
+  if (!newProps.class && !newProps.className) {
+    classes.add(defaultClassName)
   }
 
-  return `--callout-color-light: #888; --callout-color-dark: #888;`
+  if (newProps.class !== undefined && newProps.class !== null) {
+    addClasses(newProps.class)
+    delete newProps.class
+  }
+
+  if (newProps.className !== undefined && newProps.className !== null) {
+    addClasses(newProps.className)
+    delete newProps.className
+  }
+
+  newProps.className = [...classes]
+
+  return newProps
 }
 
 /**
  * Fetches a callout's visual indicator.
- *
- * @param {configOptions} callouts
- *   Configuration containing type-indicator mappings.
- * @param {string} type
- *   Callout type to fetch the indicator for.
- * @param {string} iconTagName
- *   Tag name for the icon container.
- * @returns {(Element | undefined)}
- *   SVG element or undefined if not found.
  */
 export function getIndicator(
   callouts: Callouts,
   type: string,
-  iconTagName: string
-): Element | undefined {
+  tag: string,
+  props: Properties | null
+): Element | null {
   const indicator = callouts[type]?.indicator
-  if (!indicator) return
+  if (!indicator) return null
 
   const indicatorElement = fromHtml(indicator, {
     space: 'svg',
     fragment: true,
   })
 
-  return h(
-    iconTagName,
-    { className: 'callout-icon', ariaHidden: 'true' },
-    indicatorElement
-  )
+  const properties = getProperties(props, defaultClassNames.titleIcon)
+  properties['aria-hidden'] = 'true'
+
+  return h(tag, properties, indicatorElement)
 }
 
 /**
  * Get fold icon when callout is collapsible.
- *
- * @param {string} iconTagName
- *   Tag name for the icon container.
- * @returns {Element}
- *   SVG element.
  */
-export function getFoldIcon(iconTagName: string): Element {
+export function getFoldIcon(tag: string, props: Properties | null): Element {
   const icon =
     '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>'
+
   const foldIconElement = fromHtml(icon, {
     space: 'svg',
     fragment: true,
   })
 
-  return h(
-    iconTagName,
-    { className: 'callout-fold', ariaHidden: 'true' },
-    foldIconElement
-  )
+  const properties = getProperties(props, defaultClassNames.foldIcon)
+  properties['aria-hidden'] = 'true'
+
+  return h(tag, properties, foldIconElement)
 }

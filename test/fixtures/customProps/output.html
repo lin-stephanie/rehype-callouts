@@ -1,10 +1,12 @@
 <div
-  class="callout"
+  dir="auto"
+  style="--callout-color-light: rgb(8, 109, 221); --callout-color-dark: rgb(2, 122, 255);"
+  class="custom-callout"
   data-callout="note"
   data-collapsible="false"
 >
-  <div class="callout-title">
-    <div class="callout-title-icon" aria-hidden="true">
+  <div class="custom-title-class1 custom-title-class2">
+    <div class="custom-icon-class1 custom-icon-class2" aria-hidden="true">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
@@ -20,20 +22,24 @@
         <path d="M7.5 20.5 19 9l-4-4L3.5 16.5 2 22z"></path>
       </svg>
     </div>
-    <div class="callout-title-text">This is a <em>non-collapsible</em> callout</div>
+    <div
+      class="callout-title-text"
+    >
+      This is a <em>non-collapsible</em> callout
+    </div>
   </div>
-  <div class="callout-content">
+  <div class="custom-content-class">
     <p>Some content is displayed directly!</p>
   </div>
 </div>
-
 <details
-  class="callout"
+  dir="auto"
+  class="custom-callout"
   data-callout="warning"
   data-collapsible="true"
 >
-  <summary class="callout-title">
-    <div class="callout-title-icon" aria-hidden="true">
+  <summary class="custom-title-class1 custom-title-class2">
+    <div class="custom-icon-class1 custom-icon-class2" aria-hidden="true">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
@@ -52,7 +58,11 @@
         <line x1="12" y1="17" x2="12.01" y2="17"></line>
       </svg>
     </div>
-    <div class="callout-title-text">This is a <strong>collapsible</strong> callout</div>
+    <div
+      class="callout-title-text"
+    >
+      This is a <strong>collapsible</strong> callout
+    </div>
     <div class="callout-fold-icon" aria-hidden="true">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +79,7 @@
       </svg>
     </div>
   </summary>
-  <div class="callout-content">
+  <div class="custom-content-class">
     <p>Some content shown after opening!</p>
   </div>
 </details>

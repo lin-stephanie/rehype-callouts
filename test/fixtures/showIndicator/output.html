@@ -1,10 +1,10 @@
 <div
-  dir="auto"
   class="callout"
-  style="--callout-color-light: rgb(8, 109, 221); --callout-color-dark: rgb(2, 122, 255);"
+  data-callout="note"
+  data-collapsible="false"
 >
   <div class="callout-title">
-    <div class="callout-icon" aria-hidden="true">
+    <div class="callout-title-icon" aria-hidden="true">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
@@ -20,7 +20,7 @@
         <path d="M7.5 20.5 19 9l-4-4L3.5 16.5 2 22z"></path>
       </svg>
     </div>
-    <div class="callout-title-inner">Note</div>
+    <div class="callout-title-text">Note</div>
   </div>
   <div class="callout-content">
     <p>This is the content!</p>
@@ -28,12 +28,12 @@
 </div>
 
 <div
-  dir="auto"
   class="callout"
-  style="--callout-color-light: rgb(0, 191, 188); --callout-color-dark: rgb(83, 223, 221);"
+  data-callout="tip"
+  data-collapsible="false"
 >
   <div class="callout-title">
-    <div class="callout-icon" aria-hidden="true">
+    <div class="callout-title-icon" aria-hidden="true">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
@@ -50,7 +50,7 @@
         ></path>
       </svg>
     </div>
-    <div class="callout-title-inner">Tip</div>
+    <div class="callout-title-text">Tip</div>
   </div>
   <div class="callout-content">
     <p>This is the content!</p>
@@ -58,12 +58,12 @@
 </div>
 
 <div
-  dir="auto"
   class="callout"
-  style="--callout-color-light: rgb(0, 191, 188); --callout-color-dark: rgb(83, 223, 221);"
+  data-callout="important"
+  data-collapsible="false"
 >
   <div class="callout-title">
-    <div class="callout-icon" aria-hidden="true">
+    <div class="callout-title-icon" aria-hidden="true">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
@@ -80,7 +80,7 @@
         ></path>
       </svg>
     </div>
-    <div class="callout-title-inner">Double space after title</div>
+    <div class="callout-title-text">Double space after title</div>
   </div>
   <div class="callout-content">
     <p>This is the content!</p>
@@ -88,12 +88,12 @@
 </div>
 
 <div
-  dir="auto"
   class="callout"
-  style="--callout-color-light: rgb(236, 117, 0); --callout-color-dark: rgb(233, 151, 63);"
+  data-callout="warning"
+  data-collapsible="false"
 >
   <div class="callout-title">
-    <div class="callout-icon" aria-hidden="true">
+    <div class="callout-title-icon" aria-hidden="true">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
@@ -112,7 +112,7 @@
         <line x1="12" y1="17" x2="12.01" y2="17"></line>
       </svg>
     </div>
-    <div class="callout-title-inner">Warning</div>
+    <div class="callout-title-text">Warning</div>
   </div>
   <div class="callout-content">
     <p>This is the content!</p>
@@ -122,12 +122,12 @@
 <blockquote><p>[!cantio] This is a non-existent callout type!</p></blockquote>
 
 <details
-  dir="auto"
-  class="callout callout-collapsible"
-  style="--callout-color-light: rgb(8, 109, 221); --callout-color-dark: rgb(2, 122, 255);"
+  class="callout"
+  data-callout="note"
+  data-collapsible="true"
 >
   <summary class="callout-title">
-    <div class="callout-icon" aria-hidden="true">
+    <div class="callout-title-icon" aria-hidden="true">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
@@ -143,8 +143,8 @@
         <path d="M7.5 20.5 19 9l-4-4L3.5 16.5 2 22z"></path>
       </svg>
     </div>
-    <div class="callout-title-inner">This is a nested note callout</div>
-    <div class="callout-fold" aria-hidden="true">
+    <div class="callout-title-text">This is a nested note callout</div>
+    <div class="callout-fold-icon" aria-hidden="true">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
@@ -163,12 +163,12 @@
   <div class="callout-content">
     <p>This is the content!</p>
     <details
-      dir="auto"
-      class="callout callout-collapsible"
-      style="--callout-color-light: rgb(0, 191, 188); --callout-color-dark: rgb(83, 223, 221);"
+      class="callout"
+      data-callout="tip"
+      data-collapsible="true"
     >
       <summary class="callout-title">
-        <div class="callout-icon" aria-hidden="true">
+        <div class="callout-title-icon" aria-hidden="true">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="1em"
@@ -185,8 +185,8 @@
             ></path>
           </svg>
         </div>
-        <div class="callout-title-inner">Tip</div>
-        <div class="callout-fold" aria-hidden="true">
+        <div class="callout-title-text">Tip</div>
+        <div class="callout-fold-icon" aria-hidden="true">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="1em"
