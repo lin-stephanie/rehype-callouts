@@ -9,11 +9,11 @@ A [rehype](https://github.com/rehypejs/rehype) plugin for processing and renderi
 
 ## What is this?
 
-This plugin adds support for callouts (admonitions / alerts), allowing you to use [Obsidian's callout syntax](https://help.obsidian.md/Editing+and+formatting/Callouts) to achieve the following features:
+This plugin adds support for callouts (admonitions/alerts), allowing you to use [Obsidian's callout syntax](https://help.obsidian.md/Editing+and+formatting/Callouts) to achieve the following features:
 
 - Includes default callout types for various themes.
-- Optionally import stylesheets for corresponding [themes](#themes).
 - Supports collapsible callouts with `-/+` and nestable callouts.
+- Optionally import stylesheets for corresponding themes.
 - Allows custom titles with markdown syntax.
 - Customizable default callout types.
 - Configurable new callout types.
@@ -23,11 +23,11 @@ This plugin adds support for callouts (admonitions / alerts), allowing you to us
 
 ## When should I use this?
 
-This plugin helps render markdown callouts, ideal for blogs built with frameworks like Astro or Next. It processes HTML directly without needing `allowDangerousHtml` in [remark-rehype](https://github.com/remarkjs/remark-rehype) and supports collapsible callouts with the `details` tag, all without JavaScript.
+This plugin helps render markdown callouts, ideal for blogs built with frameworks like Astro or Next.js. It processes HTML directly without needing `allowDangerousHtml` in [remark-rehype](https://github.com/remarkjs/remark-rehype) and supports collapsible callouts with the `details` tag, all without JavaScript.
 
 ## Installation
 
-This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c). In Node.js (version 16+), install with your package manager:
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c). In Node.js (version 18+), install with your package manager:
 
 ```sh
 npm install rehype-callouts
@@ -159,9 +159,38 @@ Run `node example.js` (`pnpm dev`) to get:
 </details>
 ```
 
+## API
+
+This package exports no identifiers. The default export is [`rehypeCallouts`](#unifieduserehypecallouts-options).
+
+### `unified().use(rehypeCallouts[, options])`
+
+Used to render callouts.
+
+###### Parameters
+
+- `options` ([`UserOptions`](#useroptions), optional) — configuration
+
+###### Returns
+
+Transform ([`Transformer`](https://github.com/unifiedjs/unified#transformer)).
+
+### `UserOptions`
+
+Configuration (TypeScript type). All options are optional.
+
+###### Fields
+
+- `theme` (`'github'|'obsidian'|'vitepress'`, default: `'obsidian'`) — your desired callout theme to automatically apply its default callout types.
+- `callouts` ([`Record<string, CalloutConfig>`](https://github.com/lin-stephanie/rehype-callouts/blob/main/src/types.ts#L16), default: see [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes)) — define default or custom callouts as key-value pairs, where each key is a callout type and the value specifies its default text and icon, e.g., `{'note': {title: 'custom title'}, 'custom': {title: 'new callout', indicator: '<svg ...">...</svg>'}}`.
+- `aliases` (`Record<string, string[]>`, default: `{}`) — aliases for callout types, e.g., `{'note': ['n'], 'tip': ['t']}`.
+- `showIndicator` (`boolean`, default: `true`) — whether to display an type-specific icons before callout title.
+- `tags` ([`TagsConfig`](https://github.com/lin-stephanie/rehype-callouts/blob/main/src/types.ts#L42), default: all set to `div`) — HTML tag names for callout structure elements.
+- `props` ([`PropsConfig`](https://github.com/lin-stephanie/rehype-callouts/blob/main/src/types.ts#L103), default: all `null`) — properties for callout structure elements, where `class` or `className` overrides default class names; see [examples](#examples) below.
+
 ## Styling
 
-You can customize callout styles with the class names mentioned above or by importing the provided [theme-specific](#themes) stylesheets using one of the following methods.
+You can customize callout styles with the class names or by importing the provided [theme-specific](#themes) stylesheets using one of the following methods.
 
 Import in JavaScript/TypeScript:
 
@@ -196,61 +225,41 @@ Directly include in HTML via CDN ([unpkg.com](https://unpkg.com) or [jsdelivr.ne
 />
 ```
 
-Once imported, you can adjust the default callout colors using the CSS custom properties API:
+Once imported, you can set colors for default or custom callouts as follows:
 
 ```css
+/* Using CSS custom properties (for default callouts only) */
 :root {
-  --callout-note-color-light: <color>;
-  --callout-note-color-dark: <color>;
-  --callout-tip-color-light: <color>;
-  --callout-tip-color-dark: <color>;
+  --callout-note-color-light: pink;
+  --callout-note-color-dark: #ffc0cb;
+  --callout-tip-color-light: rgb(255, 192, 203);
+  --callout-tip-color-dark: hsl(350, 100%, 88%);
   /* Customize colors for default callout types included in the theme 
-     using `--callout-{type}-color-{light|dark}: <color>` */
+  using `--callout-{type}-color-{light|dark}: <color>` */
+}
+
+/* Using attribute selectors (for both default and custom callouts) */
+/* Custom callouts default to `#888` if no color is set */
+[data-callout='warning'],
+[data-callout='custom'] {
+  --rc-color-light: pink;
+  --rc-color-dark: #ffc0cb;
 }
 ```
 
-## API
-
-This package exports no identifiers. The default export is [`rehypeCallouts`](#unifieduserehypecallouts-options).
-
-### `unified().use(rehypeCallouts[, options])`
-
-Used to render callouts.
-
-###### Parameters
-
-- `options` ([`UserOptions`](#useroptions), optional) — configuration
-
-###### Returns
-
-Transform ([`Transformer`](https://github.com/unifiedjs/unified#transformer)).
-
-### `UserOptions`
-
-Configuration (TypeScript type). All options are optional.
-
-###### Fields
-
-- `theme` (`'github'|'obsidian'|'vitepress'`, default: `'obsidian'`) — your desired callout theme to automatically apply its default callout types.
-- `callouts` ([`Record<string, CalloutConfig>`](https://github.com/lin-stephanie/rehype-callouts/blob/main/src/types.ts#L16), default: see [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes)) — define default or custom callouts as key-value pairs, where each key is a callout type and the value specifies its default text and icon, e.g., `{'note': {title: 'custom title'}, 'custom': {title: 'new callout', indicator: '<svg ...">...</svg>'}}`.
-- `aliases` (`Record<string, string[]>`, default: `{}`) — aliases for callout types, e.g., `{'note': ['n'], 'tip': ['t']}`.
-- `showIndicator` (`boolean`, default: `true`) — whether to display an type-specific icons before callout title.
-- `tags` ([`TagsConfig`](https://github.com/lin-stephanie/rehype-callouts/blob/main/src/types.ts#L42), default: all set to `div`) — HTML tag names for callout structure elements.
-- `props` ([`PropsConfig`](https://github.com/lin-stephanie/rehype-callouts/blob/main/src/types.ts#L103), default: all `null`) — properties for callout structure elements, where `class` or `className` overrides default class names; see [examples](#examples) below.
-
-## Themes
+### Themes
 
 This package provides callout styles for [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), and [VitePress](https://vitepress.dev/guide/markdown#github-flavored-alerts), with dark mode support via the `.dark` class. For more, check the [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes).
 
-### GitHub
+#### GitHub
 
 ![github](https://raw.githubusercontent.com/lin-stephanie/assets/refs/heads/main/rehype-callouts/github.png)
 
-### Obsidian
+#### Obsidian
 
 ![obsidian](https://raw.githubusercontent.com/lin-stephanie/assets/refs/heads/main/rehype-callouts/obsidian.png)
 
-### VitePress
+#### VitePress
 
 ![vitepress](https://raw.githubusercontent.com/lin-stephanie/assets/refs/heads/main/rehype-callouts/vitepress.png)
 
@@ -261,7 +270,6 @@ This package provides callout styles for [GitHub](https://github.com/orgs/commun
 The `props` option allows overriding the default class names generated by the plugin. The example from before can be changed like so:
 
 ```diff
-// example.js
 import rehypeCallouts from 'rehype-callouts'
 ...
 
@@ -269,11 +277,11 @@ const file = unified()
   .use(remarkParse)
   .use(remarkRehype)
 - .use(rehypeCallouts)
-+ .use(rehypeCalloouts, {
-+  props: {
-+   contentProps: { class: 'custom-class1' },
-+   titleProps: { className: ['custom-class2', 'custom-class3'] },
-+  },
++ .use(rehypeCallouts, {
++   props: {
++     contentProps: { class: 'custom-class1' },
++     titleProps: { className: ['custom-class2', 'custom-class3'] },
++   },
 + })
   .use(rehypeStringify)
   .processSync(readSync('example.md'))
@@ -284,7 +292,6 @@ console.log(String(file))
 …that would output:
 
 ```diff
-<!-- output.html -->
 <div class="callout" data-callout="note" data-collapsible="false">
 - <div class="callout-title">
 + <div class="custom-class2 custom-class3">
@@ -326,7 +333,6 @@ console.log(String(file))
 The `props` option allows adding custom attributes to elements in generated callouts. The example from before can be changed to add the [`dir: auto`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/dir) attribute to the outer container of both collapsible and non-collapsible callouts, and to set a custom color for `'note'` callouts, like so:
 
 ```diff
-// example.js
 import rehypeCallouts from 'rehype-callouts'
 ...
 
@@ -334,18 +340,18 @@ const file = unified()
   .use(remarkParse)
   .use(remarkRehype)
 - .use(rehypeCallouts)
-+ .use(rehypeCalloouts, {
-+  props: {
-+   containerProps(_, type) {
-+    const newProps: Record<string, string> = {
-+     dir: 'auto',
-+    }
-+    if (type === 'note') {
-+     newProps.style = '--color-light: pink; --color-dark: #f87171;'
-+    }
-+     return newProps
++ .use(rehypeCallouts, {
++   props: {
++     containerProps(_, type) {
++       const newProps: Record<string, string> = {
++         dir: 'auto',
++       }
++       if (type === 'note') {
++         newProps.style = '--rc-color-light:#fc7777; --rc-color-dark:#fa9292;'
++       }
++       return newProps
++     },
 +   },
-+  },
 + })
   .use(rehypeStringify)
   .processSync(readSync('example.md'))
@@ -356,10 +362,9 @@ console.log(String(file))
 …that would output:
 
 ```diff
-<!-- output.html -->
 <div
 + dir="auto"
-+ style="--color-light: pink; --color-dark: #f87171"
++ style="--rc-color-light:#fc7777; --rc-color-dark:#fa9292;"
   class="callout"
   data-callout="note"
   data-collapsible="false"
