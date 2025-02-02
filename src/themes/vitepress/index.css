@@ -1,26 +1,26 @@
 [data-callout='note'] {
-  --rc-color-light: var(--callout-note-color-light, hsla(223, 14%, 61%));
-  --rc-color-dark: var(--callout-note-color-dark, rgba(101, 117, 133));
+  --rc-color-light: var(--callout-note-color-light, rgb(142, 150, 170));
+  --rc-color-dark: var(--callout-note-color-dark, rgb(101, 117, 133));
 }
 
 [data-callout='tip'] {
-  --rc-color-light: var(--callout-tip-color-light, rgba(100, 108, 255));
-  --rc-color-dark: var(--callout-tip-color-dark, rgba(100, 108, 255));
+  --rc-color-light: var(--callout-tip-color-light, rgb(100, 108, 255));
+  --rc-color-dark: var(--callout-tip-color-dark, rgb(100, 108, 255));
 }
 
 [data-callout='important'] {
-  --rc-color-light: var(--callout-important-color-light, rgba(159, 122, 234));
-  --rc-color-dark: var(--callout-important-color-dark, rgba(159, 122, 234));
+  --rc-color-light: var(--callout-important-color-light, rgb(159, 122, 234));
+  --rc-color-dark: var(--callout-important-color-dark, rgb(159, 122, 234));
 }
 
 [data-callout='warning'] {
-  --rc-color-light: var(--callout-warning-color-light, rgba(234, 179, 8));
-  --rc-color-dark: var(--callout-warning-color-dark, rgba(234, 179, 8));
+  --rc-color-light: var(--callout-warning-color-light, rgb(234, 179, 8));
+  --rc-color-dark: var(--callout-warning-color-dark, rgb(234, 179, 8));
 }
 
 [data-callout='caution'] {
-  --rc-color-light: var(--callout-caution-color-light, rgba(244, 63, 94));
-  --rc-color-dark: var(--callout-caution-color-dark, rgba(244, 63, 94));
+  --rc-color-light: var(--callout-caution-color-light, rgb(244, 63, 94));
+  --rc-color-dark: var(--callout-caution-color-dark, rgb(244, 63, 94));
 }
 
 .callout {
