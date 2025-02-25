@@ -167,6 +167,10 @@
   color: var(--rc-color-dark, var(--rc-color-default));
 }
 
+.callout-title::-webkit-details-marker {
+  display: none;
+}
+
 .callout-title-icon {
   display: flex;
   flex: 0 0 auto;

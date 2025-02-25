@@ -50,6 +50,10 @@
   color: var(--rc-color-dark, var(--rc-color-default));
 }
 
+.callout-title::-webkit-details-marker {
+  display: none;
+}
+
 .callout-title-icon svg {
   overflow: visible !important;
   display: inline-block;

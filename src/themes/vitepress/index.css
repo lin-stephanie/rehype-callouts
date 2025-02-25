@@ -50,6 +50,10 @@
   font-size: inherit;
 }
 
+.callout-title::-webkit-details-marker {
+  display: none;
+}
+
 .callout-title-icon {
   display: flex;
   align-items: center;

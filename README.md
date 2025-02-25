@@ -185,7 +185,7 @@ Configuration (TypeScript type). All options are optional.
 - `callouts` ([`Record<string, CalloutConfig>`](https://github.com/lin-stephanie/rehype-callouts/blob/main/src/types.ts#L16), default: see [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes)) — define default or custom callouts as key-value pairs, where each key is a callout type and the value specifies its default text and icon, e.g., `{'note': {title: 'custom title'}, 'custom': {title: 'new callout', indicator: '<svg ...">...</svg>'}}`.
 - `aliases` (`Record<string, string[]>`, default: `{}`) — aliases for callout types, e.g., `{'note': ['n'], 'tip': ['t']}`.
 - `showIndicator` (`boolean`, default: `true`) — whether to display an type-specific icons before callout title.
-- `tags` ([`TagsConfig`](https://github.com/lin-stephanie/rehype-callouts/blob/main/src/types.ts#L42), default: all set to `div`) — HTML tag names for callout structure elements.
+- `tags` ([`TagsConfig`](https://github.com/lin-stephanie/rehype-callouts/blob/main/src/types.ts#L42), default: all `div`) — HTML tag names for callout structure elements.
 - `props` ([`PropsConfig`](https://github.com/lin-stephanie/rehype-callouts/blob/main/src/types.ts#L103), default: all `null`) — properties for callout structure elements, where `class` or `className` overrides default class names; see [examples](#examples) below.
 
 ## Styling
