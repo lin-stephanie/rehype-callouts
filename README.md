@@ -279,8 +279,8 @@ const file = unified()
 - .use(rehypeCallouts)
 + .use(rehypeCallouts, {
 +   props: {
-+     contentProps: { class: 'custom-class1' },
-+     titleProps: { className: ['custom-class2', 'custom-class3'] },
++     titleProps: { class: 'custom-class1' },
++     contentProps: { className: ['custom-class2', 'custom-class3'] },
 +   },
 + })
   .use(rehypeStringify)
@@ -294,7 +294,7 @@ console.log(String(file))
 ```diff
 <div class="callout" data-callout="note" data-collapsible="false">
 - <div class="callout-title">
-+ <div class="custom-class2 custom-class3">
++ <div class="custom-class1">
     <div class="callout-title-icon" aria-hidden="true">
       <!-- svg icon-->
     </div>
@@ -303,14 +303,14 @@ console.log(String(file))
     </div>
   </div>
 - <div class="callout-content">
-+ <div class="custom-class1">
++ <div class="custom-class2 custom-class3">
     <p>Some content is displayed directly!</p>
   </div>
 </div>
 
 <details class="callout" data-callout="warning" data-collapsible="true">
 - <summary class="callout-title">
-+ <summary class="custom-class2 custom-class3">
++ <summary class="custom-class1">
     <div class="callout-title-icon" aria-hidden="true">
       <!-- svg icon-->
     </div>
@@ -322,7 +322,7 @@ console.log(String(file))
     </div>
   </summary>
 - <div class="callout-content">
-+ <div class="custom-class1">
++ <div class="custom-class2 custom-class3">
     <p>Some content shown after opening!</p>
   </div>
 </details>
