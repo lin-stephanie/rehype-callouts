@@ -217,3 +217,14 @@
   width: 18px;
   height: 18px;
 }
+
+@media (prefers-color-scheme: dark) {
+  .callout {
+    mix-blend-mode: lighten;
+    background-color: rgb(from var(--rc-color-dark, var(--rc-color-default)) r g b / 0.1);
+  }
+
+  .callout-title {
+    color: var(--rc-color-dark, var(--rc-color-default));
+  }
+}
