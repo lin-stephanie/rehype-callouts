@@ -249,7 +249,7 @@ Once imported, you can set colors for default or custom callouts as follows:
 
 ### Themes
 
-This package provides callout styles for [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), and [VitePress](https://vitepress.dev/guide/markdown#github-flavored-alerts), with dark mode support via the `.dark` class. For more, check the [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes).
+This package provides callout styles for [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), and [VitePress](https://vitepress.dev/guide/markdown#github-flavored-alerts). It supports dark mode via the `.dark` class, and also works automatically with `prefers-color-scheme` for environments without class-based toggling. For more, check the [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes).
 
 #### GitHub
 
