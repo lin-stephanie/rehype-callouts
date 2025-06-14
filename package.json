@@ -1,6 +1,6 @@
 {
   "name": "rehype-callouts",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Rehype plugin for processing and rendering blockquote-based callouts (admonitions/alerts).",
   "author": "Stephanie Lin <norwaywoods047@gmail.com>",
   "license": "MIT",
@@ -55,23 +55,23 @@
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "^3.1.1",
+    "@vitest/coverage-v8": "^3.2.3",
     "copyfiles": "^2.4.1",
     "lint-staged": "^15.5.0",
     "prettier": "^3.5.3",
-    "publint": "^0.3.10",
+    "publint": "^0.3.12",
     "rehype-minify-whitespace": "^6.0.2",
     "rehype-parse": "^9.0.1",
     "rehype-stringify": "^10.0.1",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
     "rimraf": "^6.0.1",
-    "simple-git-hooks": "^2.12.1",
+    "simple-git-hooks": "^2.13.0",
     "to-vfile": "^8.0.0",
     "type-coverage": "^2.29.1",
     "typescript": "^5.8.3",
     "unified": "^11.0.5",
-    "vitest": "^3.1.1",
+    "vitest": "^3.2.3",
     "xo": "^0.60.0"
   },
   "xo": {
@@ -131,6 +131,7 @@
     ]
   },
   "engines": {
-    "node": "^18.0.0 || >=20.0.0"
+    "node": "^20.0.0 || >=22.0.0",
+    "pnpm": "^10.0.0"
   }
 }
