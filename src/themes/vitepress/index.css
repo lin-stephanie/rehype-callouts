@@ -99,9 +99,3 @@
   height: 16px;
   stroke-width: 2.2;
 }
-
-@media (prefers-color-scheme: dark) {
-  .callout {
-    background-color: rgb(from var(--rc-color-dark, var(--rc-color-default)) r g b / 0.16);
-  }
-}

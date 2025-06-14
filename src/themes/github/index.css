@@ -93,13 +93,3 @@
 .callout-fold-icon {
   margin-left: -2px;
 }
-
-@media (prefers-color-scheme: dark) {
-  .callout {
-    border-left-color: var(--rc-color-dark, var(--rc-color-default));
-  }
-
-  .callout-title {
-    color: var(--rc-color-dark, var(--rc-color-default));
-  }
-}
