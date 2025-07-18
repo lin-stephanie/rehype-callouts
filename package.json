@@ -55,10 +55,10 @@
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "^3.2.3",
+    "@vitest/coverage-v8": "^3.2.4",
     "copyfiles": "^2.4.1",
     "lint-staged": "^15.5.0",
-    "prettier": "^3.5.3",
+    "prettier": "^3.6.2",
     "publint": "^0.3.12",
     "rehype-minify-whitespace": "^6.0.2",
     "rehype-parse": "^9.0.1",
@@ -71,7 +71,7 @@
     "type-coverage": "^2.29.1",
     "typescript": "^5.8.3",
     "unified": "^11.0.5",
-    "vitest": "^3.2.3",
+    "vitest": "^3.2.4",
     "xo": "^0.60.0"
   },
   "xo": {
@@ -131,7 +131,6 @@
     ]
   },
   "engines": {
-    "node": "^20.0.0 || >=22.0.0",
-    "pnpm": "^10.0.0"
+    "node": "^18.0.0 || ^20.0.0 || >=22.0.0"
   }
 }
