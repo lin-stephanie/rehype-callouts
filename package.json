@@ -42,8 +42,8 @@
     "check": "publint",
     "typecheck": "tsc --noEmit",
     "typecheck:coverage": "type-coverage --strict --detail --min=100",
-    "lint": "xo --prettier",
-    "lint:fix": "xo --prettier --fix",
+    "lint": "xo",
+    "lint:fix": "xo --fix",
     "prepare": "simple-git-hooks",
     "release": "npx bumpp --tag %s --commit 'chore: release %s' --all"
   },
@@ -55,38 +55,40 @@
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "^3.2.4",
+    "@vitest/coverage-v8": "^4.0.7",
     "copyfiles": "^2.4.1",
-    "lint-staged": "^15.5.0",
+    "lint-staged": "^16.2.6",
     "prettier": "^3.6.2",
-    "publint": "^0.3.12",
+    "publint": "^0.3.15",
     "rehype-minify-whitespace": "^6.0.2",
     "rehype-parse": "^9.0.1",
     "rehype-stringify": "^10.0.1",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
-    "rimraf": "^6.0.1",
-    "simple-git-hooks": "^2.13.0",
+    "rimraf": "^6.1.0",
+    "simple-git-hooks": "^2.13.1",
     "to-vfile": "^8.0.0",
     "type-coverage": "^2.29.1",
-    "typescript": "^5.8.3",
+    "typescript": "^5.9.3",
     "unified": "^11.0.5",
-    "vitest": "^3.2.4",
-    "xo": "^0.60.0"
+    "vitest": "^4.0.7",
+    "xo": "^1.2.3"
   },
   "xo": {
+    "prettier": true,
     "space": true,
     "semicolon": false,
     "rules": {
       "complexity": "off",
       "capitalized-comments": "off",
-      "unicorn/prevent-abbreviations": "off",
-      "@typescript-eslint/ban-types": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-restricted-types": "off",
       "@typescript-eslint/consistent-type-definitions": [
         "error",
         "interface"
       ],
-      "import/order": [
+      "import-x/order": [
         "warn",
         {
           "groups": [
@@ -122,12 +124,13 @@
     "pre-commit": "npx lint-staged"
   },
   "lint-staged": {
-    "*": "xo --prettier"
+    "*": "xo"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild",
-      "simple-git-hooks"
+      "simple-git-hooks",
+      "unrs-resolver"
     ]
   },
   "engines": {
