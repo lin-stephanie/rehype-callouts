@@ -17,16 +17,14 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: lts/*
-          registry-url: 'https://registry.npmjs.org'
-          always-auth: true
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -39,10 +37,11 @@ jobs:
       - name: Run build
         run: pnpm build
 
-      - name: Run publish
-        run: npm publish --provenance --access=public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Ensure npm 11.5.1 or later is installed
+        run: npm install -g npm@latest
+
+      - name: Publish to npm via OIDC (Trusted publishing)
+        run: npm publish --access=public
 
       - name: Run release
         run: npx changelogithub
