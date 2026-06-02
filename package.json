@@ -57,7 +57,7 @@
   "devDependencies": {
     "@vitest/coverage-v8": "^4.0.7",
     "copyfiles": "^2.4.1",
-    "lint-staged": "^16.2.6",
+    "lint-staged": "^17.0.7",
     "prettier": "^3.6.2",
     "publint": "^0.3.15",
     "rehype-minify-whitespace": "^6.0.2",
@@ -69,10 +69,10 @@
     "simple-git-hooks": "^2.13.1",
     "to-vfile": "^8.0.0",
     "type-coverage": "^2.29.1",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.3",
     "unified": "^11.0.5",
     "vitest": "^4.0.7",
-    "xo": "^1.2.3"
+    "xo": "^2.0.2"
   },
   "xo": {
     "prettier": true,
