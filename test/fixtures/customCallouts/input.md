@@ -1,7 +1,7 @@
-> [!customtype]
+> [!custom-type]
 > This is the content!
 
-> [!customtype] This is a custom callout
+> [!custom-type] This is a custom callout
 > This is the content!
 
 > [!noindicator]

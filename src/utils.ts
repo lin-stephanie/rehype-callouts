@@ -15,7 +15,7 @@ import type {
 } from './types.js'
 
 export const calloutRegex =
-  /\[!(?<type>\w+)](?<collapsable>[+-]?)\s*(?<title>.*)/g
+  /\[!(?<type>[\w-]+)](?<collapsable>[+-]?)\s*(?<title>.*)/g
 
 export const splitByNewlineRegex = /(?<prefix>[^\n]*)\n(?<suffix>[\S\s]*)/g
 

@@ -154,8 +154,8 @@ interface Options<CalloutConfig, TagsConfig, PropsConfig> {
    * Defines the properties for default and custom callouts.
    *
    * This object maps callout types to their properties.
-   * Each key represents a callout type, which can be either the default or newly defined,
-   * and the value is an object that specifies its properties.
+   * Each key represents a callout type using characters ([a-z], [A-Z], [0-9]), underscores (_), or hyphens (-).
+   * The type can be either a built-in type or a newly defined one, and the value specifies its default text and icon.
    *
    * Key are case-insensitive, i.e., 'Note', 'NOTE' are equivalent to 'note'.
    *
