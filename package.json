@@ -78,52 +78,65 @@
     "vitest": "^4.1.9",
     "xo": "^1.2.3"
   },
-  "xo": {
-    "prettier": true,
-    "space": true,
-    "semicolon": false,
-    "rules": {
-      "complexity": "off",
-      "capitalized-comments": "off",
-      "@typescript-eslint/no-unsafe-assignment": "off",
-      "@typescript-eslint/no-unsafe-call": "off",
-      "@typescript-eslint/no-restricted-types": "off",
-      "@typescript-eslint/consistent-type-definitions": [
-        "error",
-        "interface"
-      ],
-      "import-x/order": [
-        "warn",
-        {
-          "groups": [
-            "builtin",
-            "external",
-            [
-              "internal",
-              "parent",
-              "sibling"
+  "xo": [
+    {
+      "prettier": true,
+      "space": true,
+      "semicolon": false,
+      "rules": {
+        "complexity": "off",
+        "capitalized-comments": "off",
+        "import-x/order": [
+          "warn",
+          {
+            "groups": [
+              "builtin",
+              "external",
+              [
+                "internal",
+                "parent",
+                "sibling"
+              ],
+              "index",
+              "type",
+              "object",
+              "unknown"
             ],
-            "index",
-            "type",
-            "object",
-            "unknown"
-          ],
-          "pathGroups": [
-            {
-              "pattern": "./types.js",
-              "group": "type",
-              "position": "after"
+            "pathGroups": [
+              {
+                "pattern": "{.,..}/types.js",
+                "group": "type",
+                "position": "after"
+              }
+            ],
+            "distinctGroup": false,
+            "newlines-between": "always",
+            "alphabetize": {
+              "order": "asc"
             }
-          ],
-          "distinctGroup": false,
-          "newlines-between": "always",
-          "alphabetize": {
-            "order": "asc"
           }
+        ]
+      }
+    },
+    {
+      "files": [
+        "**/*.{ts,tsx,cts,mts}"
+      ],
+      "languageOptions": {
+        "parserOptions": {
+          "projectService": false,
+          "project": "./tsconfig.eslint.json"
         }
-      ]
+      },
+      "rules": {
+        "@typescript-eslint/no-restricted-types": "off",
+        "@typescript-eslint/consistent-type-definitions": [
+          "error",
+          "interface"
+        ]
+      }
     }
-  },
+  ],
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
   },
