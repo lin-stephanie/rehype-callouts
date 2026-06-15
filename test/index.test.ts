@@ -58,13 +58,26 @@ function run(name: string, options?: UserOptions, fromHtml = false) {
 
 run('openOrClose')
 run('readmeExample')
+run('inListItem')
 run('basic', { showIndicator: false })
 run('fromHtml', { showIndicator: false }, true)
 run('collapsibleCallouts', { showIndicator: false })
 run('markdownInTitle', { showIndicator: false })
 run('nestedCallouts', { showIndicator: false })
 run('showIndicator', { aliases: { note: ['n'] } })
-run('customTheme', {
+run('github', {
+  theme: 'github',
+  callouts: {
+    customtype: {},
+  },
+})
+run('obsidian', {
+  theme: 'obsidian',
+  callouts: {
+    customtype: {},
+  },
+})
+run('vitepress', {
   theme: 'vitepress',
   callouts: {
     customtype: {},

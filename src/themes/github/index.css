@@ -59,8 +59,6 @@
   display: inline-block;
 
   vertical-align: text-bottom;
-
-  fill: currentColor;
 }
 
 .callout-content > :first-child {

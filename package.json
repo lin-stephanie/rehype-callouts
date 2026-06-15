@@ -38,6 +38,9 @@
     "./theme/docusaurus": "./dist/themes/docusaurus/index.css"
   },
   "types": "./dist/index.d.ts",
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "test": "vitest && vitest run --coverage",
     "build": "rimraf dist && tsc",

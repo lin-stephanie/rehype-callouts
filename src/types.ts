@@ -30,7 +30,7 @@ export interface CalloutConfig {
    * - {@link https://icon-sets.iconify.design/lucide/?keyword=luci Lucide} icon set for Obsidian, VitePress
    *
    * For new callout types, if unset, this callout type will not display an indicator,
-   * even if {@link RehypeCalloutsOptions.showIndicator} is true.
+   * even if `showIndicator` is true.
    *
    * @example
    * '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"/></svg>'
