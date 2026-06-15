@@ -25,6 +25,8 @@ This plugin adds support for callouts (admonitions/alerts), allowing you to use 
 
 This plugin helps render markdown callouts, ideal for blogs built with frameworks like Astro or Next.js. It processes HTML directly without needing `allowDangerousHtml` in [remark-rehype](https://github.com/remarkjs/remark-rehype) and supports collapsible callouts with the `details` tag, all without JavaScript.
 
+If your content uses Python-Markdown or MkDocs Material admonitions, convert them into blockquote callouts to render them with this plugin. See [Example: render Python-Markdown and MkDocs Material admonitions](#example-render-python-markdown-and-mkdocs-material-admonitions).
+
 ## Installation
 
 This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c). In Node.js (version 18+), install with your package manager:
@@ -423,7 +425,105 @@ console.log(String(file))
 </details>
 ```
 
-**Note:** In Svelte, using `dir="auto"` may trigger a compiler error. See [#15126](https://github.com/sveltejs/svelte/issues/15126) for details.
+### Example: render Python-Markdown and MkDocs Material admonitions
+
+If your Markdown uses [Python-Markdown admonitions](https://python-markdown.github.io/extensions/admonition/) or [MkDocs Material admonitions](https://squidfunk.github.io/mkdocs-material/reference/admonitions/) syntax, combine [remark-admonition-to-blockquote-callout](https://github.com/lin-stephanie/remark-admonition-to-blockquote-callout) with this plugin to render them as HTML in a unified pipeline:
+
+```js
+import { unified } from 'unified'
+import remarkParse from 'remark-parse'
+import remarkAdmonitionToBlockquoteCallout from 'remark-admonition-to-blockquote-callout'
+import remarkRehype from 'remark-rehype'
+import rehypeCalloouts from 'rehype-callouts'
+import rehypeStringify from 'rehype-stringify'
+import { readSync } from 'to-vfile'
+
+const processor = unified()
+  .use(remarkParse)
+  // Run before other remark plugins that modify mdast
+  .use(remarkAdmonitionToBlockquoteCallout)
+  .use(remarkRehype)
+  .use(rehypeCalloouts, {
+    callouts: {
+      custom: { title: 'Custom Type' },
+    },
+  })
+  .use(rehypeStringify)
+
+const output = String(processor.processSync(readSync('example.md')))
+
+console.log(output)
+```
+
+…that would output:
+
+```html
+<div class="callout" data-callout="note" data-collapsible="false">
+  <div class="callout-title">
+    <div class="callout-title-icon" aria-hidden="true">
+      <!-- svg icon-->
+    </div>
+    <div class="callout-title-text">Note</div>
+  </div>
+  <div class="callout-content"><p>Basic content.</p></div>
+</div>
+<div class="callout" data-callout="info" data-collapsible="false">
+  <div class="callout-title">
+    <div class="callout-title-icon" aria-hidden="true">
+      <!-- svg icon-->
+    </div>
+    <div class="callout-title-text">Custom <strong>title</strong></div>
+  </div>
+  <div class="callout-content"><p>Markdown title content.</p></div>
+</div>
+<details class="callout" data-callout="tip" data-collapsible="true" open>
+  <summary class="callout-title">
+    <div class="callout-title-icon" aria-hidden="true">
+      <!-- svg icon-->
+    </div>
+    <div class="callout-title-text">Open</div>
+    <div class="callout-fold-icon" aria-hidden="true">
+      <!-- svg icon-->
+    </div>
+  </summary>
+  <div class="callout-content">
+    <p>Open by default.</p>
+    <pre><code class="language-js">const marker = "!!! note";</code></pre>
+    <div class="callout" data-callout="success" data-collapsible="false">
+      <div class="callout-title">
+        <div class="callout-title-icon" aria-hidden="true">
+          <!-- svg icon-->
+        </div>
+        <div class="callout-title-text">Success</div>
+      </div>
+      <div class="callout-content"><p>Nested empty-title admonition.</p></div>
+    </div>
+  </div>
+</details>
+<details class="callout" data-callout="failure" data-collapsible="true">
+  <summary class="callout-title">
+    <div class="callout-title-icon" aria-hidden="true">
+      <!-- svg icon-->
+    </div>
+    <div class="callout-title-text">Closed</div>
+    <div class="callout-fold-icon" aria-hidden="true">
+      <!-- svg icon-->
+    </div>
+  </summary>
+  <div class="callout-content"><p>Closed by default.</p></div>
+</details>
+<ul>
+  <li>
+    <p>In a list item:</p>
+    <div class="callout" data-callout="custom" data-collapsible="false">
+      <div class="callout-title">
+        <div class="callout-title-text">Custom Type</div>
+      </div>
+      <div class="callout-content"><p>Extra classes are ignored.</p></div>
+    </div>
+  </li>
+</ul>
+```
 
 ## Types
 

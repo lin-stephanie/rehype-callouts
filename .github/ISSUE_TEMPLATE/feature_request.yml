@@ -7,18 +7,30 @@ body:
     attributes:
       value: Before getting started, please checked the [GitHub Issues](https://github.com/lin-stephanie/rehype-callouts/issues) (open or closed) and there are no similar issues.
   - type: textarea
-    validations:
-      required: true
+    id: reason
     attributes:
-      label: Goal or desired outcome
-      description: Before describing your requested feature, please describe more generally the problem, pain-point, or use case you'd like to solve for.
-  - type: textarea
+      label: Reason for request
+      description: Please explain why this feature is important or how it will improve your experience.
     validations:
       required: true
+  - type: textarea
+    id: alternatives
     attributes:
       label: Feature description
-      description: Please describe the desired feature in as much detail as you are able.
+      description: Describe the feature in detail. If you plan to submit a PR, mention it here. Thanks!
+    validations:
+      required: true
   - type: textarea
+    id: alternatives
+    attributes:
+      label: Any alternatives or work-arounds
+      description: Some features may take time to develop, so alternative options or workarounds might benefit you and others, and clarify the request.
+    validations:
+      required: false
+  - type: textarea
+    id: context
     attributes:
       label: Additional context
       description: If applicable, add any other context or screenshots to help explain the request.
+    validations:
+      required: false

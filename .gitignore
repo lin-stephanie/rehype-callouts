@@ -25,4 +25,4 @@ node_modules/
 dist/
 
 # artifacts
-.local
+.local/

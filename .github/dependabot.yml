@@ -40,3 +40,7 @@ updates:
         applies-to: version-updates
         update-types:
           - 'patch'
+      npm-security:
+        applies-to: security-updates
+        patterns:
+          - '*'
