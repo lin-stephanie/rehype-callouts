@@ -206,6 +206,12 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
       // https://developer.mozilla.org/en-US/docs/Glossary/Boolean/HTML
       node.properties.open = collapsable === '+' ? 'open' : undefined
 
+      const fallbackTitle =
+        theme === 'github' || theme === 'obsidian'
+          ? revisedType.charAt(0).toUpperCase() + revisedType.slice(1)
+          : revisedType.toUpperCase()
+      const customizedTitle = callouts[revisedType].title?.trim()
+
       // update hast
       node.children = [
         h(
@@ -228,11 +234,9 @@ const rehypeCallouts: Plugin<[UserOptions?], Root> = (options) => {
                     titleTextProperties,
                     defaultClassNames.titleText
                   ),
-                  callouts[revisedType].title ??
-                    (theme === 'github' || theme === 'obsidian'
-                      ? revisedType.charAt(0).toUpperCase() +
-                        revisedType.slice(1)
-                      : revisedType.toUpperCase())
+                  customizedTitle === ''
+                    ? fallbackTitle
+                    : (customizedTitle ?? fallbackTitle)
                 ),
             collapsable
               ? getFoldIcon(foldIconTagName, foldIconProperties)
