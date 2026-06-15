@@ -70,6 +70,12 @@ run('customTheme', {
     customtype: {},
   },
 })
+run('docusaurus', {
+  theme: 'docusaurus',
+  callouts: {
+    customtype: {},
+  },
+})
 run('customAliases', {
   aliases: { note: ['no', 'n'], tip: ['t', 'T'] },
   showIndicator: false,

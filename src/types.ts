@@ -144,11 +144,12 @@ interface Options<CalloutConfig, TagsConfig, PropsConfig> {
    * or more details. Available themes:
    * {@link https://github.com/orgs/community/discussions/16925 GitHub},
    * {@link https://help.obsidian.md/Editing+and+formatting/Callouts Obsidian},
-   * {@link https://vitepress.dev/guide/markdown#github-flavored-alerts VitePress}.
+   * {@link https://vitepress.dev/guide/markdown#github-flavored-alerts VitePress},
+   * {@link https://docusaurus.io/docs/markdown-features/admonitions Docusaurus}.
    *
    * @default 'obsidian'
    */
-  theme?: 'github' | 'obsidian' | 'vitepress'
+  theme?: 'github' | 'obsidian' | 'vitepress' | 'docusaurus'
 
   /**
    * Defines the properties for default and custom callouts.

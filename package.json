@@ -6,12 +6,14 @@
   "license": "MIT",
   "keywords": [
     "rehype-plugin",
-    "obsidian",
     "callout",
     "callouts",
     "alerts",
     "admonitions",
     "github",
+    "obsidian",
+    "vitepress",
+    "docusaurus",
     "unified",
     "hast"
   ],
@@ -32,7 +34,8 @@
     },
     "./theme/github": "./dist/themes/github/index.css",
     "./theme/obsidian": "./dist/themes/obsidian/index.css",
-    "./theme/vitepress": "./dist/themes/vitepress/index.css"
+    "./theme/vitepress": "./dist/themes/vitepress/index.css",
+    "./theme/docusaurus": "./dist/themes/docusaurus/index.css"
   },
   "types": "./dist/index.d.ts",
   "scripts": {

@@ -198,6 +198,7 @@ Import in JavaScript/TypeScript:
 import 'rehype-callouts/theme/github'
 // import 'rehype-callouts/theme/obsidian'
 // import 'rehype-callouts/theme/vitepress'
+// import 'rehype-callouts/theme/docusaurus'
 ```
 
 Import in a CSS file:
@@ -236,6 +237,9 @@ Once imported, you can set colors for default or custom callouts as follows:
   --callout-tip-color-dark: hsl(350, 100%, 88%);
   /* Customize colors for default callout types included in the theme 
   using `--callout-{type}-color-{light|dark}: <color>` */
+
+  /* Docusaurus theme only: customize the left border color for both light and dark modes */
+  --callout-note-border-color: #ff66ab;
 }
 
 /* Using attribute selectors (for both default and custom callouts) */
@@ -244,14 +248,15 @@ Once imported, you can set colors for default or custom callouts as follows:
 [data-callout='custom'] {
   --rc-color-light: pink;
   --rc-color-dark: #ffc0cb;
+
+  /* Docusaurus theme only */
+  --rc-border-color: #ff66aa;
 }
 ```
 
 ### Themes
 
-This package provides callout styles compatible with [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), and [VitePress](https://vitepress.dev/guide/markdown#github-flavored-alerts), with dark mode support via the `.dark` class. See the [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes) for details.
-
-If your site uses media-query-based dark mode, you can use [v2.1.0](https://github.com/lin-stephanie/rehype-callouts/releases/tag/2.1.0) or copy the styles manually. Suggestions for supporting both modes are welcome.
+This package provides callout styles compatible with [GitHub](https://github.com/orgs/community/discussions/16925), [Obsidian](https://help.obsidian.md/Editing+and+formatting/Callouts), [VitePress](https://vitepress.dev/guide/markdown#github-flavored-alerts), and [Docusaurus](https://docusaurus.io/docs/markdown-features/admonitions), with dark mode support via the `.dark` class. See the [source code](https://github.com/lin-stephanie/rehype-callouts/tree/main/src/themes) for details.
 
 #### GitHub
 
@@ -264,6 +269,17 @@ If your site uses media-query-based dark mode, you can use [v2.1.0](https://gith
 #### VitePress
 
 ![vitepress](https://raw.githubusercontent.com/lin-stephanie/assets/refs/heads/main/rehype-callouts/vitepress.png)
+
+#### Docusaurus
+
+![docusaurus](https://raw.githubusercontent.com/lin-stephanie/assets/refs/heads/main/rehype-callouts/docusaurus.png)
+
+> [!note]
+> `rehype-callouts` supports dark mode only via the `.dark` class.
+>
+> Although [v2.1.0](https://github.com/lin-stephanie/rehype-callouts/releases/tag/2.1.0) added support for media-query-based dark mode, it was removed in v2.1.1 due to compatibility issues with `.dark` class implementations (see [#37](https://github.com/lin-stephanie/rehype-callouts/pull/37)).
+>
+> If you depend on media-query-based dark mode, you can reuse and adapt the v2.1.0 dark mode styles in your own project. Contributions or ideas for supporting both approaches are welcome.
 
 ## Examples
 

@@ -1,6 +1,7 @@
 import { fromHtml } from 'hast-util-from-html'
 import { h } from 'hastscript'
 
+import { docusaurusCallouts } from './themes/docusaurus/config.js'
 import { githubCallouts } from './themes/github/config.js'
 import { obsidianCallouts } from './themes/obsidian/config.js'
 import { vitepressCallouts } from './themes/vitepress/config.js'
@@ -23,6 +24,7 @@ export const themes = {
   github: githubCallouts,
   obsidian: obsidianCallouts,
   vitepress: vitepressCallouts,
+  docusaurus: docusaurusCallouts,
 }
 
 export const defaultClassNames = {

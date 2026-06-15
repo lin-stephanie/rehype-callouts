@@ -1,0 +1,156 @@
+  [data-callout='note'] {
+    --rc-border-color: var(--callout-note-border-color, rgb(212, 213, 216));
+    --rc-color-light: var(--callout-note-color-light, rgb(253, 253, 254));
+    --rc-color-dark: var(--callout-note-color-dark, rgb(71, 71, 72));
+    --rc-foreground-color-light: var(
+      --callout-note-color-dark,
+      rgb(71, 71, 72)
+    );
+    --rc-foreground-color-dark: var(
+      --callout-note-color-light,
+      rgb(253, 253, 254)
+    );
+  }
+
+  [data-callout='tip'] {
+    --rc-border-color: var(--callout-tip-border-color, rgb(0, 148, 0));
+    --rc-color-light: var(--callout-tip-color-light, rgb(230, 246, 230));
+    --rc-color-dark: var(--callout-tip-color-dark, rgb(0, 49, 0));
+    --rc-foreground-color-light: var(--callout-tip-color-dark, rgb(0, 49, 0));
+    --rc-foreground-color-dark: var(
+      --callout-tip-color-light,
+      rgb(230, 246, 230)
+    );
+  }
+
+  [data-callout='info'] {
+    --rc-border-color: var(--callout-info-border-color, rgb(76, 179, 212));
+    --rc-color-light: var(--callout-info-color-light, rgb(238, 249, 253));
+    --rc-color-dark: var(--callout-info-color-dark, rgb(25, 60, 71));
+    --rc-foreground-color-light: var(
+      --callout-info-color-dark,
+      rgb(25, 60, 71)
+    );
+    --rc-foreground-color-dark: var(
+      --callout-info-color-light,
+      rgb(238, 249, 253)
+    );
+  }
+
+  [data-callout='warning'] {
+    --rc-border-color: var(--callout-warning-border-color, rgb(230, 167, 0));
+    --rc-color-light: var(--callout-warning-color-light, rgb(255, 248, 230));
+    --rc-color-dark: var(--callout-warning-color-dark, rgb(77, 56, 0));
+    --rc-foreground-color-light: var(
+      --callout-warning-color-dark,
+      rgb(77, 56, 0)
+    );
+    --rc-foreground-color-dark: var(
+      --callout-warning-color-light,
+      rgb(255, 248, 230)
+    );
+  }
+
+  [data-callout='danger'] {
+    --rc-border-color: var(--callout-danger-border-color, rgb(225, 50, 56));
+    --rc-color-light: var(--callout-danger-color-light, rgb(255, 235, 236));
+    --rc-color-dark: var(--callout-danger-color-dark, rgb(75, 17, 19));
+    --rc-foreground-color-light: var(
+      --callout-danger-color-dark,
+      rgb(75, 17, 19)
+    );
+    --rc-foreground-color-dark: var(
+      --callout-danger-color-light,
+      rgb(255, 235, 236)
+    );
+  }
+
+  .callout {
+    --rc-border-color-default: #888;
+    --rc-color-default: #888;
+    --rc-foreground-color-default: currentColor;
+
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0.4rem;
+    border-left-style: solid;
+    border-left-width: 5px;
+    border-left-color: var(--rc-border-color, var(--rc-border-color-default));
+    margin-bottom: 1em;
+
+    background-color: var(
+      --rc-color-light,
+      rgb(from var(--rc-color-default) r g b / 0.14)
+    );
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.1);
+
+    color: var(--rc-foreground-color-light, var(--rc-foreground-color-default));
+  }
+
+  .dark .callout {
+    background-color: var(
+      --rc-color-dark,
+      rgb(from var(--rc-color-default) r g b / 0.16)
+    );
+    color: var(--rc-foreground-color-dark, var(--rc-foreground-color-default));
+  }
+
+  .callout-title {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+
+    font-weight: 700;
+    font-size: 0.875rem;
+    line-height: 1.25;
+  }
+
+  .callout-title:not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
+
+  .callout:not([open]) summary {
+    margin-bottom: 0rem;
+  }
+
+  .callout-title::-webkit-details-marker {
+    display: none;
+  }
+
+  .callout-title-icon {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+  }
+
+  .callout-content > :last-child {
+    margin-bottom: 0;
+  }
+
+  .callout[data-collapsible='true'] .callout-title {
+    cursor: pointer;
+  }
+
+  .callout[data-collapsible='true'] .callout-fold-icon {
+    display: flex;
+    align-items: center;
+    padding-inline-end: 8px;
+  }
+
+  .callout[data-collapsible='true'] > .callout-title .callout-fold-icon svg {
+    transform: rotate(-90deg);
+    transition: transform 100ms ease-in-out;
+  }
+
+  .callout[data-collapsible='true'][open]
+    > .callout-title
+    .callout-fold-icon
+    svg {
+    transform: none;
+  }
+
+  .callout-title-icon svg,
+  .callout-fold-icon svg {
+    width: 1.6em;
+    height: 1.6em;
+  }
