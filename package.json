@@ -76,10 +76,10 @@
     "simple-git-hooks": "^2.13.1",
     "to-vfile": "^8.0.0",
     "type-coverage": "^2.29.1",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.3",
     "unified": "^11.0.5",
     "vitest": "^4.1.9",
-    "xo": "^1.2.3"
+    "xo": "^2.0.2"
   },
   "xo": [
     {
