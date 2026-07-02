@@ -61,7 +61,7 @@
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
-    "@types/node": "^25.9.3",
+    "@types/node": "^26.1.0",
     "@vitest/coverage-v8": "^4.1.9",
     "copyfiles": "^2.4.1",
     "lint-staged": "^17.0.7",
@@ -79,7 +79,7 @@
     "typescript": "^5.9.3",
     "unified": "^11.0.5",
     "vitest": "^4.1.9",
-    "xo": "^1.2.3"
+    "xo": "^2.0.2"
   },
   "xo": [
     {
